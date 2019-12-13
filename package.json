@@ -4,14 +4,32 @@
   "description": "Slider plugin test project",
   "main": "sliderPlugin.js",
   "scripts": {
-    "lint": "tsc && eslint '*.{js,ts,tsx}' --quiet --fix"
+    "lint": "tsc && eslint 'src/*.{js,ts,tsx}'  --fix",
+    "prettier": "prettier --write *.js",
+    "debug": "eslint --debug",
+    "build:dev": "webpack --config webpack.dev.config.js",
+    "start:dev": "webpack-dev-server --config webpack.dev.config.js",
+    "test": "karma start karma.conf.js"
   },
   "author": "Xenia Lugovaya",
   "license": "ISC",
   "devDependencies": {
+    "@types/jasmine": "^3.5.0",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
     "eslint": "^6.7.2",
-    "typescript": "^3.7.3"
+    "eslint-plugin-prettier": "^3.1.1",
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-cli": "^2.0.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-spec-reporter": "0.0.32",
+    "karma-webpack": "^4.0.2",
+    "prettier": "^1.19.1",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   }
 }

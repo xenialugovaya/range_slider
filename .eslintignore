@@ -1,0 +1,6 @@
+/.git
+/.vscode
+node_modules
+prettier.config.js
+webpack.dev.config.js
+karma.conf.js
