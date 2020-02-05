@@ -1,0 +1,33 @@
+.sliderRange{
+
+	width:300px;
+	height:300px;
+}
+
+.sliderBody{
+	height: 4px;
+	width: 100%;
+	background: grey;
+	border-radius: 4px;
+	position: relative;
+	margin-top: 15px;
+	box-sizing: border-box;
+
+}
+
+
+
+.handler{
+	border-radius: 50%;
+	background: red;
+	width:16px;
+	height: 16px;
+	position: absolute;
+	cursor:pointer;
+}
+
+.selectedRange{
+	position: absolute;
+	background: red;
+	border-radius: 4px;
+}
