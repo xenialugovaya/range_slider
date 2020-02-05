@@ -4,11 +4,11 @@
   "description": "Slider plugin test project",
   "main": "sliderPlugin.js",
   "scripts": {
-    "lint": "tsc && eslint 'src/*.{js,ts,tsx}'  --fix",
+    "lint": "tsc -w && eslint 'src/*.{js,ts,tsx}'  --fix",
     "prettier": "prettier --write *.js",
     "debug": "eslint --debug",
-    "build:dev": "webpack --config webpack.dev.config.js",
-    "start:dev": "webpack-dev-server --config webpack.dev.config.js",
+    "build": "webpack --config webpack.dev.config.js",
+    "start": "webpack-dev-server --config webpack.dev.config.js",
     "test": "karma start karma.conf.js"
   },
   "author": "Xenia Lugovaya",
