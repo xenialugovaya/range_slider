@@ -9,6 +9,7 @@ class Model {
         this._values = [0];
         this._isVertical = false;
         this._hasRange = false;
+        this._hasLabels = false;
         this._handlers = [];
         this._min = sliderOptions.min ? sliderOptions.min : 0;
         this._max = sliderOptions.max ? sliderOptions.max : this._max;
@@ -16,8 +17,9 @@ class Model {
         this._values = sliderOptions.values ? sliderOptions.values : this._values;
         this._hasRange = sliderOptions.hasRange ? sliderOptions.hasRange : this._hasRange;
         this._isVertical = sliderOptions.isVertical ? sliderOptions.isVertical : this._isVertical;
+        this._hasLabels = sliderOptions.hasLabels ? sliderOptions.hasLabels : this._hasLabels;
     }
-    // get initial coordinates of any element, depending on dimesion
+    // get initial coordinates of any element, depending on dimension
     getCoords(elem) {
         let box = elem.getBoundingClientRect();
         if (this._isVertical) {

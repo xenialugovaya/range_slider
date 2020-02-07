@@ -8,6 +8,7 @@ type sliderOptions = {
     values?: number[];
     isVertical?: boolean;
     hasRange?: boolean;
+    hasLabels?: boolean;
 }
 
 class Model {
@@ -18,6 +19,7 @@ class Model {
    private _values = [0];
    private _isVertical = false;
    private _hasRange = false;
+   private _hasLabels = false;
    private _handlers: Handler[] = [];
     constructor(sliderOptions: sliderOptions) {   
         this._min = sliderOptions.min ? sliderOptions.min : 0;
@@ -26,10 +28,10 @@ class Model {
         this._values = sliderOptions.values ? sliderOptions.values : this._values;
         this._hasRange = sliderOptions.hasRange ? sliderOptions.hasRange : this._hasRange;
         this._isVertical = sliderOptions.isVertical ? sliderOptions.isVertical : this._isVertical; 
-    
+        this._hasLabels = sliderOptions.hasLabels ? sliderOptions.hasLabels : this._hasLabels; 
 
 }
-// get initial coordinates of any element, depending on dimesion
+// get initial coordinates of any element, depending on dimension
 getCoords(elem: HTMLElement) {  
     let box = elem.getBoundingClientRect();
     if (this._isVertical){
