@@ -1,1 +1,1 @@
-import { Model } from "../src/model/model";
+import { MainModel } from './model/MainModel';
