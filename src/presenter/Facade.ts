@@ -1,6 +1,5 @@
 import { MainModel } from '../model/MainModel';
 import { Presenter } from './Presenter';
-import { MainView } from '../view/MainView';
 import { sliderOptions } from '../model/sliderOptions';
 
 class Facade {
