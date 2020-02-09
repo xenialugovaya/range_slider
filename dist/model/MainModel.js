@@ -2,15 +2,15 @@ import { EventObserver } from '../observer/observer';
 import { Handler } from './handler';
 class MainModel {
     constructor(sliderOptions) {
-        this._observers = new EventObserver();
         this._min = 0;
         this._max = 100;
         this._step = 1;
-        this._values = [0, 1];
+        this._values = [10, 20];
         this._isVertical = false;
-        this._hasRange = false;
+        this._hasRange = true;
         this._hasLabels = false;
         this._handlers = [];
+        this.observer = new EventObserver();
         this._min = sliderOptions.min ? sliderOptions.min : 0;
         this._max = sliderOptions.max ? sliderOptions.max : this._max;
         this._step = sliderOptions.step ? sliderOptions.step : this._step;
@@ -50,6 +50,7 @@ class MainModel {
     }
     set rangeValue(values) {
         this._values = values;
+        this.observer.broadcast(this.calcValues(this._values));
     }
     get isVertical() {
         return this._isVertical;
@@ -82,8 +83,8 @@ class MainModel {
     //check that values of handlers are within min and max
     //check that value 0 is less than value 1 for range
     calcValues(values) {
-        values.map(value => (value < this._min ? this._min : value > this._max ? this._max : value));
         this._values.map(value => Math.round(value / this._step) * this._step);
+        values.map(value => (value < this._min ? this._min : value > this._max ? this._max : value));
         if (values[0] === values[1])
             values[1] += this._step;
         if (values[0] > values[1])

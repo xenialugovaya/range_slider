@@ -12,16 +12,17 @@ type sliderOptions = {
 };
 
 class MainModel {
-  private _observers = new EventObserver();
+  public observer: EventObserver;
   private _min = 0;
   private _max = 100;
   private _step = 1;
-  private _values = [0, 1];
+  private _values = [10, 20];
   private _isVertical = false;
-  private _hasRange = false;
+  private _hasRange = true;
   private _hasLabels = false;
   private _handlers: Handler[] = [];
   constructor(sliderOptions: sliderOptions) {
+    this.observer = new EventObserver();  
     this._min = sliderOptions.min ? sliderOptions.min : 0;
     this._max = sliderOptions.max ? sliderOptions.max : this._max;
     this._step = sliderOptions.step ? sliderOptions.step : this._step;
@@ -66,10 +67,12 @@ class MainModel {
 
   get rangeValue(): number[] {
     return this.calcValues(this._values);
+   
   }
 
   set rangeValue(values: number[]) {
     this._values = values;
+    this.observer.broadcast(this.calcValues(this._values));
   }
 
   get isVertical(): boolean {
@@ -107,8 +110,8 @@ class MainModel {
   //check that values of handlers are within min and max
   //check that value 0 is less than value 1 for range
   calcValues(values: number[]): number[] {
-    values.map(value => (value < this._min ? this._min : value > this._max ? this._max : value));
     this._values.map(value => Math.round(value / this._step) * this._step);
+    values.map(value => (value < this._min ? this._min : value > this._max ? this._max : value));
     if (values[0] === values[1]) values[1] += this._step;
     if (values[0] > values[1]) [values[0], values[1]] = [values[1], values[0]];
     return values;

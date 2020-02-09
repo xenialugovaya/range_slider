@@ -9,6 +9,9 @@ class Facade {
   constructor(parent: HTMLElement, sliderOptions: sliderOptions) {
     this._model = new MainModel(sliderOptions);
     this._presenter = new Presenter(parent, this._model);
+    this._presenter.setHandlersPosition();
+    this._presenter.setValuesToInputs();
+    
   }
 
   get singleValue(): number {
@@ -42,6 +45,9 @@ class Facade {
   set isVertical(vertical: boolean) {
     this._model.isVertical = vertical;
   }
+
+  
+
 }
 
 export { Facade };

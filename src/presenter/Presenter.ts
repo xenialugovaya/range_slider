@@ -17,7 +17,40 @@ class Presenter {
       this._model.max,
       this._values,
     );
+    this.updateModel();
+    this.updateView();
+  
   }
+
+//не работает
+  updateModel() {
+    this._view.observer.subscribe((valueData: number[])=>{
+      this._model.rangeValue = valueData;
+     });
+  }
+//не работает
+  updateView() {
+    this._model.observer.subscribe((valueData: number[])=>{
+      this._view.update(valueData);
+     });
+  }
+  
+
+  setHandlersPosition(){
+    this._view.setHandlerPosition();
+  }
+
+  setValuesToInputs() {
+    this._view.setValuesToInputs();
+   }
+   //не работает
+   getValuesfromInputs(valueData: number[]) {
+   
+    
+  }
+  
+  
+
 }
 
 export { Presenter };

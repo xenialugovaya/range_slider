@@ -1,16 +1,20 @@
-.sliderRange{
-
+.slider{
+	height: 4px;
 	width:300px;
-	height:300px;
+	display: inline-block;
+}
+
+.slider_vertical{
+	height: 300px;
+	width:4px;
 }
 
 .sliderBody{
-	height: 4px;
+	height: 100%;
 	width: 100%;
 	background: grey;
 	border-radius: 4px;
 	position: relative;
-	margin-top: 15px;
 	box-sizing: border-box;
 
 }
@@ -26,8 +30,22 @@
 	cursor:pointer;
 }
 
+.slider_vertical .handler{
+	left: -6px;
+}
+.slider_horizontal .handler{
+	top: -6px;
+}
+
 .selectedRange{
 	position: absolute;
 	background: red;
 	border-radius: 4px;
+}
+
+.controlPanel{
+	padding: 50px;
+	margin-left: 100px;
+	border: 2px solid grey;
+	display: inline-block;
 }
