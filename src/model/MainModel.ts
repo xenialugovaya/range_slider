@@ -1,15 +1,6 @@
 import { EventObserver } from '../observer/observer';
 import { Handler } from './handler';
-
-type sliderOptions = {
-  min?: number;
-  max?: number;
-  step?: number;
-  values?: number[];
-  isVertical?: boolean;
-  hasRange?: boolean;
-  hasLabels?: boolean;
-};
+import { sliderOptions } from './sliderOptions';
 
 class MainModel {
   public observer: EventObserver;
@@ -22,7 +13,7 @@ class MainModel {
   private _hasLabels = false;
   private _handlers: Handler[] = [];
   constructor(sliderOptions: sliderOptions) {
-    this.observer = new EventObserver();  
+    this.observer = new EventObserver();
     this._min = sliderOptions.min ? sliderOptions.min : 0;
     this._max = sliderOptions.max ? sliderOptions.max : this._max;
     this._step = sliderOptions.step ? sliderOptions.step : this._step;
@@ -31,6 +22,11 @@ class MainModel {
     this._isVertical = sliderOptions.isVertical ? sliderOptions.isVertical : this._isVertical;
     this._hasLabels = sliderOptions.hasLabels ? sliderOptions.hasLabels : this._hasLabels;
   }
+
+  notifyPresnter(valueData: sliderOptions) {
+    this.observer.broadcast(valueData);
+  }
+
   get min(): number {
     this._min = Math.round(this._min / this._step) * this._step;
     return this._min;
@@ -67,12 +63,13 @@ class MainModel {
 
   get rangeValue(): number[] {
     return this.calcValues(this._values);
-   
   }
 
   set rangeValue(values: number[]) {
     this._values = values;
-    this.observer.broadcast(this.calcValues(this._values));
+    this.notifyPresnter({
+      values: this.calcValues(this._values),
+    });
   }
 
   get isVertical(): boolean {

@@ -2,11 +2,13 @@ import { HandlerView } from './HandlerView';
 import { ControlPanel } from './ControlPanelView';
 import { EventObserver } from '../observer/observer';
 class MainView {
-    constructor(parent, hasRange, isVertical, min, max, values) {
+    constructor(parent, hasRange, isVertical, min, max, values, step) {
         this.observer = new EventObserver;
         this._min = min;
         this._max = max;
         this._values = values;
+        this._step = step;
+        this._isVertical = isVertical;
         this._sliderBody = document.createElement('div');
         this._sliderBody.classList.add('sliderBody');
         this._parent = parent;
@@ -29,27 +31,37 @@ class MainView {
         if (hasRange)
             this._selectedRange.classList.add('range_between');
         this._controlPanel = new ControlPanel(this._parent, hasRange, isVertical);
-        this._controlPanel.createValueInputs();
-        //не работает
-        this._controlPanel.valueInputs.forEach(input => input.addEventListener('input', this.changeValues.bind(this)));
+        this._controlPanel.valueInputs.forEach(input => input.addEventListener('input', this.notifyPresenter.bind(this)));
+        this._controlPanel.orientationRadios.forEach(radio => radio.addEventListener('change', this.notifyPresenter.bind(this)));
+        this.setOrientationToRadio();
     }
-    //не работает
-    changeValues() {
-        let valueData = this._controlPanel.valueInputs.map(input => parseInt(input.value));
-        //this.update(valueData);
-        this.observer.broadcast(valueData);
+    notifyPresenter() {
+        let newValues = this._controlPanel.valueInputs.map(input => parseInt(input.value));
+        let newOrientation = this._controlPanel.orientationRadios[0].checked == true;
+        this.observer.broadcast({
+            values: newValues,
+            isVertical: newOrientation
+        });
     }
-    update(values) {
-        this._handlers.forEach((handler, index) => handler.setPosition(values[index]));
+    update(valueData) {
+        this._handlers.forEach((handler, index) => {
+            if (valueData.values)
+                handler.setPosition(valueData.values[index]);
+        });
+        if (valueData.isVertical)
+            this._isVertical = valueData.isVertical;
     }
     setHandlerPosition() {
         this._handlers.forEach((handler, index) => handler.setPosition(this._values[index]));
     }
     setValuesToInputs() {
-        this._controlPanel.valueInputs.map((input, index) => input.value = '' + this._values[index]);
+        this._controlPanel.valueInputs.map((input, index) => input.value = this._values[index].toString());
     }
-    //не работает
-    getValuesfromInputs() {
+    setStepToInput() {
+        this._controlPanel.stepInput.value = this._step.toString();
+    }
+    setOrientationToRadio() {
+        this._controlPanel.orientationRadios.map((radio, index) => this._isVertical ? this._controlPanel.orientationRadios[0].checked = true : this._controlPanel.orientationRadios[1].checked = true);
     }
 }
 export { MainView };

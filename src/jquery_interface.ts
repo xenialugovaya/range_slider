@@ -1,4 +1,3 @@
 interface JQuery {
-    slider(options: any): any;
+  slider(options: any): any;
 }
-

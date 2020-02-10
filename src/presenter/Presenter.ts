@@ -1,5 +1,6 @@
 import { MainModel } from '../model/MainModel';
 import { MainView } from '../view/MainView';
+import { sliderOptions } from '../model/sliderOptions';
 
 class Presenter {
   private _model: MainModel;
@@ -16,21 +17,23 @@ class Presenter {
       this._model.min,
       this._model.max,
       this._values,
+      this._model.step
     );
     this.updateModel();
     this.updateView();
   
   }
 
-//не работает
   updateModel() {
-    this._view.observer.subscribe((valueData: number[])=>{
-      this._model.rangeValue = valueData;
+    this._view.observer.subscribe((valueData: sliderOptions)=>{
+      if (valueData.values) this._model.rangeValue = valueData.values;
+      if (valueData.isVertical) this._model.isVertical = valueData.isVertical;
      });
+   
   }
-//не работает
+
   updateView() {
-    this._model.observer.subscribe((valueData: number[])=>{
+    this._model.observer.subscribe((valueData: sliderOptions)=>{
       this._view.update(valueData);
      });
   }
@@ -43,11 +46,10 @@ class Presenter {
   setValuesToInputs() {
     this._view.setValuesToInputs();
    }
-   //не работает
-   getValuesfromInputs(valueData: number[]) {
    
-    
-  }
+   setStepToInput() {
+     this._view.setStepToInput();
+   }
   
   
 

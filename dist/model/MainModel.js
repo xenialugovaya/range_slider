@@ -19,6 +19,9 @@ class MainModel {
         this._isVertical = sliderOptions.isVertical ? sliderOptions.isVertical : this._isVertical;
         this._hasLabels = sliderOptions.hasLabels ? sliderOptions.hasLabels : this._hasLabels;
     }
+    notifyPresnter(valueData) {
+        this.observer.broadcast(valueData);
+    }
     get min() {
         this._min = Math.round(this._min / this._step) * this._step;
         return this._min;
@@ -50,7 +53,9 @@ class MainModel {
     }
     set rangeValue(values) {
         this._values = values;
-        this.observer.broadcast(this.calcValues(this._values));
+        this.notifyPresnter({
+            values: this.calcValues(this._values)
+        });
     }
     get isVertical() {
         return this._isVertical;

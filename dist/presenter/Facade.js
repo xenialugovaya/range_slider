@@ -6,6 +6,7 @@ class Facade {
         this._presenter = new Presenter(parent, this._model);
         this._presenter.setHandlersPosition();
         this._presenter.setValuesToInputs();
+        this._presenter.setStepToInput();
     }
     get singleValue() {
         return this._model.singleValue;

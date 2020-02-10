@@ -3,17 +3,18 @@ class Presenter {
     constructor(parent, model) {
         this._model = model;
         this._values = this._model.rangeValue;
-        this._view = new MainView(parent, this._model.hasRange, this._model.isVertical, this._model.min, this._model.max, this._values);
+        this._view = new MainView(parent, this._model.hasRange, this._model.isVertical, this._model.min, this._model.max, this._values, this._model.step);
         this.updateModel();
         this.updateView();
     }
-    //не работает
     updateModel() {
         this._view.observer.subscribe((valueData) => {
-            this._model.rangeValue = valueData;
+            if (valueData.values)
+                this._model.rangeValue = valueData.values;
+            if (valueData.isVertical)
+                this._model.isVertical = valueData.isVertical;
         });
     }
-    //не работает
     updateView() {
         this._model.observer.subscribe((valueData) => {
             this._view.update(valueData);
@@ -25,8 +26,8 @@ class Presenter {
     setValuesToInputs() {
         this._view.setValuesToInputs();
     }
-    //не работает
-    getValuesfromInputs(valueData) {
+    setStepToInput() {
+        this._view.setStepToInput();
     }
 }
 export { Presenter };
