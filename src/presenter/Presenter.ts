@@ -17,42 +17,33 @@ class Presenter {
       this._model.min,
       this._model.max,
       this._values,
-      this._model.step
+      this._model.step,
     );
     this.updateModel();
     this.updateView();
-  
   }
 
   updateModel() {
-    this._view.observer.subscribe((valueData: sliderOptions)=>{
+    this._view.observer.subscribe((valueData: sliderOptions) => {
       if (valueData.values) this._model.rangeValue = valueData.values;
-      if (valueData.isVertical) this._model.isVertical = valueData.isVertical;
-     });
-   
+      if (valueData.isVertical !== undefined) this._model.isVertical = valueData.isVertical;
+      if (valueData.step) this._model.step = valueData.step;
+    });
   }
 
   updateView() {
-    this._model.observer.subscribe((valueData: sliderOptions)=>{
+    this._model.observer.subscribe((valueData: sliderOptions) => {
       this._view.update(valueData);
-     });
-  }
-  
-
-  setHandlersPosition(){
-    this._view.setHandlerPosition();
+    });
   }
 
   setValuesToInputs() {
     this._view.setValuesToInputs();
-   }
-   
-   setStepToInput() {
-     this._view.setStepToInput();
-   }
-  
-  
+  }
 
+  setStepToInput() {
+    this._view.setStepToInput();
+  }
 }
 
 export { Presenter };

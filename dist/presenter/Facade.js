@@ -4,7 +4,6 @@ class Facade {
     constructor(parent, sliderOptions) {
         this._model = new MainModel(sliderOptions);
         this._presenter = new Presenter(parent, this._model);
-        this._presenter.setHandlersPosition();
         this._presenter.setValuesToInputs();
         this._presenter.setStepToInput();
     }

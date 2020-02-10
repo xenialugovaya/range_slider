@@ -15,6 +15,7 @@ class MainView {
   private _controlPanel: ControlPanel;
   private _step: number;
   private _isVertical: boolean;
+  private _hasRange: boolean;
 
   constructor(
     parent: HTMLElement,
@@ -31,54 +32,82 @@ class MainView {
     this._values = values;
     this._step = step;
     this._isVertical = isVertical;
-    this._sliderBody = document.createElement('div');
-    this._sliderBody.classList.add('sliderBody');
+    this._hasRange = hasRange;
     this._parent = parent;
-    this._parent.appendChild(this._sliderBody);
-    this._handlers = hasRange
-      ? [
-          new HandlerView(this._sliderBody, isVertical, min, max),
-          new HandlerView(this._sliderBody, isVertical, min, max),
-        ]
-      : [new HandlerView(this._sliderBody, isVertical, min, max)];
+    this._sliderBody = document.createElement('div');
     this._selectedRange = document.createElement('div');
-    this._sliderBody.appendChild(this._selectedRange);
-    this._selectedRange.classList.add('selectedRange');
-    if (isVertical) {
-      this._parent.classList.add('slider_vertical');
-    } else {
-      this._parent.classList.add('slider_horizontal');
-    }
-    if (hasRange) this._selectedRange.classList.add('range_between');
+    this._handlers = [];
+
     this._controlPanel = new ControlPanel(this._parent, hasRange, isVertical);
     this._controlPanel.valueInputs.forEach(input =>
       input.addEventListener('input', this.notifyPresenter.bind(this)),
     );
+    this._controlPanel.stepInput.addEventListener('input', this.notifyPresenter.bind(this));
     this._controlPanel.orientationRadios.forEach(radio =>
       radio.addEventListener('change', this.notifyPresenter.bind(this)),
     );
+    this.setSliderBody();
+    this.setOrientation(this._isVertical);
+    this.setHandlers(this._hasRange);
+    this.setHandlerPosition(this._values, this._isVertical);
+    this.setSelectedRange();
     this.setOrientationToRadio();
+    this.setStepToInput();
   }
 
   notifyPresenter() {
     const newValues = this._controlPanel.valueInputs.map(input => parseInt(input.value));
-    const newOrientation = this._controlPanel.orientationRadios[0].checked == true;
-
+    const newOrientation = this._controlPanel.orientationRadios[0].checked ? true : false;
+    const newStep = parseInt(this._controlPanel.stepInput.value);
     this.observer.broadcast({
       values: newValues,
       isVertical: newOrientation,
+      step: newStep,
     });
   }
 
   update(valueData: sliderOptions) {
-    this._handlers.forEach((handler, index) => {
-      if (valueData.values) handler.setPosition(valueData.values[index]);
-    });
-    if (valueData.isVertical) this._isVertical = valueData.isVertical;
+    const isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this._isVertical;
+    const values = valueData.values ? valueData.values : this._values;
+    this.setOrientation(isVertical);
+    this.setHandlerPosition(values, isVertical);
+    if (valueData.step) this._step = valueData.step;
+  }
+  setSliderBody() {
+    this._sliderBody = document.createElement('div');
+    this._sliderBody.classList.add('sliderBody');
+    this._parent.appendChild(this._sliderBody);
   }
 
-  setHandlerPosition() {
-    this._handlers.forEach((handler, index) => handler.setPosition(this._values[index]));
+  setOrientation(isVertical: boolean) {
+    this._isVertical = isVertical;
+    if (isVertical) {
+      this._parent.classList.remove('slider_horizontal');
+      this._parent.classList.add('slider_vertical');
+    } else {
+      this._parent.classList.remove('slider_vertical');
+      this._parent.classList.add('slider_horizontal');
+    }
+  }
+
+  setHandlers(hasRange: boolean) {
+    this._handlers.push(new HandlerView(this._sliderBody, this._min, this._max));
+    if (hasRange) this._handlers.push(new HandlerView(this._sliderBody, this._min, this._max));
+  }
+
+  getHandlers() {
+    return this._handlers;
+  }
+
+  setHandlerPosition(values: number[], isVertical: boolean) {
+    this._handlers.forEach((handler, index) => handler.setPosition(values[index], isVertical));
+  }
+
+  setSelectedRange() {
+    this._selectedRange = document.createElement('div');
+    this._sliderBody.appendChild(this._selectedRange);
+    this._selectedRange.classList.add('selectedRange');
+    if (this._hasRange) this._selectedRange.classList.add('range_between');
   }
 
   setValuesToInputs() {

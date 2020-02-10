@@ -11,17 +11,16 @@ class Presenter {
         this._view.observer.subscribe((valueData) => {
             if (valueData.values)
                 this._model.rangeValue = valueData.values;
-            if (valueData.isVertical)
+            if (valueData.isVertical !== undefined)
                 this._model.isVertical = valueData.isVertical;
+            if (valueData.step)
+                this._model.step = valueData.step;
         });
     }
     updateView() {
         this._model.observer.subscribe((valueData) => {
             this._view.update(valueData);
         });
-    }
-    setHandlersPosition() {
-        this._view.setHandlerPosition();
     }
     setValuesToInputs() {
         this._view.setValuesToInputs();

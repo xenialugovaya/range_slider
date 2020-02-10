@@ -14,18 +14,18 @@ class ControlPanel {
         this.createOrientationRadios();
     }
     createValueInputs() {
-        let title = document.createElement('p');
+        const title = document.createElement('p');
         this._controlPanel.append(title);
         title.innerText = 'Значение бегунков';
-        let inputSingle = document.createElement('input');
+        const inputSingle = document.createElement('input');
         inputSingle.classList.add('handlerValue');
         this._controlPanel.append(inputSingle);
         this._valueInputs.push(inputSingle);
         if (this._hasRange) {
-            let inputMin = document.querySelector('.handlerValue');
+            const inputMin = document.querySelector('.handlerValue');
             if (inputMin)
                 inputMin.classList.add('value_min');
-            let inputMax = document.createElement('input');
+            const inputMax = document.createElement('input');
             inputMax.classList.add('handlerValue', 'value_max');
             this._controlPanel.append(inputMax);
             this._valueInputs.push(inputMax);
@@ -35,7 +35,7 @@ class ControlPanel {
         return this._valueInputs;
     }
     createStepInput() {
-        let title = document.createElement('p');
+        const title = document.createElement('p');
         this._controlPanel.append(title);
         title.innerText = 'Значение шага';
         this._stepInput.classList.add('stepValue');
@@ -45,12 +45,12 @@ class ControlPanel {
         return this._stepInput;
     }
     createOrientationRadios() {
-        let title = document.createElement('p');
+        const title = document.createElement('p');
         this._controlPanel.append(title);
         title.innerText = 'Вертикальный/горизонтальный';
-        let radioVertical = document.createElement('input');
+        const radioVertical = document.createElement('input');
         radioVertical.id = 'radio_vertical';
-        let radioHorizontal = document.createElement('input');
+        const radioHorizontal = document.createElement('input');
         radioHorizontal.id = 'radio_horizontal';
         this._orientationRadios = [radioVertical, radioHorizontal];
         this._orientationRadios.forEach(radio => {

@@ -31,10 +31,10 @@
 }
 
 .slider_vertical .handler{
-	left: -6px;
+	left: -6px !important;
 }
 .slider_horizontal .handler{
-	top: -6px;
+	top: -6px !important;
 }
 
 .selectedRange{

@@ -4,7 +4,7 @@ class MainModel {
     constructor(sliderOptions) {
         this._min = 0;
         this._max = 100;
-        this._step = 1;
+        this._step = 5;
         this._values = [10, 20];
         this._isVertical = false;
         this._hasRange = true;
@@ -19,7 +19,7 @@ class MainModel {
         this._isVertical = sliderOptions.isVertical ? sliderOptions.isVertical : this._isVertical;
         this._hasLabels = sliderOptions.hasLabels ? sliderOptions.hasLabels : this._hasLabels;
     }
-    notifyPresnter(valueData) {
+    notifyPresenter(valueData) {
         this.observer.broadcast(valueData);
     }
     get min() {
@@ -41,6 +41,10 @@ class MainModel {
     }
     set step(step) {
         this._step = step;
+        this.notifyPresenter({
+            step: this._step,
+            values: this.rangeValue,
+        });
     }
     get singleValue() {
         return this.calcValues(this._values)[0];
@@ -53,8 +57,8 @@ class MainModel {
     }
     set rangeValue(values) {
         this._values = values;
-        this.notifyPresnter({
-            values: this.calcValues(this._values)
+        this.notifyPresenter({
+            values: this.calcValues(this._values),
         });
     }
     get isVertical() {
@@ -62,6 +66,10 @@ class MainModel {
     }
     set isVertical(vertical) {
         this._isVertical = vertical;
+        this.notifyPresenter({
+            values: this.rangeValue,
+            isVertical: this._isVertical,
+        });
     }
     get hasRange() {
         return this._hasRange;
@@ -88,12 +96,10 @@ class MainModel {
     //check that values of handlers are within min and max
     //check that value 0 is less than value 1 for range
     calcValues(values) {
-        this._values.map(value => Math.round(value / this._step) * this._step);
-        values.map(value => (value < this._min ? this._min : value > this._max ? this._max : value));
-        if (values[0] === values[1])
-            values[1] += this._step;
+        values = values.map(value => Math.round(value / this._step) * this._step);
         if (values[0] > values[1])
             [values[0], values[1]] = [values[1], values[0]];
+        values = values.map(value => value < this._min ? this._min : value > this._max ? this._max : value);
         return values;
     }
     //create handlers depending on range
@@ -103,21 +109,6 @@ class MainModel {
         }
         else {
             this._handlers = [new Handler(values[0])];
-        }
-    }
-    //set limits of a slider in terms of px to control handler movement
-    setLimits(sliderBody, handler) {
-        if (this._isVertical) {
-            return {
-                minLimit: 0,
-                maxLimit: sliderBody.offsetHeight - handler.offsetHeight,
-            };
-        }
-        else {
-            return {
-                minLimit: 0,
-                maxLimit: sliderBody.offsetWidth - handler.offsetWidth,
-            };
         }
     }
 }
