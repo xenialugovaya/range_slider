@@ -37,10 +37,18 @@
 	top: -6px !important;
 }
 
-.selectedRange{
+.slider_horizontal .selectedRange{
 	position: absolute;
 	background: red;
 	border-radius: 4px;
+	height: 100% !important;
+}
+.slider_vertical .selectedRange{
+	position: absolute;
+	background: red;
+	border-radius: 4px;
+	width: 100% !important;
+	bottom: 0;
 }
 
 .controlPanel{

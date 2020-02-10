@@ -22,6 +22,10 @@ class HandlerView {
     const position = ((value - this._minLimit) / valuesCount) * 100 - handlerSize / 2;
     this._handler.style[positionProperty] = `${position}%`;
   }
+
+  get elem() {
+    return this._handler;
+  }
 }
 
 export { HandlerView };

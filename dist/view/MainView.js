@@ -23,6 +23,7 @@ class MainView {
         this.setHandlers(this._hasRange);
         this.setHandlerPosition(this._values, this._isVertical);
         this.setSelectedRange();
+        this.updateSelectedRange();
         this.setOrientationToRadio();
         this.setStepToInput();
     }
@@ -38,9 +39,10 @@ class MainView {
     }
     update(valueData) {
         const isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this._isVertical;
-        const values = valueData.values ? valueData.values : this._values;
+        this._values = valueData.values ? valueData.values : this._values;
         this.setOrientation(isVertical);
-        this.setHandlerPosition(values, isVertical);
+        this.setHandlerPosition(this._values, isVertical);
+        this.updateSelectedRange();
         if (valueData.step)
             this._step = valueData.step;
     }
@@ -62,8 +64,14 @@ class MainView {
     }
     setHandlers(hasRange) {
         this._handlers.push(new HandlerView(this._sliderBody, this._min, this._max));
-        if (hasRange)
+        if (hasRange) {
             this._handlers.push(new HandlerView(this._sliderBody, this._min, this._max));
+            this._handlers[0].elem.id = 'handler_min';
+            this._handlers[1].elem.id = 'handler_max';
+        }
+        this._handlers.forEach(handler => {
+            handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this));
+        });
     }
     getHandlers() {
         return this._handlers;
@@ -75,8 +83,18 @@ class MainView {
         this._selectedRange = document.createElement('div');
         this._sliderBody.appendChild(this._selectedRange);
         this._selectedRange.classList.add('selectedRange');
-        if (this._hasRange)
+        if (this._hasRange) {
+            this._selectedRange.classList.remove('selectedRange');
             this._selectedRange.classList.add('range_between');
+            //  this._selectedRange.style[minPosition] = this.getCoords(this._handlers[0].elem).x + '%';
+            //  this._selectedRange.style[maxPosition] = this.getCoords(this._handlers[1].elem).x + '%';
+        }
+    }
+    updateSelectedRange() {
+        this._isVertical
+            ? (this._selectedRange.style.height =
+                this.getCoords(this._sliderBody).y - this.getCoords(this._handlers[0].elem).y + 'px')
+            : (this._selectedRange.style.width = this.getCoords(this._handlers[0].elem).x + 'px');
     }
     setValuesToInputs() {
         this._controlPanel.valueInputs.map((input, index) => (input.value = this._values[index].toString()));
@@ -88,6 +106,19 @@ class MainView {
         this._controlPanel.orientationRadios.map((radio, index) => this._isVertical
             ? (this._controlPanel.orientationRadios[0].checked = true)
             : (this._controlPanel.orientationRadios[1].checked = true));
+    }
+    dragAndDrop() {
+        document.addEventListener('mousemove', this.onMouseMove.bind(this));
+        document.addEventListener('mouseup', this.onMouseUp.bind(this));
+    }
+    onMouseMove() { }
+    onMouseUp() { }
+    getCoords(elem) {
+        const box = elem.getBoundingClientRect();
+        return {
+            x: box.left + pageXOffset,
+            y: box.bottom + pageYOffset,
+        };
     }
 }
 export { MainView };

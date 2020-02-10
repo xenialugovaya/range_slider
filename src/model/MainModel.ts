@@ -9,7 +9,7 @@ class MainModel {
   private _step = 5;
   private _values = [10, 20];
   private _isVertical = false;
-  private _hasRange = true;
+  private _hasRange = false;
   private _hasLabels = false;
   private _handlers: Handler[] = [];
   constructor(sliderOptions: sliderOptions) {
@@ -94,22 +94,6 @@ class MainModel {
 
   set hasRange(range: boolean) {
     this._hasRange = range;
-  }
-
-  // get initial coordinates of any element, depending on dimension
-  getCoords(elem: HTMLElement): object {
-    const box = elem.getBoundingClientRect();
-    if (this._isVertical) {
-      return {
-        x: box.left + pageXOffset,
-        y: box.bottom + pageYOffset,
-      };
-    } else {
-      return {
-        x: box.left + pageXOffset,
-        y: box.top + pageXOffset,
-      };
-    }
   }
 
   //check that values of handlers are within min and max

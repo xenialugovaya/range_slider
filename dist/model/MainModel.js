@@ -7,7 +7,7 @@ class MainModel {
         this._step = 5;
         this._values = [10, 20];
         this._isVertical = false;
-        this._hasRange = true;
+        this._hasRange = false;
         this._hasLabels = false;
         this._handlers = [];
         this.observer = new EventObserver();
@@ -76,22 +76,6 @@ class MainModel {
     }
     set hasRange(range) {
         this._hasRange = range;
-    }
-    // get initial coordinates of any element, depending on dimension
-    getCoords(elem) {
-        const box = elem.getBoundingClientRect();
-        if (this._isVertical) {
-            return {
-                x: box.left + pageXOffset,
-                y: box.bottom + pageYOffset,
-            };
-        }
-        else {
-            return {
-                x: box.left + pageXOffset,
-                y: box.top + pageXOffset,
-            };
-        }
     }
     //check that values of handlers are within min and max
     //check that value 0 is less than value 1 for range
