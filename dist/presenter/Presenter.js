@@ -15,6 +15,8 @@ class Presenter {
                 this._model.isVertical = valueData.isVertical;
             if (valueData.step)
                 this._model.step = valueData.step;
+            if (valueData.hasRange !== undefined)
+                this._model.hasRange = valueData.hasRange;
         });
     }
     updateView() {

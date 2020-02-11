@@ -4,6 +4,7 @@ class ControlPanel {
   private _valueInputs: HTMLInputElement[];
   private _stepInput: HTMLInputElement;
   private _orientationRadios: HTMLInputElement[];
+  private _rangeRadios: HTMLInputElement[];
   private _hasRange: boolean;
   private _isVertical: boolean;
 
@@ -15,11 +16,13 @@ class ControlPanel {
     this._valueInputs = [];
     this._stepInput = document.createElement('input');
     this._orientationRadios = [];
+    this._rangeRadios = [];
     this._hasRange = hasRange;
     this._isVertical = isVertical;
     this.createValueInputs();
     this.createStepInput();
     this.createOrientationRadios();
+    this.createRangeRadios();
   }
   createValueInputs() {
     const title = document.createElement('p');
@@ -72,6 +75,26 @@ class ControlPanel {
 
   get orientationRadios() {
     return this._orientationRadios;
+  }
+
+  createRangeRadios() {
+    const title = document.createElement('p');
+    this._controlPanel.append(title);
+    title.innerText = 'Одиночное/интервал';
+    const radioSingle = document.createElement('input');
+    radioSingle.id = 'radio_single';
+    const radioDouble = document.createElement('input');
+    radioDouble.id = 'radio_double';
+    this._rangeRadios = [radioSingle, radioDouble];
+    this._rangeRadios.forEach(radio => {
+      radio.type = 'radio';
+      radio.name = 'range';
+      this._controlPanel.append(radio);
+    });
+  }
+
+  get rangeRadios() {
+    return this._rangeRadios;
   }
 }
 

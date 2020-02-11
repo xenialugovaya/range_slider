@@ -6,10 +6,10 @@ class MainModel {
   public observer: EventObserver;
   private _min = 0;
   private _max = 100;
-  private _step = 5;
+  private _step = 1;
   private _values = [10, 20];
   private _isVertical = false;
-  private _hasRange = false;
+  private _hasRange = true;
   private _hasLabels = false;
   private _handlers: Handler[] = [];
   constructor(sliderOptions: sliderOptions) {
@@ -94,6 +94,10 @@ class MainModel {
 
   set hasRange(range: boolean) {
     this._hasRange = range;
+    this.notifyPresenter({
+      values: this.rangeValue,
+      hasRange: this._hasRange,
+    });
   }
 
   //check that values of handlers are within min and max

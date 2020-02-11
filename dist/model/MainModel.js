@@ -4,10 +4,10 @@ class MainModel {
     constructor(sliderOptions) {
         this._min = 0;
         this._max = 100;
-        this._step = 5;
+        this._step = 1;
         this._values = [10, 20];
         this._isVertical = false;
-        this._hasRange = false;
+        this._hasRange = true;
         this._hasLabels = false;
         this._handlers = [];
         this.observer = new EventObserver();
@@ -76,6 +76,10 @@ class MainModel {
     }
     set hasRange(range) {
         this._hasRange = range;
+        this.notifyPresenter({
+            values: this.rangeValue,
+            hasRange: this._hasRange,
+        });
     }
     //check that values of handlers are within min and max
     //check that value 0 is less than value 1 for range

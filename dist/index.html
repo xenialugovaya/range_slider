@@ -6,17 +6,20 @@
 </head>
 <body>
 	<h1>My first JS plugin!</h1>
-	<div class='slider'></div>
+    <div class='slider' id='slider'></div>
+    
+    
 </body>
 <script type="text/javascript" src='bundle.js'></script>
 <script>
 $(document).ready(function() {
- $('.slider').slider({
+ $('#slider').slider({
     min: 0,
     max: 20,
     values: [5, 20],
     hasRange:false,
 });
+
 });
 </script>
 </html>

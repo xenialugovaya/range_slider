@@ -1,12 +1,14 @@
 .slider{
 	height: 4px;
 	width:300px;
+	vertical-align: top;
 	display: inline-block;
 }
 
 .slider_vertical{
 	height: 300px;
 	width:4px;
+	margin-left: 100px;
 }
 
 .sliderBody{
@@ -37,16 +39,27 @@
 	top: -6px !important;
 }
 
-.slider_horizontal .selectedRange{
+.selectedRange, .range_between{
 	position: absolute;
 	background: red;
-	border-radius: 4px;
+}
+
+.slider_horizontal .range_between{
+	bottom: 0 !important;
+	height: 100% !important;
+}
+
+.slider_vertical .range_between{
+    left: 0 !important;
+	width: 100% !important;
+}
+
+.slider_horizontal .selectedRange{
+
 	height: 100% !important;
 }
 .slider_vertical .selectedRange{
-	position: absolute;
-	background: red;
-	border-radius: 4px;
+	
 	width: 100% !important;
 	bottom: 0;
 }
