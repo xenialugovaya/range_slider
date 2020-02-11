@@ -14,6 +14,7 @@ class MainView {
         this._sliderBody = document.createElement('div');
         this._selectedRange = document.createElement('div');
         this._handlers = [];
+        this._mouseMove;
         this._controlPanel = new ControlPanel(this._parent, hasRange, isVertical);
         this._controlPanel.valueInputs.forEach(input => input.addEventListener('input', this.notifyPresenter.bind(this)));
         this._controlPanel.stepInput.addEventListener('input', this.notifyPresenter.bind(this));
@@ -28,7 +29,12 @@ class MainView {
         this.setOrientationToRadio();
         this.setStepToInput();
         this.setRangeToRadio();
-        this._handlers.forEach(handler => handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this)));
+        this._handlers.forEach(handler => {
+            handler.elem.ondragstart = function () {
+                return false;
+            };
+            handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this));
+        });
     }
     notifyPresenter() {
         const newValues = this._controlPanel.valueInputs.map(input => parseInt(input.value));
@@ -145,7 +151,11 @@ class MainView {
         }
     }
     dragAndDrop(e) {
-        document.addEventListener('mousemove', this.onMouseMove.bind(this));
+        e.preventDefault();
+        const target = e.target;
+        target.style.zIndex = '1000';
+        this._mouseMove = this.onMouseMove.bind(this);
+        document.addEventListener('mousemove', this._mouseMove);
         document.addEventListener('mouseup', this.onMouseUp.bind(this));
     }
     onMouseMove(e) {
@@ -175,7 +185,8 @@ class MainView {
         }
     }
     onMouseUp() {
-        document.removeEventListener('mousemove', this.onMouseMove.bind(this));
+        document.removeEventListener('mousemove', this._mouseMove);
+        document.removeEventListener('mouseup', this.onMouseUp);
     }
 }
 export { MainView };
