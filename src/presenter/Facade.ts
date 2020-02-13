@@ -9,7 +9,6 @@ class Facade {
   constructor(parent: HTMLElement, sliderOptions: sliderOptions) {
     this._model = new MainModel(sliderOptions);
     this._presenter = new Presenter(parent, this._model);
-    this._presenter.setValuesToInputs();
     this._presenter.setStepToInput();
   }
 

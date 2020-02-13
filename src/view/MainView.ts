@@ -11,6 +11,7 @@ class MainView {
   private _handlers: HandlerView[];
   private _min: number;
   private _max: number;
+  private _minMax: number[];
   private _values: number[];
   private _controlPanel: ControlPanel;
   private _step: number;
@@ -32,6 +33,7 @@ class MainView {
     this.observer = new EventObserver();
     this._min = min;
     this._max = max;
+    this._minMax = [min, max];
     this._values = values;
     this._step = step;
     this._isVertical = isVertical;
@@ -60,6 +62,8 @@ class MainView {
     this.setOrientation(this._isVertical);
     this.setHandlers(this._hasRange);
     this.setHandlerPosition(this._values, this._isVertical);
+    this.setValuesToInputs();
+    this.setMinMaxToInputs();
     this.setSelectedRange();
     this.updateSelectedRange();
     this.setOrientationToRadio();
@@ -178,6 +182,11 @@ class MainView {
     }
   }
 
+  setMinMaxToInputs() {
+    this._controlPanel.minMaxInputs.map(
+      (input, index) => (input.value = this._minMax[index].toString()),
+    );
+  }
   setValuesToInputs() {
     this._controlPanel.valueInputs.map(
       (input, index) => (input.value = this._values[index].toString()),
@@ -215,6 +224,7 @@ class MainView {
   dragAndDrop(e: MouseEvent) {
     e.preventDefault();
     const target = e.target as HTMLDivElement;
+    target.style.zIndex = '1000';
     this._handlerTarget = target.id;
     this._mouseMove = this.onMouseMove.bind(this);
     this._mouseUp = this.onMouseUp.bind(this);
@@ -240,7 +250,6 @@ class MainView {
         values: [value, this._values[1]],
       });
     } else {
-      this._controlPanel.valueInputs[1].value = value.toString();
       this.observer.broadcast({
         values: [this._values[0], value],
       });

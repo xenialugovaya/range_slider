@@ -38,10 +38,6 @@ class Presenter {
     });
   }
 
-  setValuesToInputs() {
-    this._view.setValuesToInputs();
-  }
-
   setStepToInput() {
     this._view.setStepToInput();
   }

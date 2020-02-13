@@ -24,9 +24,6 @@ class Presenter {
             this._view.update(valueData);
         });
     }
-    setValuesToInputs() {
-        this._view.setValuesToInputs();
-    }
     setStepToInput() {
         this._view.setStepToInput();
     }

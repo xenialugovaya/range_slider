@@ -5,15 +5,34 @@ class ControlPanel {
         this._controlPanel.classList.add('controlPanel');
         this._parent.after(this._controlPanel);
         this._valueInputs = [];
+        this._minMaxInputs = [];
         this._stepInput = document.createElement('input');
         this._orientationRadios = [];
         this._rangeRadios = [];
         this._hasRange = hasRange;
         this._isVertical = isVertical;
+        this.createMaxMinInputs();
         this.createValueInputs();
         this.createStepInput();
         this.createOrientationRadios();
         this.createRangeRadios();
+    }
+    createMaxMinInputs() {
+        const title = document.createElement('p');
+        this._controlPanel.append(title);
+        title.innerText = 'Мин. значение/Макс. значение';
+        const inputMin = document.createElement('input');
+        const inputMax = document.createElement('input');
+        inputMin.classList.add('limitValue');
+        inputMax.classList.add('limitValue');
+        inputMin.type = 'number';
+        inputMax.type = 'number';
+        this._controlPanel.append(inputMin);
+        this._controlPanel.append(inputMax);
+        this._minMaxInputs = [inputMin, inputMax];
+    }
+    get minMaxInputs() {
+        return this._minMaxInputs;
     }
     createValueInputs() {
         const title = document.createElement('p');
