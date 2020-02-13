@@ -8,7 +8,7 @@ class HandlerView {
     this._handler = document.createElement('div');
     this._handler.classList.add('handler');
     this._parent = parent;
-    this._parent.appendChild(this._handler);
+    this._parent.append(this._handler);
     this._minLimit = minLimit;
     this._maxLimit = maxLimit;
   }

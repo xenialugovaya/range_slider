@@ -90,7 +90,7 @@ class MainModel {
         values = values.map(value => value < this._min ? this._min : value > this._max ? this._max : value);
         return values;
     }
-    //create handlers depending on range
+    //create handlers depending on range. not used
     setHandlers(values) {
         if (this._hasRange) {
             this._handlers = [new Handler(values[0]), new Handler(values[1])];

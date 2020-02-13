@@ -111,7 +111,7 @@ class MainModel {
 
     return values;
   }
-  //create handlers depending on range
+  //create handlers depending on range. not used
   setHandlers(values: number[]): void {
     if (this._hasRange) {
       this._handlers = [new Handler(values[0]), new Handler(values[1])];

@@ -17,6 +17,8 @@ class MainView {
   private _isVertical: boolean;
   private _hasRange: boolean;
   private _mouseMove: any;
+  private _mouseUp: any;
+  private _handlerTarget: string;
 
   constructor(
     parent: HTMLElement,
@@ -39,12 +41,14 @@ class MainView {
     this._selectedRange = document.createElement('div');
     this._handlers = [];
     this._mouseMove;
+    this._mouseUp;
+    this._handlerTarget = '';
 
     this._controlPanel = new ControlPanel(this._parent, hasRange, isVertical);
     this._controlPanel.valueInputs.forEach(input =>
-      input.addEventListener('input', this.notifyPresenter.bind(this)),
+      input.addEventListener('change', this.notifyPresenter.bind(this)),
     );
-    this._controlPanel.stepInput.addEventListener('input', this.notifyPresenter.bind(this));
+    this._controlPanel.stepInput.addEventListener('change', this.notifyPresenter.bind(this));
     this._controlPanel.orientationRadios.forEach(radio =>
       radio.addEventListener('change', this.notifyPresenter.bind(this)),
     );
@@ -86,14 +90,18 @@ class MainView {
   update(valueData: sliderOptions) {
     this._isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this._isVertical;
     this._hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this._hasRange;
-
     this._values = valueData.values ? valueData.values : this._values;
+    this.updateRange();
     this.setOrientation(this._isVertical);
     this.setHandlerPosition(this._values, this._isVertical);
+    this._controlPanel.valueInputs[0].value = this._values[0].toString();
+    if (this._controlPanel.valueInputs[1]) {
+      this._controlPanel.valueInputs[1].value = this._values[1].toString();
+    }
     this.updateSelectedRange();
     if (valueData.step) this._step = valueData.step;
-    // this.updateHandlers(this._hasRange);
   }
+
   setSliderBody() {
     this._sliderBody = document.createElement('div');
     this._sliderBody.classList.add('sliderBody');
@@ -124,14 +132,18 @@ class MainView {
     return this._handlers;
   }
 
-  //не работает
-  updateHandlers(hasRange: boolean) {
-    if (hasRange) {
-      this._handlers.push(new HandlerView(this._sliderBody, this._min, this._max));
-      this.setHandlerPosition(this._values, this._isVertical);
+  updateRange() {
+    if (!this._hasRange) {
+      this._handlers[1].elem.remove();
+      this._controlPanel.valueInputs[1].remove();
+      this._selectedRange.classList.add('selectedRange');
+      this._selectedRange.classList.remove('range_between');
+      this.updateSelectedRange();
     } else {
-      this._handlers.pop();
-      this.setHandlerPosition(this._values, this._isVertical);
+      this._handlers[0].elem.after(this._handlers[1].elem);
+      this._controlPanel.valueInputs[0].after(this._controlPanel.valueInputs[1]);
+      this._selectedRange.classList.remove('selectedRange');
+      this._selectedRange.classList.add('range_between');
     }
   }
 
@@ -202,29 +214,28 @@ class MainView {
   }
   dragAndDrop(e: MouseEvent) {
     e.preventDefault();
-
     const target = e.target as HTMLDivElement;
-    target.style.zIndex = '1000';
+    this._handlerTarget = target.id;
     this._mouseMove = this.onMouseMove.bind(this);
+    this._mouseUp = this.onMouseUp.bind(this);
     document.addEventListener('mousemove', this._mouseMove);
-    document.addEventListener('mouseup', this.onMouseUp.bind(this));
+    document.addEventListener('mouseup', this._mouseUp);
   }
 
   onMouseMove(e: MouseEvent) {
     if (this._isVertical) {
-      this.moveAt(e.pageY, e.target as HTMLDivElement);
+      this.moveAt(e.pageY, this._handlerTarget);
     } else {
-      this.moveAt(e.pageX, e.target as HTMLDivElement);
+      this.moveAt(e.pageX, this._handlerTarget);
     }
   }
 
-  moveAt(coordinate: number, target: HTMLDivElement) {
+  moveAt(coordinate: number, targetId: string) {
     const sliderCoord = this.getCoords(this._sliderBody);
     const value = this._isVertical
       ? Math.round(((sliderCoord - coordinate) / this._sliderBody.offsetHeight) * this._max)
       : Math.round(((coordinate - sliderCoord) / this._sliderBody.offsetWidth) * this._max);
-    if (target.id == 'handler_min') {
-      this._controlPanel.valueInputs[0].value = value.toString();
+    if (!targetId || targetId === 'handler_min') {
       this.observer.broadcast({
         values: [value, this._values[1]],
       });

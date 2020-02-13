@@ -30,6 +30,7 @@ class ControlPanel {
     title.innerText = 'Значение бегунков';
     const inputSingle = document.createElement('input');
     inputSingle.classList.add('handlerValue');
+    inputSingle.type = 'number';
     this._controlPanel.append(inputSingle);
     this._valueInputs.push(inputSingle);
     if (this._hasRange) {
@@ -37,6 +38,7 @@ class ControlPanel {
       if (inputMin) inputMin.classList.add('value_min');
       const inputMax = document.createElement('input');
       inputMax.classList.add('handlerValue', 'value_max');
+      inputMax.type = 'number';
       this._controlPanel.append(inputMax);
       this._valueInputs.push(inputMax);
     }
@@ -50,6 +52,7 @@ class ControlPanel {
     this._controlPanel.append(title);
     title.innerText = 'Значение шага';
     this._stepInput.classList.add('stepValue');
+    this._stepInput.type = 'number';
     this._controlPanel.append(this._stepInput);
   }
 
