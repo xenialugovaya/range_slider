@@ -251,8 +251,10 @@ class MainView {
   moveAt(coordinate: number, targetId: string) {
     const sliderCoord = this.getCoords(this._sliderBody);
     const value = this._isVertical
-      ? Math.round(((sliderCoord - coordinate) / this._sliderBody.offsetHeight) * this._max)
-      : Math.round(((coordinate - sliderCoord) / this._sliderBody.offsetWidth) * this._max);
+      ? ((sliderCoord - coordinate) / this._sliderBody.offsetHeight) * (this._max - this._min) +
+        this._min
+      : ((coordinate - sliderCoord) / this._sliderBody.offsetWidth) * (this._max - this._min) +
+        this._min;
     if (!targetId || targetId === 'handler_min') {
       this.observer.broadcast({
         values: [value, this._values[1]],
