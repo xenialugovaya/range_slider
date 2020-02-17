@@ -9,6 +9,10 @@ class Presenter {
     }
     updateModel() {
         this._view.observer.subscribe((valueData) => {
+            if (valueData.min)
+                this._model.min = valueData.min;
+            if (valueData.max)
+                this._model.max = valueData.max;
             if (valueData.values)
                 this._model.rangeValue = valueData.values;
             if (valueData.isVertical !== undefined)

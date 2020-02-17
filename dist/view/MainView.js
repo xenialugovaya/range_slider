@@ -6,7 +6,7 @@ class MainView {
         this.observer = new EventObserver();
         this._min = min;
         this._max = max;
-        this._minMax = [min, max];
+        this._minMax = [this._min, this._max];
         this._values = values;
         this._step = step;
         this._isVertical = isVertical;
@@ -17,8 +17,9 @@ class MainView {
         this._handlers = [];
         this._mouseMove;
         this._mouseUp;
-        this._handlerTarget = '';
+        this._handlerTargetId = '';
         this._controlPanel = new ControlPanel(this._parent, hasRange, isVertical);
+        this._controlPanel.minMaxInputs.forEach(input => input.addEventListener('change', this.notifyPresenter.bind(this)));
         this._controlPanel.valueInputs.forEach(input => input.addEventListener('change', this.notifyPresenter.bind(this)));
         this._controlPanel.stepInput.addEventListener('change', this.notifyPresenter.bind(this));
         this._controlPanel.orientationRadios.forEach(radio => radio.addEventListener('change', this.notifyPresenter.bind(this)));
@@ -42,11 +43,14 @@ class MainView {
         });
     }
     notifyPresenter() {
+        const newMinMax = this._controlPanel.minMaxInputs.map(input => parseInt(input.value));
         const newValues = this._controlPanel.valueInputs.map(input => parseInt(input.value));
         const newOrientation = this._controlPanel.orientationRadios[0].checked ? true : false;
         const newStep = parseInt(this._controlPanel.stepInput.value);
         const newRange = this._controlPanel.rangeRadios[1].checked ? true : false;
         this.observer.broadcast({
+            min: newMinMax[0],
+            max: newMinMax[1],
             values: newValues,
             isVertical: newOrientation,
             step: newStep,
@@ -54,9 +58,11 @@ class MainView {
         });
     }
     update(valueData) {
+        this._min = valueData.min ? valueData.min : this._min;
+        this._max = valueData.max ? valueData.max : this._max;
+        this._values = valueData.values ? valueData.values : this._values;
         this._isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this._isVertical;
         this._hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this._hasRange;
-        this._values = valueData.values ? valueData.values : this._values;
         this.updateRange();
         this.setOrientation(this._isVertical);
         this.setHandlerPosition(this._values, this._isVertical);
@@ -69,7 +75,6 @@ class MainView {
             this._step = valueData.step;
     }
     setSliderBody() {
-        this._sliderBody = document.createElement('div');
         this._sliderBody.classList.add('sliderBody');
         this._parent.appendChild(this._sliderBody);
     }
@@ -111,7 +116,7 @@ class MainView {
         }
     }
     setHandlerPosition(values, isVertical) {
-        this._handlers.forEach((handler, index) => handler.setPosition(values[index], isVertical));
+        this._handlers.forEach((handler, index) => handler.setPosition(values[index], this._min, this._max, isVertical));
     }
     setSelectedRange() {
         this._selectedRange = document.createElement('div');
@@ -169,8 +174,7 @@ class MainView {
     dragAndDrop(e) {
         e.preventDefault();
         const target = e.target;
-        target.style.zIndex = '1000';
-        this._handlerTarget = target.id;
+        this._handlerTargetId = target.id;
         this._mouseMove = this.onMouseMove.bind(this);
         this._mouseUp = this.onMouseUp.bind(this);
         document.addEventListener('mousemove', this._mouseMove);
@@ -178,10 +182,10 @@ class MainView {
     }
     onMouseMove(e) {
         if (this._isVertical) {
-            this.moveAt(e.pageY, this._handlerTarget);
+            this.moveAt(e.pageY, this._handlerTargetId);
         }
         else {
-            this.moveAt(e.pageX, this._handlerTarget);
+            this.moveAt(e.pageX, this._handlerTargetId);
         }
     }
     moveAt(coordinate, targetId) {

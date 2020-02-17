@@ -28,6 +28,10 @@ class MainModel {
     }
     set min(min) {
         this._min = min;
+        this.notifyPresenter({
+            min: this.min,
+            values: this.rangeValue,
+        });
     }
     get max() {
         this._max = Math.round(this._max / this._step) * this._step;
@@ -35,6 +39,10 @@ class MainModel {
     }
     set max(max) {
         this._max = max;
+        this.notifyPresenter({
+            max: this.max,
+            values: this.rangeValue,
+        });
     }
     get step() {
         return this._step;
@@ -46,9 +54,11 @@ class MainModel {
             values: this.rangeValue,
         });
     }
+    //не используется!
     get singleValue() {
         return this.calcValues(this._values)[0];
     }
+    //не используется!
     set singleValue(value) {
         this._values[0] = value;
     }

@@ -34,6 +34,10 @@ class MainModel {
 
   set min(min: number) {
     this._min = min;
+    this.notifyPresenter({
+      min: this.min,
+      values: this.rangeValue,
+    });
   }
 
   get max(): number {
@@ -43,6 +47,10 @@ class MainModel {
 
   set max(max: number) {
     this._max = max;
+    this.notifyPresenter({
+      max: this.max,
+      values: this.rangeValue,
+    });
   }
 
   get step(): number {
@@ -56,11 +64,11 @@ class MainModel {
       values: this.rangeValue,
     });
   }
-
+  //не используется!
   get singleValue(): number {
     return this.calcValues(this._values)[0];
   }
-
+  //не используется!
   set singleValue(value: number) {
     this._values[0] = value;
   }
@@ -111,6 +119,7 @@ class MainModel {
 
     return values;
   }
+
   //create handlers depending on range. not used
   setHandlers(values: number[]): void {
     if (this._hasRange) {
