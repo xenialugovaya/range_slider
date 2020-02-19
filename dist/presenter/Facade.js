@@ -6,9 +6,20 @@ class Facade {
         this._presenter = new Presenter(parent, this._model);
         this._presenter.setStepToInput();
     }
+    get parent() {
+        return this._presenter.parent;
+    }
+    get minMax() {
+        return [this._model.min, this._model.max];
+    }
+    set minMax(value) {
+        [this._model.min, this._model.max] = value;
+    }
+    //not used
     get singleValue() {
         return this._model.singleValue;
     }
+    //not used
     set singleValue(value) {
         this._model.singleValue = value;
     }
@@ -29,6 +40,12 @@ class Facade {
     }
     set isVertical(vertical) {
         this._model.isVertical = vertical;
+    }
+    get hasRange() {
+        return this._model.hasRange;
+    }
+    set hasRange(range) {
+        this._model.hasRange = range;
     }
 }
 export { Facade };

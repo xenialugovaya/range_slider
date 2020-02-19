@@ -3,6 +3,11 @@
 	width:300px;
 	vertical-align: top;
 	display: inline-block;
+	
+}
+.slider::after{
+	content: " ";
+	clear: both;
 }
 
 .slider_vertical{
