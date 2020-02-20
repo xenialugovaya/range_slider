@@ -12,6 +12,7 @@ class ControlPanel {
         this.panelInit();
         this.setEventListeners();
         this.getSliderOptions();
+        this.updateValues();
     }
     panelInit() {
         this._controlPanel.classList.add('controlPanel');
@@ -57,6 +58,11 @@ class ControlPanel {
         this._slider.isVertical = newOrientation;
         this._slider.step = newStep;
         this._slider.hasRange = newRange;
+    }
+    updateValues() {
+        this._slider.observer.subscribe((values) => {
+            this.valueInputs.forEach((input, index) => (input.value = values[index].toString()));
+        });
     }
     createMaxMinInputs() {
         const title = document.createElement('p');

@@ -1,15 +1,25 @@
 import { MainModel } from '../model/MainModel';
 import { Presenter } from './Presenter';
 import { sliderOptions } from '../model/sliderOptions';
+import { EventObserver } from '../observer/observer';
 
 class Facade {
   private _model: MainModel;
   private _presenter: Presenter;
+  public observer: EventObserver;
 
   constructor(parent: HTMLElement, sliderOptions: sliderOptions) {
+    this.observer = new EventObserver();
     this._model = new MainModel(sliderOptions);
     this._presenter = new Presenter(parent, this._model);
     this._presenter.setStepToInput();
+    this.updateValues();
+  }
+
+  updateValues() {
+    this._model.observer.subscribe((valueData: sliderOptions) => {
+      if (valueData.values) this.observer.broadcast(valueData.values);
+    });
   }
 
   get parent() {

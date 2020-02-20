@@ -25,6 +25,7 @@ class ControlPanel {
     this.panelInit();
     this.setEventListeners();
     this.getSliderOptions();
+    this.updateValues();
   }
 
   private panelInit() {
@@ -84,6 +85,12 @@ class ControlPanel {
     this._slider.isVertical = newOrientation;
     this._slider.step = newStep;
     this._slider.hasRange = newRange;
+  }
+
+  updateValues() {
+    this._slider.observer.subscribe((values: number[]) => {
+      this.valueInputs.forEach((input, index) => (input.value = values[index].toString()));
+    });
   }
 
   private createMaxMinInputs() {
