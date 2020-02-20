@@ -72,6 +72,13 @@ class Facade {
   set hasRange(range: boolean) {
     this._model.hasRange = range;
   }
+  get hasLabels(): boolean {
+    return this._model.hasLabels;
+  }
+
+  set hasLabels(label: boolean) {
+    this._model.hasLabels = label;
+  }
 }
 
 export { Facade };

@@ -31,6 +31,7 @@ class ControlPanel {
         this.stepInput.addEventListener('change', this.changeStep.bind(this));
         this.orientationRadios.forEach(radio => radio.addEventListener('change', this.changeOrientation.bind(this)));
         this.rangeRadios.forEach(radio => radio.addEventListener('change', this.changeRange.bind(this)));
+        this.showLabelRadios.forEach(radio => radio.addEventListener('change', this.changeLabelVisibility.bind(this)));
     }
     getSliderOptions() {
         this.minMaxInputs.forEach((input, index) => (input.value = this._slider.minMax[index].toString()));
@@ -47,6 +48,12 @@ class ControlPanel {
         }
         else {
             this.rangeRadios[0].checked = true;
+        }
+        if (this._slider.hasLabels) {
+            this.showLabelRadios[0].checked = true;
+        }
+        else {
+            this.showLabelRadios[1].checked = true;
         }
     }
     changeMinMax() {
@@ -74,6 +81,10 @@ class ControlPanel {
             this.valueInputs[0].after(this.valueInputs[1]);
         }
         this._slider.hasRange = newRange;
+    }
+    changeLabelVisibility() {
+        const showLabels = this.showLabelRadios[0].checked ? true : false;
+        this._slider.hasLabels = showLabels;
     }
     updateValues() {
         this._slider.observer.subscribe((values) => {

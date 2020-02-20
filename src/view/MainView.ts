@@ -10,11 +10,11 @@ class MainView {
   private _handlers: HandlerView[];
   private _min: number;
   private _max: number;
-  private _minMax: number[];
   private _values: number[];
   private _step: number;
   private _isVertical: boolean;
   private _hasRange: boolean;
+  private _hasLabels: boolean;
   private _mouseMove: any;
   private _mouseUp: any;
   private _handlerTargetId: string;
@@ -27,15 +27,16 @@ class MainView {
     max: number,
     values: number[],
     step: number,
+    hasLabels: boolean,
   ) {
     this.observer = new EventObserver();
     this._min = min;
     this._max = max;
-    this._minMax = [this._min, this._max];
     this._values = values;
     this._step = step;
     this._isVertical = isVertical;
     this._hasRange = hasRange;
+    this._hasLabels = hasLabels;
     this._parent = parent;
     this._sliderBody = document.createElement('div');
     this._selectedRange = document.createElement('div');
@@ -44,13 +45,7 @@ class MainView {
     this._mouseUp;
     this._handlerTargetId = '';
 
-    this.setSliderBody();
-    this.setOrientation(this._isVertical);
-    this.setHandlers(this._hasRange);
-    this.setHandlerPosition(this._values, this._isVertical);
-
-    this.setSelectedRange();
-    this.updateSelectedRange();
+    this.sliderInit();
 
     this._handlers.forEach(handler => {
       handler.elem.ondragstart = function() {
@@ -60,18 +55,32 @@ class MainView {
     });
   }
 
+  private sliderInit() {
+    this.setSliderBody();
+    this.setOrientation(this._isVertical);
+    this.setHandlers(this._hasRange);
+    this.setHandlerPosition(this._values, this._isVertical);
+
+    this.setSelectedRange();
+    this.updateSelectedRange();
+  }
+
   update(valueData: sliderOptions) {
     this._min = valueData.min ? valueData.min : this._min;
     this._max = valueData.max ? valueData.max : this._max;
     this._values = valueData.values ? valueData.values : this._values;
     this._isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this._isVertical;
     this._hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this._hasRange;
+    this._hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this._hasLabels;
     this.updateRange();
     this.setOrientation(this._isVertical);
     this.setHandlerPosition(this._values, this._isVertical);
-
     this.updateSelectedRange();
     if (valueData.step) this._step = valueData.step;
+
+    this._handlers.forEach((handler, index) =>
+      handler.updateLabel(this._hasLabels, this._values[index]),
+    );
   }
 
   setSliderBody() {
@@ -91,9 +100,9 @@ class MainView {
   }
 
   setHandlers(hasRange: boolean) {
-    this._handlers.push(new HandlerView(this._sliderBody, this._min, this._max));
+    this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));
     if (hasRange) {
-      this._handlers.push(new HandlerView(this._sliderBody, this._min, this._max));
+      this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));
       this._handlers[0].elem.id = 'handler_min';
       this._handlers[1].elem.id = 'handler_max';
     }
@@ -106,6 +115,7 @@ class MainView {
   updateRange() {
     if (!this._hasRange) {
       this._handlers[1].elem.remove();
+      this._handlers[1].labelElem?.remove();
       this._selectedRange.classList.add('selectedRange');
       this._selectedRange.classList.remove('range_between');
       this.updateSelectedRange();
@@ -124,7 +134,7 @@ class MainView {
 
   setSelectedRange(): void {
     this._selectedRange = document.createElement('div');
-    this._sliderBody.appendChild(this._selectedRange);
+    this._sliderBody.append(this._selectedRange);
     this._selectedRange.classList.add('selectedRange');
     if (this._hasRange) {
       this._selectedRange.classList.remove('selectedRange');

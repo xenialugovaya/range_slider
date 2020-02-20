@@ -20,6 +20,7 @@ class Presenter {
       this._model.max,
       this._values,
       this._model.step,
+      this._model.hasLabels,
     );
     this.updateModel();
     this.updateView();
@@ -33,6 +34,7 @@ class Presenter {
       if (valueData.isVertical !== undefined) this._model.isVertical = valueData.isVertical;
       if (valueData.step) this._model.step = valueData.step;
       if (valueData.hasRange !== undefined) this._model.hasRange = valueData.hasRange;
+      if (valueData.hasLabels !== undefined) this._model.hasLabels = valueData.hasLabels;
     });
   }
 

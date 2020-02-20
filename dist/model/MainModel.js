@@ -8,7 +8,7 @@ class MainModel {
         this._values = [10, 20];
         this._isVertical = false;
         this._hasRange = true;
-        this._hasLabels = false;
+        this._hasLabels = true;
         this._handlers = [];
         this.observer = new EventObserver();
         this._min = sliderOptions.min ? sliderOptions.min : 0;
@@ -68,7 +68,7 @@ class MainModel {
     set rangeValue(values) {
         this._values = values;
         this.notifyPresenter({
-            values: this.calcValues(this._values),
+            values: this.rangeValue,
         });
     }
     get isVertical() {
@@ -89,6 +89,16 @@ class MainModel {
         this.notifyPresenter({
             values: this.rangeValue,
             hasRange: this._hasRange,
+        });
+    }
+    get hasLabels() {
+        return this._hasLabels;
+    }
+    set hasLabels(label) {
+        this._hasLabels = label;
+        this.notifyPresenter({
+            values: this.rangeValue,
+            hasLabels: this._hasLabels,
         });
     }
     //check that values of handlers are within min and max

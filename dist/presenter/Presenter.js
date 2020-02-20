@@ -4,7 +4,7 @@ class Presenter {
         this._model = model;
         this._values = this._model.rangeValue;
         this._parent = parent;
-        this._view = new MainView(this._parent, this._model.hasRange, this._model.isVertical, this._model.min, this._model.max, this._values, this._model.step);
+        this._view = new MainView(this._parent, this._model.hasRange, this._model.isVertical, this._model.min, this._model.max, this._values, this._model.step, this._model.hasLabels);
         this.updateModel();
         this.updateView();
     }
@@ -22,6 +22,8 @@ class Presenter {
                 this._model.step = valueData.step;
             if (valueData.hasRange !== undefined)
                 this._model.hasRange = valueData.hasRange;
+            if (valueData.hasLabels !== undefined)
+                this._model.hasLabels = valueData.hasLabels;
         });
     }
     updateView() {

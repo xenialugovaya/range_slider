@@ -55,6 +55,9 @@ class ControlPanel {
     this.rangeRadios.forEach(radio =>
       radio.addEventListener('change', this.changeRange.bind(this)),
     );
+    this.showLabelRadios.forEach(radio =>
+      radio.addEventListener('change', this.changeLabelVisibility.bind(this)),
+    );
   }
 
   getSliderOptions() {
@@ -74,6 +77,11 @@ class ControlPanel {
       this.rangeRadios[1].checked = true;
     } else {
       this.rangeRadios[0].checked = true;
+    }
+    if (this._slider.hasLabels) {
+      this.showLabelRadios[0].checked = true;
+    } else {
+      this.showLabelRadios[1].checked = true;
     }
   }
 
@@ -104,6 +112,11 @@ class ControlPanel {
       this.valueInputs[0].after(this.valueInputs[1]);
     }
     this._slider.hasRange = newRange;
+  }
+
+  private changeLabelVisibility() {
+    const showLabels = this.showLabelRadios[0].checked ? true : false;
+    this._slider.hasLabels = showLabels;
   }
 
   private updateValues() {

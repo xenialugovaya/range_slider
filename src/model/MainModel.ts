@@ -10,7 +10,7 @@ class MainModel {
   private _values = [10, 20];
   private _isVertical = false;
   private _hasRange = true;
-  private _hasLabels = false;
+  private _hasLabels = true;
   private _handlers: Handler[] = [];
   constructor(sliderOptions: sliderOptions) {
     this.observer = new EventObserver();
@@ -80,7 +80,7 @@ class MainModel {
   set rangeValue(values: number[]) {
     this._values = values;
     this.notifyPresenter({
-      values: this.calcValues(this._values),
+      values: this.rangeValue,
     });
   }
 
@@ -105,6 +105,18 @@ class MainModel {
     this.notifyPresenter({
       values: this.rangeValue,
       hasRange: this._hasRange,
+    });
+  }
+
+  get hasLabels(): boolean {
+    return this._hasLabels;
+  }
+
+  set hasLabels(label: boolean) {
+    this._hasLabels = label;
+    this.notifyPresenter({
+      values: this.rangeValue,
+      hasLabels: this._hasLabels,
     });
   }
 

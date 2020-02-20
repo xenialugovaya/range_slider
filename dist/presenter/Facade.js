@@ -55,6 +55,12 @@ class Facade {
     set hasRange(range) {
         this._model.hasRange = range;
     }
+    get hasLabels() {
+        return this._model.hasLabels;
+    }
+    set hasLabels(label) {
+        this._model.hasLabels = label;
+    }
 }
 export { Facade };
 //# sourceMappingURL=Facade.js.map
