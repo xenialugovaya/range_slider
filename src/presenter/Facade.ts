@@ -12,7 +12,6 @@ class Facade {
     this.observer = new EventObserver();
     this._model = new MainModel(sliderOptions);
     this._presenter = new Presenter(parent, this._model);
-    this._presenter.setStepToInput();
     this.updateValues();
   }
 

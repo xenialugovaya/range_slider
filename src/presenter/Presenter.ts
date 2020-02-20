@@ -45,10 +45,6 @@ class Presenter {
   get parent() {
     return this._parent;
   }
-
-  setStepToInput() {
-    this._view.setStepToInput();
-  }
 }
 
 export { Presenter };

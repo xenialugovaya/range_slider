@@ -1,5 +1,4 @@
 import { HandlerView } from './HandlerView';
-import { ControlPanel } from './ControlPanelView';
 import { EventObserver } from '../observer/observer';
 import { sliderOptions } from '../model/sliderOptions';
 
@@ -13,7 +12,6 @@ class MainView {
   private _max: number;
   private _minMax: number[];
   private _values: number[];
-  private _controlPanel: ControlPanel;
   private _step: number;
   private _isVertical: boolean;
   private _hasRange: boolean;
@@ -46,54 +44,19 @@ class MainView {
     this._mouseUp;
     this._handlerTargetId = '';
 
-    this._controlPanel = new ControlPanel(this._parent, hasRange, isVertical);
-    this._controlPanel.minMaxInputs.forEach(input =>
-      input.addEventListener('change', this.notifyPresenter.bind(this)),
-    );
-    this._controlPanel.valueInputs.forEach(input =>
-      input.addEventListener('change', this.notifyPresenter.bind(this)),
-    );
-    this._controlPanel.stepInput.addEventListener('change', this.notifyPresenter.bind(this));
-    this._controlPanel.orientationRadios.forEach(radio =>
-      radio.addEventListener('change', this.notifyPresenter.bind(this)),
-    );
-    this._controlPanel.rangeRadios.forEach(radio =>
-      radio.addEventListener('change', this.notifyPresenter.bind(this)),
-    );
-
     this.setSliderBody();
     this.setOrientation(this._isVertical);
     this.setHandlers(this._hasRange);
     this.setHandlerPosition(this._values, this._isVertical);
-    this.setValuesToInputs();
-    this.setMinMaxToInputs();
+
     this.setSelectedRange();
     this.updateSelectedRange();
-    this.setOrientationToRadio();
-    this.setStepToInput();
-    this.setRangeToRadio();
 
     this._handlers.forEach(handler => {
       handler.elem.ondragstart = function() {
         return false;
       };
       handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this));
-    });
-  }
-
-  notifyPresenter() {
-    const newMinMax = this._controlPanel.minMaxInputs.map(input => parseInt(input.value));
-    const newValues = this._controlPanel.valueInputs.map(input => parseInt(input.value));
-    const newOrientation = this._controlPanel.orientationRadios[0].checked ? true : false;
-    const newStep = parseInt(this._controlPanel.stepInput.value);
-    const newRange = this._controlPanel.rangeRadios[1].checked ? true : false;
-    this.observer.broadcast({
-      min: newMinMax[0],
-      max: newMinMax[1],
-      values: newValues,
-      isVertical: newOrientation,
-      step: newStep,
-      hasRange: newRange,
     });
   }
 
@@ -106,10 +69,7 @@ class MainView {
     this.updateRange();
     this.setOrientation(this._isVertical);
     this.setHandlerPosition(this._values, this._isVertical);
-    this._controlPanel.valueInputs[0].value = this._values[0].toString();
-    if (this._controlPanel.valueInputs[1]) {
-      this._controlPanel.valueInputs[1].value = this._values[1].toString();
-    }
+
     this.updateSelectedRange();
     if (valueData.step) this._step = valueData.step;
   }
@@ -146,13 +106,11 @@ class MainView {
   updateRange() {
     if (!this._hasRange) {
       this._handlers[1].elem.remove();
-      this._controlPanel.valueInputs[1].remove();
       this._selectedRange.classList.add('selectedRange');
       this._selectedRange.classList.remove('range_between');
       this.updateSelectedRange();
     } else {
       this._handlers[0].elem.after(this._handlers[1].elem);
-      this._controlPanel.valueInputs[0].after(this._controlPanel.valueInputs[1]);
       this._selectedRange.classList.remove('selectedRange');
       this._selectedRange.classList.add('range_between');
     }
@@ -189,37 +147,6 @@ class MainView {
         ? this.getCoords(this._handlers[0].elem) - this.getCoords(this._handlers[1].elem) + 'px'
         : this.getCoords(this._handlers[1].elem) - this.getCoords(this._handlers[0].elem) + 'px';
     }
-  }
-
-  setMinMaxToInputs() {
-    this._controlPanel.minMaxInputs.map(
-      (input, index) => (input.value = this._minMax[index].toString()),
-    );
-  }
-  setValuesToInputs() {
-    this._controlPanel.valueInputs.map(
-      (input, index) => (input.value = this._values[index].toString()),
-    );
-  }
-
-  setStepToInput() {
-    this._controlPanel.stepInput.value = this._step.toString();
-  }
-
-  setOrientationToRadio() {
-    this._controlPanel.orientationRadios.map((radio, index) =>
-      this._isVertical
-        ? (this._controlPanel.orientationRadios[0].checked = true)
-        : (this._controlPanel.orientationRadios[1].checked = true),
-    );
-  }
-
-  setRangeToRadio() {
-    this._controlPanel.rangeRadios.map((radio, index) =>
-      this._hasRange
-        ? (this._controlPanel.rangeRadios[1].checked = true)
-        : (this._controlPanel.rangeRadios[0].checked = true),
-    );
   }
 
   getCoords(elem: HTMLElement) {

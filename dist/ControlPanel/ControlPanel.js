@@ -8,6 +8,7 @@ class ControlPanel {
         this._stepInput = document.createElement('input');
         this._orientationRadios = [];
         this._rangeRadios = [];
+        this._showLabelRadios = [];
         this._hasRange = slider.hasRange;
         this.panelInit();
         this.setEventListeners();
@@ -22,13 +23,14 @@ class ControlPanel {
         this.createStepInput();
         this.createOrientationRadios();
         this.createRangeRadios();
+        this.createShowLabelRadios();
     }
     setEventListeners() {
-        this.minMaxInputs.forEach(input => input.addEventListener('change', this.notifySlider.bind(this)));
-        this.valueInputs.forEach(input => input.addEventListener('change', this.notifySlider.bind(this)));
-        this.stepInput.addEventListener('change', this.notifySlider.bind(this));
-        this.orientationRadios.forEach(radio => radio.addEventListener('change', this.notifySlider.bind(this)));
-        this.rangeRadios.forEach(radio => radio.addEventListener('change', this.notifySlider.bind(this)));
+        this.minMaxInputs.forEach(input => input.addEventListener('change', this.changeMinMax.bind(this)));
+        this.valueInputs.forEach(input => input.addEventListener('change', this.changeValues.bind(this)));
+        this.stepInput.addEventListener('change', this.changeStep.bind(this));
+        this.orientationRadios.forEach(radio => radio.addEventListener('change', this.changeOrientation.bind(this)));
+        this.rangeRadios.forEach(radio => radio.addEventListener('change', this.changeRange.bind(this)));
     }
     getSliderOptions() {
         this.minMaxInputs.forEach((input, index) => (input.value = this._slider.minMax[index].toString()));
@@ -47,16 +49,30 @@ class ControlPanel {
             this.rangeRadios[0].checked = true;
         }
     }
-    notifySlider() {
+    changeMinMax() {
         const newMinMax = this.minMaxInputs.map(input => parseInt(input.value));
-        const newValues = this.valueInputs.map(input => parseInt(input.value));
-        const newOrientation = this.orientationRadios[0].checked ? true : false;
-        const newStep = parseInt(this.stepInput.value);
-        const newRange = this.rangeRadios[1].checked ? true : false;
         this._slider.minMax = newMinMax;
+    }
+    changeValues() {
+        const newValues = this.valueInputs.map(input => parseInt(input.value));
         this._slider.rangeValue = newValues;
-        this._slider.isVertical = newOrientation;
+    }
+    changeStep() {
+        const newStep = parseInt(this.stepInput.value);
         this._slider.step = newStep;
+    }
+    changeOrientation() {
+        const newOrientation = this.orientationRadios[0].checked ? true : false;
+        this._slider.isVertical = newOrientation;
+    }
+    changeRange() {
+        const newRange = this.rangeRadios[1].checked ? true : false;
+        if (!newRange) {
+            this.valueInputs[1].remove();
+        }
+        else {
+            this.valueInputs[0].after(this.valueInputs[1]);
+        }
         this._slider.hasRange = newRange;
     }
     updateValues() {
@@ -150,6 +166,24 @@ class ControlPanel {
     }
     get rangeRadios() {
         return this._rangeRadios;
+    }
+    createShowLabelRadios() {
+        const title = document.createElement('p');
+        this._controlPanel.append(title);
+        title.innerText = 'Показать значения/Скрыть значения';
+        const radioShowLabel = document.createElement('input');
+        radioShowLabel.id = 'radio_showLabel';
+        const radioHideLabel = document.createElement('input');
+        radioHideLabel.id = 'radio_hideLabel';
+        this._showLabelRadios = [radioShowLabel, radioHideLabel];
+        this._showLabelRadios.forEach(radio => {
+            radio.type = 'radio';
+            radio.name = 'label';
+            this._controlPanel.append(radio);
+        });
+    }
+    get showLabelRadios() {
+        return this._showLabelRadios;
     }
 }
 export { ControlPanel };
