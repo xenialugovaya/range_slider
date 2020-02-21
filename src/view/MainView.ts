@@ -61,10 +61,11 @@ class MainView {
   }
 
   private sliderInit() {
-    this.setSliderBody();
+    this._sliderBody.classList.add('sliderBody');
+    this._parent.appendChild(this._sliderBody);
     this.setOrientation();
     this.setHandlers();
-    this.setHandlerPosition(this._values, this._isVertical);
+    this.setHandlerPosition();
   }
 
   update(valueData: sliderOptions) {
@@ -74,8 +75,9 @@ class MainView {
     this._isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this._isVertical;
     this._hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this._hasRange;
     this._hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this._hasLabels;
+
     this.setOrientation();
-    this.setHandlerPosition(this._values, this._isVertical);
+    this.setHandlerPosition();
 
     this._handlers.forEach((handler, index) =>
       handler.updateLabel(this._hasLabels, this._values[index]),
@@ -88,11 +90,6 @@ class MainView {
       this._handlers[0].elem,
       this._handlers[1].labelElem,
     );
-  }
-
-  setSliderBody() {
-    this._sliderBody.classList.add('sliderBody');
-    this._parent.appendChild(this._sliderBody);
   }
 
   setOrientation() {
@@ -118,9 +115,9 @@ class MainView {
     return this._handlers;
   }
 
-  setHandlerPosition(values: number[], isVertical: boolean) {
+  setHandlerPosition() {
     this._handlers.forEach((handler, index) =>
-      handler.setPosition(values[index], this._min, this._max, isVertical),
+      handler.setPosition(this._values[index], this._min, this._max, this._isVertical),
     );
   }
   updateHandlersAmount(range: boolean) {
