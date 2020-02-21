@@ -1,4 +1,5 @@
 import { HandlerView } from './HandlerView';
+import { SelectedArea } from './SelectedAreaView';
 import { EventObserver } from '../observer/observer';
 import { sliderOptions } from '../model/sliderOptions';
 
@@ -6,12 +7,11 @@ class MainView {
   public observer: EventObserver;
   private _sliderBody: HTMLElement;
   private _parent: HTMLElement;
-  private _selectedRange: HTMLElement;
+  private _selectedArea: SelectedArea;
   private _handlers: HandlerView[];
   private _min: number;
   private _max: number;
   private _values: number[];
-  private _step: number;
   private _isVertical: boolean;
   private _hasRange: boolean;
   private _hasLabels: boolean;
@@ -26,26 +26,31 @@ class MainView {
     min: number,
     max: number,
     values: number[],
-    step: number,
     hasLabels: boolean,
   ) {
     this.observer = new EventObserver();
+    this._handlers = [];
     this._min = min;
     this._max = max;
     this._values = values;
-    this._step = step;
     this._isVertical = isVertical;
     this._hasRange = hasRange;
     this._hasLabels = hasLabels;
     this._parent = parent;
     this._sliderBody = document.createElement('div');
-    this._selectedRange = document.createElement('div');
-    this._handlers = [];
+
     this._mouseMove;
     this._mouseUp;
     this._handlerTargetId = '';
 
     this.sliderInit();
+    this._selectedArea = new SelectedArea(
+      this._sliderBody,
+      this._hasRange,
+      this._isVertical,
+      this._handlers[0].elem,
+      this._handlers[1].elem,
+    );
 
     this._handlers.forEach(handler => {
       handler.elem.ondragstart = function() {
@@ -57,12 +62,9 @@ class MainView {
 
   private sliderInit() {
     this.setSliderBody();
-    this.setOrientation(this._isVertical);
-    this.setHandlers(this._hasRange);
+    this.setOrientation();
+    this.setHandlers();
     this.setHandlerPosition(this._values, this._isVertical);
-
-    this.setSelectedRange();
-    this.updateSelectedRange();
   }
 
   update(valueData: sliderOptions) {
@@ -72,14 +74,19 @@ class MainView {
     this._isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this._isVertical;
     this._hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this._hasRange;
     this._hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this._hasLabels;
-    this.updateRange();
-    this.setOrientation(this._isVertical);
+    this.setOrientation();
     this.setHandlerPosition(this._values, this._isVertical);
-    this.updateSelectedRange();
-    if (valueData.step) this._step = valueData.step;
 
     this._handlers.forEach((handler, index) =>
       handler.updateLabel(this._hasLabels, this._values[index]),
+    );
+    this.updateHandlersAmount(this._hasRange);
+    this._selectedArea.updateSelectedRange(
+      this._hasRange,
+      this._isVertical,
+      this._handlers[1].elem,
+      this._handlers[0].elem,
+      this._handlers[1].labelElem,
     );
   }
 
@@ -88,9 +95,8 @@ class MainView {
     this._parent.appendChild(this._sliderBody);
   }
 
-  setOrientation(isVertical: boolean) {
-    this._isVertical = isVertical;
-    if (isVertical) {
+  setOrientation() {
+    if (this._isVertical) {
       this._parent.classList.remove('slider_horizontal');
       this._parent.classList.add('slider_vertical');
     } else {
@@ -99,9 +105,9 @@ class MainView {
     }
   }
 
-  setHandlers(hasRange: boolean) {
+  setHandlers() {
     this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));
-    if (hasRange) {
+    if (this._hasRange) {
       this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));
       this._handlers[0].elem.id = 'handler_min';
       this._handlers[1].elem.id = 'handler_max';
@@ -112,50 +118,18 @@ class MainView {
     return this._handlers;
   }
 
-  updateRange() {
-    if (!this._hasRange) {
-      this._handlers[1].elem.remove();
-      this._handlers[1].labelElem?.remove();
-      this._selectedRange.classList.add('selectedRange');
-      this._selectedRange.classList.remove('range_between');
-      this.updateSelectedRange();
-    } else {
-      this._handlers[0].elem.after(this._handlers[1].elem);
-      this._selectedRange.classList.remove('selectedRange');
-      this._selectedRange.classList.add('range_between');
-    }
-  }
-
   setHandlerPosition(values: number[], isVertical: boolean) {
     this._handlers.forEach((handler, index) =>
       handler.setPosition(values[index], this._min, this._max, isVertical),
     );
   }
-
-  setSelectedRange(): void {
-    this._selectedRange = document.createElement('div');
-    this._sliderBody.append(this._selectedRange);
-    this._selectedRange.classList.add('selectedRange');
-    if (this._hasRange) {
-      this._selectedRange.classList.remove('selectedRange');
-      this._selectedRange.classList.add('range_between');
-    }
-  }
-
-  updateSelectedRange() {
-    this._isVertical
-      ? (this._selectedRange.style.height =
-          this.getCoords(this._sliderBody) - this.getCoords(this._handlers[0].elem) + 'px')
-      : (this._selectedRange.style.width = this.getCoords(this._handlers[0].elem) + 'px');
-    if (this._hasRange) {
-      const posMin = this._isVertical ? 'bottom' : 'left';
-      const size = this._isVertical ? 'height' : 'width';
-      this._selectedRange.style[posMin] = this._isVertical
-        ? this.getCoords(this._sliderBody) - this.getCoords(this._handlers[0].elem) + 'px'
-        : this.getCoords(this._handlers[0].elem) + 'px';
-      this._selectedRange.style[size] = this._isVertical
-        ? this.getCoords(this._handlers[0].elem) - this.getCoords(this._handlers[1].elem) + 'px'
-        : this.getCoords(this._handlers[1].elem) - this.getCoords(this._handlers[0].elem) + 'px';
+  updateHandlersAmount(range: boolean) {
+    if (!range) {
+      this._handlers[1].elem.remove();
+      this._handlers[1].labelElem?.remove();
+    } else {
+      this._handlers[0].elem.after(this._handlers[1].elem);
+      if (this._handlers[1].labelElem) this._handlers[1].elem.before(this._handlers[1].labelElem);
     }
   }
 

@@ -19,7 +19,6 @@ class Presenter {
       this._model.min,
       this._model.max,
       this._values,
-      this._model.step,
       this._model.hasLabels,
     );
     this.updateModel();

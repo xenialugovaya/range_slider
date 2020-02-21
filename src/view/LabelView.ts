@@ -9,6 +9,7 @@ class LabelView {
   get elem() {
     return this._label;
   }
+
   setLabelValue(value: number) {
     this._label.innerText = value.toString();
   }
