@@ -26,10 +26,11 @@ class MainView {
         });
     }
     sliderInit() {
-        this.setSliderBody();
+        this._sliderBody.classList.add('sliderBody');
+        this._parent.appendChild(this._sliderBody);
         this.setOrientation();
         this.setHandlers();
-        this.setHandlerPosition(this._values, this._isVertical);
+        this.setHandlerPosition();
     }
     update(valueData) {
         this._min = valueData.min ? valueData.min : this._min;
@@ -39,14 +40,10 @@ class MainView {
         this._hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this._hasRange;
         this._hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this._hasLabels;
         this.setOrientation();
-        this.setHandlerPosition(this._values, this._isVertical);
+        this.setHandlerPosition();
         this._handlers.forEach((handler, index) => handler.updateLabel(this._hasLabels, this._values[index]));
-        this.updateHandlersAmount(this._hasRange);
-        this._selectedArea.updateSelectedRange(this._hasRange, this._isVertical, this._handlers[1].elem, this._handlers[0].elem, this._handlers[1].labelElem);
-    }
-    setSliderBody() {
-        this._sliderBody.classList.add('sliderBody');
-        this._parent.appendChild(this._sliderBody);
+        this.updateHandlersAmount();
+        this._selectedArea.updateSelectedRange(this._hasRange, this._isVertical, this._handlers[1].elem, this._handlers[0].elem);
     }
     setOrientation() {
         if (this._isVertical) {
@@ -69,18 +66,18 @@ class MainView {
     getHandlers() {
         return this._handlers;
     }
-    setHandlerPosition(values, isVertical) {
-        this._handlers.forEach((handler, index) => handler.setPosition(values[index], this._min, this._max, isVertical));
+    setHandlerPosition() {
+        this._handlers.forEach((handler, index) => handler.setPosition(this._values[index], this._min, this._max, this._isVertical));
     }
-    updateHandlersAmount(range) {
+    updateHandlersAmount() {
         var _a;
-        if (!range) {
+        if (!this._hasRange) {
             this._handlers[1].elem.remove();
             (_a = this._handlers[1].labelElem) === null || _a === void 0 ? void 0 : _a.remove();
         }
         else {
             this._handlers[0].elem.after(this._handlers[1].elem);
-            if (this._handlers[1].labelElem)
+            if (this._handlers[1].labelElem && this._hasLabels)
                 this._handlers[1].elem.before(this._handlers[1].labelElem);
         }
     }

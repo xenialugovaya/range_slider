@@ -12,7 +12,7 @@ class SelectedArea {
             this.setPositionRange(vertical, handlerMax, handlerMin);
         }
     }
-    updateSelectedRange(range, vertical, handlerMax, handlerMin, labelMax) {
+    updateSelectedRange(range, vertical, handlerMax, handlerMin) {
         if (!range) {
             this._selectedRange.classList.add('selectedRange');
             this._selectedRange.classList.remove('range_between');

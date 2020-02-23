@@ -26,7 +26,6 @@ class SelectedArea {
     vertical: boolean,
     handlerMax: HTMLElement,
     handlerMin: HTMLElement,
-    labelMax: HTMLElement | undefined,
   ): void {
     if (!range) {
       this._selectedRange.classList.add('selectedRange');
