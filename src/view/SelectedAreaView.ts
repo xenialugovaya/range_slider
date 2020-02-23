@@ -30,14 +30,10 @@ class SelectedArea {
     if (!range) {
       this._selectedRange.classList.add('selectedRange');
       this._selectedRange.classList.remove('range_between');
-      //handlerMax.remove();
-      //if (labelMax) labelMax.remove();
       this.setPositionSingle(vertical, handlerMin);
     } else {
       this._selectedRange.classList.remove('selectedRange');
       this._selectedRange.classList.add('range_between');
-      //handlerMin.after(handlerMax);
-      // if (labelMax) handlerMax.before(labelMax);
       this.setPositionRange(vertical, handlerMax, handlerMin);
     }
   }
@@ -45,7 +41,10 @@ class SelectedArea {
   private setPositionSingle(vertical: boolean, handler: HTMLElement): void {
     vertical
       ? (this._selectedRange.style.height =
-          this.getCoords(this._parent, vertical) - this.getCoords(handler, vertical) + 'px')
+          this.getCoords(this._parent, vertical) -
+          this.getCoords(handler, vertical) +
+          handler.offsetHeight +
+          'px')
       : (this._selectedRange.style.width = this.getCoords(handler, vertical) + 'px');
   }
 
