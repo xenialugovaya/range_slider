@@ -45,7 +45,8 @@ class SelectedArea {
           this.getCoords(handler, vertical) +
           handler.offsetHeight +
           'px')
-      : (this._selectedRange.style.width = this.getCoords(handler, vertical) + 'px');
+      : (this._selectedRange.style.width =
+          this.getCoords(handler, vertical) - this.getCoords(this._parent, vertical) + 'px');
   }
 
   private setPositionRange(
@@ -57,7 +58,7 @@ class SelectedArea {
     const length = vertical ? 'height' : 'width';
     this._selectedRange.style[posMin] = vertical
       ? this.getCoords(this._parent, vertical) - this.getCoords(handlerMin, vertical) + 'px'
-      : this.getCoords(handlerMin, vertical) + 'px';
+      : this.getCoords(handlerMin, vertical) - this.getCoords(this._parent, vertical) + 'px';
     this._selectedRange.style[length] = vertical
       ? this.getCoords(handlerMin, vertical) - this.getCoords(handlerMax, vertical) + 'px'
       : this.getCoords(handlerMax, vertical) - this.getCoords(handlerMin, vertical) + 'px';

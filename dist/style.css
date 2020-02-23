@@ -1,16 +1,13 @@
 .slider{
 	height: 4px;
-	width:300px;
+	width:600px;
 	display: inline-block;
-	
-}
-.slider::after{
-	content: " ";
-	clear: both;
+	margin-left: 100px;
 }
 
+
 .slider_vertical{
-	height: 300px;
+	height: 400px;
 	width:4px;
 	margin-left: 100px;
 }
@@ -78,7 +75,7 @@
 
 .controlPanel{
 	padding: 50px;
-	margin-left: 100px;
+	margin-left: 15px;
 	border: 2px solid grey;
 	display: inline-block;
 }

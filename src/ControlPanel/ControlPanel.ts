@@ -32,7 +32,7 @@ class ControlPanel {
 
   private panelInit() {
     this._controlPanel.classList.add('controlPanel');
-    this._parent.after(this._controlPanel);
+    this._parent.before(this._controlPanel);
     this.createMaxMinInputs();
     this.createValueInputs();
     this.createStepInput();
