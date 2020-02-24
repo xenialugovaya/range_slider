@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class SelectedArea {
     constructor(parent, range, vertical, handlerMin, handlerMax) {
         this._parent = parent;
@@ -16,30 +18,30 @@ class SelectedArea {
         if (!range) {
             this._selectedRange.classList.add('selectedRange');
             this._selectedRange.classList.remove('range_between');
-            //handlerMax.remove();
-            //if (labelMax) labelMax.remove();
             this.setPositionSingle(vertical, handlerMin);
         }
         else {
             this._selectedRange.classList.remove('selectedRange');
             this._selectedRange.classList.add('range_between');
-            //handlerMin.after(handlerMax);
-            // if (labelMax) handlerMax.before(labelMax);
             this.setPositionRange(vertical, handlerMax, handlerMin);
         }
     }
     setPositionSingle(vertical, handler) {
         vertical
             ? (this._selectedRange.style.height =
-                this.getCoords(this._parent, vertical) - this.getCoords(handler, vertical) + 'px')
-            : (this._selectedRange.style.width = this.getCoords(handler, vertical) + 'px');
+                this.getCoords(this._parent, vertical) -
+                    this.getCoords(handler, vertical) +
+                    handler.offsetHeight +
+                    'px')
+            : (this._selectedRange.style.width =
+                this.getCoords(handler, vertical) - this.getCoords(this._parent, vertical) + 'px');
     }
     setPositionRange(vertical, handlerMax, handlerMin) {
         const posMin = vertical ? 'bottom' : 'left';
         const length = vertical ? 'height' : 'width';
         this._selectedRange.style[posMin] = vertical
             ? this.getCoords(this._parent, vertical) - this.getCoords(handlerMin, vertical) + 'px'
-            : this.getCoords(handlerMin, vertical) + 'px';
+            : this.getCoords(handlerMin, vertical) - this.getCoords(this._parent, vertical) + 'px';
         this._selectedRange.style[length] = vertical
             ? this.getCoords(handlerMin, vertical) - this.getCoords(handlerMax, vertical) + 'px'
             : this.getCoords(handlerMax, vertical) - this.getCoords(handlerMin, vertical) + 'px';
@@ -54,5 +56,5 @@ class SelectedArea {
         }
     }
 }
-export { SelectedArea };
+exports.SelectedArea = SelectedArea;
 //# sourceMappingURL=SelectedAreaView.js.map

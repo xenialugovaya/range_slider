@@ -1,5 +1,6 @@
-import { EventObserver } from '../observer/observer';
-import { Handler } from './handler';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const observer_1 = require("../observer/observer");
 class MainModel {
     constructor(sliderOptions) {
         this._min = 0;
@@ -9,8 +10,7 @@ class MainModel {
         this._isVertical = false;
         this._hasRange = true;
         this._hasLabels = true;
-        this._handlers = [];
-        this.observer = new EventObserver();
+        this.observer = new observer_1.EventObserver();
         this._min = sliderOptions.min ? sliderOptions.min : 0;
         this._max = sliderOptions.max ? sliderOptions.max : this._max;
         this._step = sliderOptions.step ? sliderOptions.step : this._step;
@@ -23,7 +23,12 @@ class MainModel {
         this.observer.broadcast(valueData);
     }
     get min() {
-        this._min = Math.round(this._min / this._step) * this._step;
+        if (this._min < this._max) {
+            this._min = Math.round(this._min / this._step) * this._step;
+        }
+        else {
+            this._min = Math.round(this._max / this._step) * this._step;
+        }
         return this._min;
     }
     set min(min) {
@@ -34,7 +39,12 @@ class MainModel {
         });
     }
     get max() {
-        this._max = Math.round(this._max / this._step) * this._step;
+        if (this._max < this._min) {
+            this._max = Math.round(this._min / this._step) * this._step;
+        }
+        else {
+            this._max = Math.round(this._max / this._step) * this._step;
+        }
         return this._max;
     }
     set max(max) {
@@ -110,15 +120,6 @@ class MainModel {
         values = values.map(value => value < this._min ? this._min : value > this._max ? this._max : value);
         return values;
     }
-    //create handlers depending on range. not used
-    setHandlers(values) {
-        if (this._hasRange) {
-            this._handlers = [new Handler(values[0]), new Handler(values[1])];
-        }
-        else {
-            this._handlers = [new Handler(values[0])];
-        }
-    }
 }
-export { MainModel };
+exports.MainModel = MainModel;
 //# sourceMappingURL=MainModel.js.map

@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class ControlPanel {
     constructor(slider) {
         this._slider = slider;
@@ -17,7 +19,7 @@ class ControlPanel {
     }
     panelInit() {
         this._controlPanel.classList.add('controlPanel');
-        this._parent.after(this._controlPanel);
+        this._parent.before(this._controlPanel);
         this.createMaxMinInputs();
         this.createValueInputs();
         this.createStepInput();
@@ -197,5 +199,5 @@ class ControlPanel {
         return this._showLabelRadios;
     }
 }
-export { ControlPanel };
+exports.ControlPanel = ControlPanel;
 //# sourceMappingURL=ControlPanel.js.map

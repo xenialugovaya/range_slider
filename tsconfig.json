@@ -5,6 +5,7 @@
       "outDir": "dist",
       "target": "es6",
       "strict": true,
+      "module": "commonjs", 
       "lib": [
         "es2018",
         "dom"

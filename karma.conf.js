@@ -1,4 +1,8 @@
 const webpackConfig = require('./webpack.dev.config');
+const path = require('path');
+
+delete webpackConfig.entry
+
 
 module.exports = function(config) {
   config.set({
@@ -9,35 +13,28 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
 
-    // list of files / patterns to load in the browser
-    files: ['test/*.ts', 'test/*.js'],
-
-    // list of files / patterns to exclude
-    exclude: [],
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    reporters: ["spec", 'coverage-istanbul'],
+    files: [
+      "tests/index.ts"
+    ],
     preprocessors: {
-      'test/**/*.ts': ['webpack'],
-      'test/**/*.js': ['webpack'],
-      'src/**/*.ts':['coverage'],
+      "tests/index.ts": ["webpack"],
     },
-     
-      coverageReporter: {
-        type : 'html',
-        dir : 'dist/coverage/'
-      },
-    webpack: {
-      module: webpackConfig.module,
-      resolve: webpackConfig.resolve,
-      mode: webpackConfig.mode,
-      devtool: 'inline-source-map',
+    mime: {
+      "text/x-typescript": ["ts", "tsx"],
     },
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['spec', 'coverage'],
+    webpack: webpackConfig,
+    webpackMiddleware: {
+      noInfo: true
+    },
+    coverageIstanbulReporter: {
+      reports: [ 'html', 'text-summary', 'lcovonly' ],
+      dir: path.join(__dirname, 'dist/coverage'),
+      fixWebpackSourcePaths: true,
+      'report-config': {
+        html: { outdir: 'html' }
+      }
+    },
 
     // web server port
     port: 9876,

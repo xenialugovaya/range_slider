@@ -1,5 +1,4 @@
 import { EventObserver } from '../observer/observer';
-import { Handler } from './handler';
 import { sliderOptions } from './sliderOptions';
 
 class MainModel {
@@ -11,7 +10,6 @@ class MainModel {
   private _isVertical = false;
   private _hasRange = true;
   private _hasLabels = true;
-  private _handlers: Handler[] = [];
   constructor(sliderOptions: sliderOptions) {
     this.observer = new EventObserver();
     this._min = sliderOptions.min ? sliderOptions.min : 0;
@@ -28,7 +26,12 @@ class MainModel {
   }
 
   get min(): number {
-    this._min = Math.round(this._min / this._step) * this._step;
+    if (this._min < this._max) {
+      this._min = Math.round(this._min / this._step) * this._step;
+    } else {
+      this._min = Math.round(this._max / this._step) * this._step;
+    }
+
     return this._min;
   }
 
@@ -41,7 +44,12 @@ class MainModel {
   }
 
   get max(): number {
-    this._max = Math.round(this._max / this._step) * this._step;
+    if (this._max < this._min) {
+      this._max = Math.round(this._min / this._step) * this._step;
+    } else {
+      this._max = Math.round(this._max / this._step) * this._step;
+    }
+
     return this._max;
   }
 
@@ -130,15 +138,6 @@ class MainModel {
     );
 
     return values;
-  }
-
-  //create handlers depending on range. not used
-  setHandlers(values: number[]): void {
-    if (this._hasRange) {
-      this._handlers = [new Handler(values[0]), new Handler(values[1])];
-    } else {
-      this._handlers = [new Handler(values[0])];
-    }
   }
 }
 

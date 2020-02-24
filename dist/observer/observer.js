@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class EventObserver {
     constructor() {
         this._observers = [];
@@ -12,5 +14,5 @@ class EventObserver {
         this._observers.forEach(subscriber => subscriber(data));
     }
 }
-export { EventObserver };
+exports.EventObserver = EventObserver;
 //# sourceMappingURL=observer.js.map
