@@ -1,11 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const HandlerView_1 = require("./HandlerView");
-const SelectedAreaView_1 = require("./SelectedAreaView");
-const observer_1 = require("../observer/observer");
+import { HandlerView } from './HandlerView';
+import { SelectedArea } from './SelectedAreaView';
+import { EventObserver } from '../observer/observer';
 class MainView {
     constructor(parent, hasRange, isVertical, min, max, values, hasLabels) {
-        this.observer = new observer_1.EventObserver();
+        this.observer = new EventObserver();
         this._handlers = [];
         this._min = min;
         this._max = max;
@@ -19,7 +17,7 @@ class MainView {
         this._mouseUp;
         this._handlerTargetId = '';
         this.sliderInit();
-        this._selectedArea = new SelectedAreaView_1.SelectedArea(this._sliderBody, this._hasRange, this._isVertical, this._handlers[0].elem, this._handlers[1].elem);
+        this._selectedArea = new SelectedArea(this._sliderBody, this._hasRange, this._isVertical, this._handlers[0].elem, this._handlers[1].elem);
         this._handlers.forEach(handler => {
             handler.elem.ondragstart = function () {
                 return false;
@@ -58,9 +56,9 @@ class MainView {
         }
     }
     setHandlers() {
-        this._handlers.push(new HandlerView_1.HandlerView(this._sliderBody, this._hasLabels));
+        this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));
         if (this._hasRange) {
-            this._handlers.push(new HandlerView_1.HandlerView(this._sliderBody, this._hasLabels));
+            this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));
             this._handlers[0].elem.id = 'handler_min';
             this._handlers[1].elem.id = 'handler_max';
         }
@@ -132,5 +130,5 @@ class MainView {
         document.removeEventListener('mouseup', this.onMouseUp);
     }
 }
-exports.MainView = MainView;
+export { MainView };
 //# sourceMappingURL=MainView.js.map

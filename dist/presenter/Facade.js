@@ -1,13 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const MainModel_1 = require("../model/MainModel");
-const Presenter_1 = require("./Presenter");
-const observer_1 = require("../observer/observer");
+import { MainModel } from '../model/MainModel';
+import { Presenter } from './Presenter';
+import { EventObserver } from '../observer/observer';
 class Facade {
     constructor(parent, sliderOptions) {
-        this.observer = new observer_1.EventObserver();
-        this._model = new MainModel_1.MainModel(sliderOptions);
-        this._presenter = new Presenter_1.Presenter(parent, this._model);
+        this.observer = new EventObserver();
+        this._model = new MainModel(sliderOptions);
+        this._presenter = new Presenter(parent, this._model);
         this.updateValues();
     }
     updateValues() {
@@ -64,5 +62,5 @@ class Facade {
         this._model.hasLabels = label;
     }
 }
-exports.Facade = Facade;
+export { Facade };
 //# sourceMappingURL=Facade.js.map

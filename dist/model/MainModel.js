@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const observer_1 = require("../observer/observer");
+import { EventObserver } from '../observer/observer';
 class MainModel {
     constructor(sliderOptions) {
         this._min = 0;
@@ -10,7 +8,7 @@ class MainModel {
         this._isVertical = false;
         this._hasRange = true;
         this._hasLabels = true;
-        this.observer = new observer_1.EventObserver();
+        this.observer = new EventObserver();
         this._min = sliderOptions.min ? sliderOptions.min : 0;
         this._max = sliderOptions.max ? sliderOptions.max : this._max;
         this._step = sliderOptions.step ? sliderOptions.step : this._step;
@@ -24,32 +22,32 @@ class MainModel {
     }
     get min() {
         if (this._min < this._max) {
-            this._min = Math.round(this._min / this._step) * this._step;
+            return Math.round(this._min / this._step) * this._step;
         }
         else {
-            this._min = Math.round(this._max / this._step) * this._step;
+            return Math.round(this._max / this._step) * this._step;
         }
-        return this._min;
     }
     set min(min) {
         this._min = min;
         this.notifyPresenter({
             min: this.min,
+            max: this.max,
             values: this.rangeValue,
         });
     }
     get max() {
         if (this._max < this._min) {
-            this._max = Math.round(this._min / this._step) * this._step;
+            return Math.round(this._min / this._step) * this._step;
         }
         else {
-            this._max = Math.round(this._max / this._step) * this._step;
+            return Math.round(this._max / this._step) * this._step;
         }
-        return this._max;
     }
     set max(max) {
         this._max = max;
         this.notifyPresenter({
+            min: this.min,
             max: this.max,
             values: this.rangeValue,
         });
@@ -114,12 +112,12 @@ class MainModel {
     //check that values of handlers are within min and max
     //check that value 0 is less than value 1 for range
     calcValues(values) {
-        values = values.map(value => Math.round(value / this._step) * this._step);
+        values = values.map(value => Math.round(value / this.step) * this.step);
         if (values[0] > values[1])
             [values[0], values[1]] = [values[1], values[0]];
-        values = values.map(value => value < this._min ? this._min : value > this._max ? this._max : value);
+        values = values.map(value => value < this.min ? this.min : value > this.max ? this.max : value);
         return values;
     }
 }
-exports.MainModel = MainModel;
+export { MainModel };
 //# sourceMappingURL=MainModel.js.map

@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 class SelectedArea {
     constructor(parent, range, vertical, handlerMin, handlerMax) {
         this._parent = parent;
@@ -56,5 +54,5 @@ class SelectedArea {
         }
     }
 }
-exports.SelectedArea = SelectedArea;
+export { SelectedArea };
 //# sourceMappingURL=SelectedAreaView.js.map

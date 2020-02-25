@@ -1,3 +1,4 @@
+import './scss/main.scss';
 import { Facade } from './presenter/Facade';
 import { ControlPanel } from './ControlPanel/ControlPanel';
 

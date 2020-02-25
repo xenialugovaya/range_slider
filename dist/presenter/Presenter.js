@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const MainView_1 = require("../view/MainView");
+import { MainView } from '../view/MainView';
 class Presenter {
     constructor(parent, model) {
         this._model = model;
         this._values = this._model.rangeValue;
         this._parent = parent;
-        this._view = new MainView_1.MainView(this._parent, this._model.hasRange, this._model.isVertical, this._model.min, this._model.max, this._values, this._model.hasLabels);
+        this._view = new MainView(this._parent, this._model.hasRange, this._model.isVertical, this._model.min, this._model.max, this._values, this._model.hasLabels);
         this.updateModel();
         this.updateView();
     }
@@ -37,5 +35,5 @@ class Presenter {
         return this._parent;
     }
 }
-exports.Presenter = Presenter;
+export { Presenter };
 //# sourceMappingURL=Presenter.js.map

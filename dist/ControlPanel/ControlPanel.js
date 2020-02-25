@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 class ControlPanel {
     constructor(slider) {
         this._slider = slider;
@@ -199,5 +197,5 @@ class ControlPanel {
         return this._showLabelRadios;
     }
 }
-exports.ControlPanel = ControlPanel;
+export { ControlPanel };
 //# sourceMappingURL=ControlPanel.js.map

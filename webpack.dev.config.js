@@ -1,9 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 module.exports = {
   watch: true,
-  entry: './src/index',
+  entry: ['./src/index', './src/demo/demo'],
   devtool: 'inline-source-map',
   mode: 'development',
   module: {
@@ -20,12 +22,29 @@ module.exports = {
           loader: 'istanbul-instrumenter-loader',
           options: { esModules: true }
         }
-      }
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.pug$/,
+        loader: 'pug-loader',
+        exclude: '/node_modules/'
+      },
  
     ],
   },
   resolve: {
     extensions: ['.ts', '.js'],
+
   },
  
   
@@ -39,12 +58,19 @@ module.exports = {
     hot: true,
   },
   plugins: [
+ 
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-      'window.jQuery':'jquery',
-      'window.$': 'jquery'
+  
     }),
-  ]
+    new HtmlWebpackPlugin({
+      inject: false,
+      hash: true,
+      template: './src/demo/demo.pug',
+      filename: 'index.html',
+    }),
+  ],
+
 
 };

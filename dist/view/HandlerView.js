@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const LabelView_1 = require("./LabelView");
+import { LabelView } from './LabelView';
 class HandlerView {
     constructor(parent, showLabel) {
         this._handler = document.createElement('div');
         this._parent = parent;
         this._showLabel = showLabel;
-        this._label = showLabel ? new LabelView_1.LabelView() : null;
+        this._label = showLabel ? new LabelView() : null;
         this.handlerInit();
     }
     handlerInit() {
@@ -54,7 +52,7 @@ class HandlerView {
     updateLabel(showLabel, value) {
         var _a;
         if (showLabel) {
-            this._label = this._label ? this._label : new LabelView_1.LabelView();
+            this._label = this._label ? this._label : new LabelView();
             this._handler.before(this._label.elem);
             this.setLabelValue(value);
         }
@@ -63,5 +61,5 @@ class HandlerView {
         }
     }
 }
-exports.HandlerView = HandlerView;
+export { HandlerView };
 //# sourceMappingURL=HandlerView.js.map

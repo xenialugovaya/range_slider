@@ -22,16 +22,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.52% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>37/54</span>
+                <span class='fraction'>35/50</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.83% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/24</span>
+                <span class='fraction'>15/24</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.23% </span>
+                <span class="strong">70.83% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>36/52</span>
+                <span class='fraction'>34/48</span>
             </div>
         
             
@@ -198,9 +198,7 @@
 <a name='L140'></a><a href='#L140'>140</a>
 <a name='L141'></a><a href='#L141'>141</a>
 <a name='L142'></a><a href='#L142'>142</a>
-<a name='L143'></a><a href='#L143'>143</a>
-<a name='L144'></a><a href='#L144'>144</a>
-<a name='L145'></a><a href='#L145'>145</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L143'></a><a href='#L143'>143</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -228,13 +226,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -246,13 +242,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -264,7 +259,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -343,7 +339,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { EventObserver } from '../observer/observer';
 import { sliderOptions } from './sliderOptions';
 &nbsp;
@@ -372,36 +368,34 @@ class MainModel {
   }
 &nbsp;
   get min(): number {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (this._min &lt; this._max) {
-<span class="cstat-no" title="statement not covered" >      this._min = Math.round(this._min / this._step) * this._step;</span>
+    if (this._min &lt; this._max) {
+      return Math.round(this._min / this._step) * this._step;
     } else {
-      this._min = Math.round(this._max / this._step) * this._step;
+      return Math.round(this._max / this._step) * this._step;
     }
-&nbsp;
-    return this._min;
   }
 &nbsp;
   set min(min: number) {
     this._min = min;
     this.notifyPresenter({
       min: this.min,
+      max: this.max,
       values: this.rangeValue,
     });
   }
 &nbsp;
   get max(): number {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (this._max &lt; this._min) {
-<span class="cstat-no" title="statement not covered" >      this._max = Math.round(this._min / this._step) * this._step;</span>
+    if (this._max &lt; this._min) {
+      return Math.round(this._min / this._step) * this._step;
     } else {
-      this._max = Math.round(this._max / this._step) * this._step;
+      return Math.round(this._max / this._step) * this._step;
     }
-&nbsp;
-    return this._max;
   }
 &nbsp;
   set max(max: number) {
     this._max = max;
     this.notifyPresenter({
+      min: this.min,
       max: this.max,
       values: this.rangeValue,
     });
@@ -477,10 +471,10 @@ class MainModel {
   //check that values of handlers are within min and max
   //check that value 0 is less than value 1 for range
   calcValues(values: number[]): number[] {
-    values = values.map(value =&gt; Math.round(value / this._step) * this._step);
+    values = values.map(value =&gt; Math.round(value / this.step) * this.step);
     <span class="missing-if-branch" title="if path not taken" >I</span>if (values[0] &gt; values[1]) <span class="cstat-no" title="statement not covered" >[values[0], values[1]] = [values[1], values[0]];</span>
     values = values.map(value =&gt;
-      value &lt; this._min ? this._min : <span class="branch-1 cbranch-no" title="branch not covered" >value &gt; this._max ? this._max : value,</span>
+      value &lt; this.min ? this.min : value &gt; this.max ? <span class="branch-0 cbranch-no" title="branch not covered" >this.max </span>: value,
     );
 &nbsp;
     return values;
@@ -495,7 +489,7 @@ export { MainModel };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Feb 24 2020 19:37:48 GMT+0300 (Москва, стандартное время)
+                at Tue Feb 25 2020 17:59:40 GMT+0300 (Москва, стандартное время)
             </div>
         </div>
         <script src="../../prettify.js"></script>

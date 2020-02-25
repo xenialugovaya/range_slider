@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 class LabelView {
     constructor() {
         this._label = document.createElement('div');
@@ -22,5 +20,5 @@ class LabelView {
         return fixedPositionProperty;
     }
 }
-exports.LabelView = LabelView;
+export { LabelView };
 //# sourceMappingURL=LabelView.js.map
