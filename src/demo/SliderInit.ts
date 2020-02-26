@@ -1,6 +1,6 @@
 import { sliderOptions } from '../model/sliderOptions';
 import { Facade } from '../presenter/Facade';
-import { ControlPanel } from '../ControlPanel/ControlPanel';
+import { ControlPanel } from './ControlPanel/ControlPanel';
 
 class SliderInit {
   private _options: sliderOptions;

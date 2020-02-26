@@ -10,8 +10,7 @@ class Facade {
     }
     updateValues() {
         this._model.observer.subscribe((valueData) => {
-            if (valueData.values)
-                this.observer.broadcast(valueData.values);
+            this.observer.broadcast(valueData);
         });
     }
     get parent() {

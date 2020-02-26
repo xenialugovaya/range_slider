@@ -87,8 +87,15 @@ class ControlPanel {
         this._slider.hasLabels = showLabels;
     }
     updateValues() {
-        this._slider.observer.subscribe((values) => {
-            this.valueInputs.forEach((input, index) => (input.value = values[index].toString()));
+        this._slider.observer.subscribe((valueData) => {
+            if (valueData.values) {
+                const values = valueData.values;
+                this.valueInputs.forEach((input, index) => (input.value = values[index].toString()));
+            }
+            if (valueData.min && valueData.max) {
+                const minMax = [valueData.min, valueData.max];
+                this.minMaxInputs.forEach((input, index) => (input.value = minMax[index].toString()));
+            }
         });
     }
     createMaxMinInputs() {

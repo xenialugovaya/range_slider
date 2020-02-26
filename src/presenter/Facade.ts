@@ -17,7 +17,7 @@ class Facade {
 
   updateValues() {
     this._model.observer.subscribe((valueData: sliderOptions) => {
-      if (valueData.values) this.observer.broadcast(valueData.values);
+      this.observer.broadcast(valueData);
     });
   }
 

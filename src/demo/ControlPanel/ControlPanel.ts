@@ -1,4 +1,5 @@
-import { Facade } from '../presenter/Facade';
+import { Facade } from '../../presenter/Facade';
+import { sliderOptions } from '../../model/sliderOptions';
 
 class ControlPanel {
   private _slider: Facade;
@@ -120,8 +121,16 @@ class ControlPanel {
   }
 
   private updateValues() {
-    this._slider.observer.subscribe((values: number[]) => {
-      this.valueInputs.forEach((input, index) => (input.value = values[index].toString()));
+    this._slider.observer.subscribe((valueData: sliderOptions) => {
+      if (valueData.values) {
+        const values = valueData.values;
+
+        this.valueInputs.forEach((input, index) => (input.value = values[index].toString()));
+      }
+      if (valueData.min && valueData.max) {
+        const minMax = [valueData.min, valueData.max];
+        this.minMaxInputs.forEach((input, index) => (input.value = minMax[index].toString()));
+      }
     });
   }
 

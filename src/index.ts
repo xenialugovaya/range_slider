@@ -1,11 +1,9 @@
 import './scss/main.scss';
 import { Facade } from './presenter/Facade';
-import { ControlPanel } from './ControlPanel/ControlPanel';
 
 $(function() {
-  $.fn.slider = function(options): { facade: Facade; panel: ControlPanel } {
+  $.fn.slider = function(options): Facade {
     const facade: Facade = new Facade(this.get(0), options);
-    const panel: ControlPanel = new ControlPanel(facade);
-    return { facade, panel };
+    return facade;
   };
 });

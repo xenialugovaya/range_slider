@@ -1,5 +1,5 @@
 import { Facade } from '../presenter/Facade';
-import { ControlPanel } from '../ControlPanel/ControlPanel';
+import { ControlPanel } from './ControlPanel/ControlPanel';
 class SliderInit {
     constructor(options) {
         this._options = options;

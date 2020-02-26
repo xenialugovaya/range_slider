@@ -49,7 +49,7 @@ module.exports = {
  
   
   output: {
-    filename: 'bundle.js',
+    filename: 'sliderApp.js',
     path: path.resolve(__dirname, './dist'),
   },
   devServer: {
