@@ -62,14 +62,6 @@ class MainModel {
             values: this.rangeValue,
         });
     }
-    //не используется!
-    get singleValue() {
-        return this.calcValues(this._values)[0];
-    }
-    //не используется!
-    set singleValue(value) {
-        this._values[0] = value;
-    }
     get rangeValue() {
         return this.calcValues(this._values);
     }

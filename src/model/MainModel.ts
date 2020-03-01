@@ -70,14 +70,6 @@ class MainModel {
       values: this.rangeValue,
     });
   }
-  //не используется!
-  get singleValue(): number {
-    return this.calcValues(this._values)[0];
-  }
-  //не используется!
-  set singleValue(value: number) {
-    this._values[0] = value;
-  }
 
   get rangeValue(): number[] {
     return this.calcValues(this._values);
@@ -130,7 +122,9 @@ class MainModel {
   //check that value 0 is less than value 1 for range
   calcValues(values: number[]): number[] {
     values = values.map(value => Math.round(value / this.step) * this.step);
+
     if (values[0] > values[1]) [values[0], values[1]] = [values[1], values[0]];
+
     values = values.map(value =>
       value < this.min ? this.min : value > this.max ? this.max : value,
     );

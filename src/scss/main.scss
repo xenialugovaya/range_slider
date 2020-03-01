@@ -1,21 +1,21 @@
+$themeColor: #473C8B;
+$labelColor:#FF6A6A;
+
 .slider{
-	height: 4px;
-	width:600px;
-	display: inline-block;
-	margin-left: 100px;
+  height: 4px;
+  width:600px;
+
+    &.slider_vertical{
+	  height: 300px;
+	  width:4px;
+	}
 }
 
-
-.slider_vertical{
-	height: 400px;
-	width:4px;
-	margin-left: 100px;
-}
 
 .sliderBody{
 	height: 100%;
 	width: 100%;
-	background: grey;
+	background: #cfcfcf;;
 	border-radius: 4px;
 	position: relative;
 	box-sizing: border-box;
@@ -24,7 +24,7 @@
 
 .label{
 	padding: 2px;
-	background: red;
+	background: $themeColor;
 	color: white;
 	font-size: 12px;
 	text-align: center;
@@ -33,23 +33,25 @@
 
 .handler{
 	border-radius: 50%;
-	background: red;
+	background: $labelColor;
 	width:16px;
 	height: 16px;
 	position: absolute;
 	cursor:pointer;
+	z-index: 10;
 }
 
 .slider_vertical .handler{
 	left: -6px !important;
-}
+  }
+
 .slider_horizontal .handler{
 	top: -6px !important;
 }
 
 .selectedRange, .range_between{
 	position: absolute;
-	background: red;
+	background: $themeColor;
 }
 
 .slider_horizontal .range_between{
@@ -73,13 +75,3 @@
 	bottom: 0 !important;
 }
 
-.controlPanel{
-	padding: 50px;
-	margin-left: 15px;
-	border: 2px solid grey;
-	display: inline-block;
-}
-
-.stepValue{
-	display: block;
-}

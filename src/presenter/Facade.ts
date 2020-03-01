@@ -32,14 +32,6 @@ class Facade {
   set minMax(value: number[]) {
     [this._model.min, this._model.max] = value;
   }
-  //not used
-  get singleValue(): number {
-    return this._model.singleValue;
-  }
-  //not used
-  set singleValue(value: number) {
-    this._model.singleValue = value;
-  }
 
   get rangeValue(): number[] {
     return this._model.rangeValue;
