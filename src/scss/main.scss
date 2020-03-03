@@ -6,7 +6,7 @@ $labelColor:#FF6A6A;
   width:600px;
 
     &.slider_vertical{
-	  height: 300px;
+	  height: 500px;
 	  width:4px;
 	}
 }
@@ -24,6 +24,7 @@ $labelColor:#FF6A6A;
 
 .label{
 	padding: 2px;
+	border-radius: 3px;
 	background: $themeColor;
 	color: white;
 	font-size: 12px;

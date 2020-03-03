@@ -8,9 +8,9 @@ class ControlPanel {
   private _minMaxInputs: HTMLInputElement[];
   private _valueInputs: HTMLInputElement[];
   private _stepInput: HTMLInputElement;
-  private _orientationRadios: HTMLInputElement[];
-  private _rangeRadios: HTMLInputElement[];
-  private _showLabelRadios: HTMLInputElement[];
+  private _orientationCheck: HTMLInputElement;
+  private _rangeCheck: HTMLInputElement;
+  private _showLabelCheck: HTMLInputElement;
   private _hasRange: boolean;
 
   constructor(slider: Facade) {
@@ -20,9 +20,9 @@ class ControlPanel {
     this._valueInputs = [];
     this._minMaxInputs = [];
     this._stepInput = document.createElement('input');
-    this._orientationRadios = [];
-    this._rangeRadios = [];
-    this._showLabelRadios = [];
+    this._orientationCheck = document.createElement('input');
+    this._rangeCheck = document.createElement('input');
+    this._showLabelCheck = document.createElement('input');
     this._hasRange = slider.hasRange;
 
     this.panelInit();
@@ -37,9 +37,9 @@ class ControlPanel {
     this.createMaxMinInputs();
     this.createValueInputs();
     this.createStepInput();
-    this.createOrientationRadios();
-    this.createRangeRadios();
-    this.createShowLabelRadios();
+    this.createOrientationCheck();
+    this.createRangeCheckbox();
+    this.createShowLabelCheckbox();
   }
 
   private setEventListeners() {
@@ -50,15 +50,11 @@ class ControlPanel {
       input.addEventListener('change', this.changeValues.bind(this)),
     );
     this.stepInput.addEventListener('change', this.changeStep.bind(this));
-    this.orientationRadios.forEach(radio =>
-      radio.addEventListener('change', this.changeOrientation.bind(this)),
-    );
-    this.rangeRadios.forEach(radio =>
-      radio.addEventListener('change', this.changeRange.bind(this)),
-    );
-    this.showLabelRadios.forEach(radio =>
-      radio.addEventListener('change', this.changeLabelVisibility.bind(this)),
-    );
+    this.orientationCheckbox.addEventListener('change', this.changeOrientation.bind(this));
+
+    this.rangeCheckbox.addEventListener('change', this.changeRange.bind(this));
+
+    this.showLabelCheckbox.addEventListener('change', this.changeLabelVisibility.bind(this));
   }
 
   getSliderOptions() {
@@ -70,19 +66,14 @@ class ControlPanel {
       this.valueInputs[1].value = this._slider.rangeValue[1].toString();
     }
     this.stepInput.value = this._slider.step.toString();
-    this._slider.isVertical
-      ? (this.orientationRadios[0].checked = true)
-      : (this.orientationRadios[1].checked = true);
-
+    if (this._slider.isVertical) {
+      this.orientationCheckbox.checked = true;
+    }
     if (this._slider.hasRange) {
-      this.rangeRadios[1].checked = true;
-    } else {
-      this.rangeRadios[0].checked = true;
+      this.rangeCheckbox.checked = true;
     }
     if (this._slider.hasLabels) {
-      this.showLabelRadios[0].checked = true;
-    } else {
-      this.showLabelRadios[1].checked = true;
+      this.showLabelCheckbox.checked = true;
     }
   }
 
@@ -101,12 +92,12 @@ class ControlPanel {
   }
 
   private changeOrientation() {
-    const newOrientation = this.orientationRadios[0].checked ? true : false;
+    const newOrientation = this.orientationCheckbox.checked ? true : false;
     this._slider.isVertical = newOrientation;
   }
 
   private changeRange() {
-    const newRange = this.rangeRadios[1].checked ? true : false;
+    const newRange = this.rangeCheckbox.checked ? true : false;
     if (!newRange) {
       this.valueInputs[1].remove();
     } else {
@@ -116,7 +107,7 @@ class ControlPanel {
   }
 
   private changeLabelVisibility() {
-    const showLabels = this.showLabelRadios[0].checked ? true : false;
+    const showLabels = this.showLabelCheckbox.checked ? true : false;
     this._slider.hasLabels = showLabels;
   }
 
@@ -137,11 +128,11 @@ class ControlPanel {
   private createMaxMinInputs() {
     const title = document.createElement('p');
     this._controlPanel.append(title);
-    title.innerText = 'Мин. значение/Макс. значение';
+    title.innerText = 'Min/Max';
     const inputMin = document.createElement('input');
     const inputMax = document.createElement('input');
-    inputMin.classList.add('limitValue');
-    inputMax.classList.add('limitValue');
+    inputMin.classList.add('limit_value');
+    inputMax.classList.add('limit_value');
     inputMin.type = 'number';
     inputMax.type = 'number';
     this._controlPanel.append(inputMin);
@@ -156,17 +147,17 @@ class ControlPanel {
   private createValueInputs() {
     const title = document.createElement('p');
     this._controlPanel.append(title);
-    title.innerText = 'Значение бегунков';
+    title.innerText = 'Values';
     const inputSingle = document.createElement('input');
-    inputSingle.classList.add('handlerValue');
+    inputSingle.classList.add('handler_value');
     inputSingle.type = 'number';
     this._controlPanel.append(inputSingle);
     this._valueInputs.push(inputSingle);
     if (this._hasRange) {
-      const inputMin = document.querySelector('.handlerValue');
+      const inputMin = document.querySelector('.handler_value');
       if (inputMin) inputMin.classList.add('value_min');
       const inputMax = document.createElement('input');
-      inputMax.classList.add('handlerValue', 'value_max');
+      inputMax.classList.add('handler_value', 'value_max');
       inputMax.type = 'number';
       this._controlPanel.append(inputMax);
       this._valueInputs.push(inputMax);
@@ -179,8 +170,8 @@ class ControlPanel {
   private createStepInput() {
     const title = document.createElement('p');
     this._controlPanel.append(title);
-    title.innerText = 'Значение шага';
-    this._stepInput.classList.add('stepValue');
+    title.innerText = 'Step';
+    this._stepInput.classList.add('step_value');
     this._stepInput.type = 'number';
     this._controlPanel.append(this._stepInput);
   }
@@ -189,63 +180,42 @@ class ControlPanel {
     return this._stepInput;
   }
 
-  private createOrientationRadios() {
+  private createOrientationCheck() {
     const title = document.createElement('p');
     this._controlPanel.append(title);
-    title.innerText = 'Вертикальный/горизонтальный';
-    const radioVertical = document.createElement('input');
-    radioVertical.id = 'radio_vertical';
-    const radioHorizontal = document.createElement('input');
-    radioHorizontal.id = 'radio_horizontal';
-    this._orientationRadios = [radioVertical, radioHorizontal];
-    this._orientationRadios.forEach(radio => {
-      radio.type = 'radio';
-      radio.name = 'orientation';
-      this._controlPanel.append(radio);
-    });
+    title.innerText = 'Vertical';
+    this._orientationCheck.classList.add('vertical_checkbox');
+    this._orientationCheck.type = 'checkbox';
+    this._controlPanel.append(this._orientationCheck);
   }
 
-  get orientationRadios() {
-    return this._orientationRadios;
+  get orientationCheckbox() {
+    return this._orientationCheck;
   }
 
-  private createRangeRadios() {
+  private createRangeCheckbox() {
     const title = document.createElement('p');
     this._controlPanel.append(title);
-    title.innerText = 'Одиночное/интервал';
-    const radioSingle = document.createElement('input');
-    radioSingle.id = 'radio_single';
-    const radioDouble = document.createElement('input');
-    radioDouble.id = 'radio_double';
-    this._rangeRadios = [radioSingle, radioDouble];
-    this._rangeRadios.forEach(radio => {
-      radio.type = 'radio';
-      radio.name = 'range';
-      this._controlPanel.append(radio);
-    });
+    title.innerText = 'Range';
+    this._rangeCheck.classList.add('range_checkbox');
+    this._rangeCheck.type = 'checkbox';
+    this._controlPanel.append(this._rangeCheck);
   }
 
-  get rangeRadios() {
-    return this._rangeRadios;
+  get rangeCheckbox() {
+    return this._rangeCheck;
   }
 
-  private createShowLabelRadios() {
+  private createShowLabelCheckbox() {
     const title = document.createElement('p');
     this._controlPanel.append(title);
-    title.innerText = 'Показать значения/Скрыть значения';
-    const radioShowLabel = document.createElement('input');
-    radioShowLabel.id = 'radio_showLabel';
-    const radioHideLabel = document.createElement('input');
-    radioHideLabel.id = 'radio_hideLabel';
-    this._showLabelRadios = [radioShowLabel, radioHideLabel];
-    this._showLabelRadios.forEach(radio => {
-      radio.type = 'radio';
-      radio.name = 'label';
-      this._controlPanel.append(radio);
-    });
+    title.innerText = 'Show labels';
+    this._showLabelCheck.classList.add('showlabel_checkbox');
+    this._showLabelCheck.type = 'checkbox';
+    this._controlPanel.append(this._showLabelCheck);
   }
-  get showLabelRadios() {
-    return this._showLabelRadios;
+  get showLabelCheckbox() {
+    return this._showLabelCheck;
   }
 }
 
