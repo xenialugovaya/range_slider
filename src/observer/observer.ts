@@ -12,6 +12,10 @@ class EventObserver {
   broadcast(data: object): void {
     this._observers.forEach(subscriber => subscriber(data));
   }
+
+  get subscribers(): Function[] {
+    return this._observers;
+  }
 }
 
 export { EventObserver };
