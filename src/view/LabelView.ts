@@ -6,15 +6,15 @@ class LabelView {
     this._label.classList.add('label');
   }
 
-  get elem() {
+  get elem(): HTMLElement {
     return this._label;
   }
 
-  setLabelValue(value: number) {
+  setLabelValue(value: number): void {
     this._label.innerText = value.toString();
   }
 
-  getLabelSize(isVertical: boolean, parent: HTMLElement) {
+  getLabelSize(isVertical: boolean, parent: HTMLElement): number {
     const labelSize = isVertical
       ? (this.elem.offsetHeight / parent.offsetHeight) * 100
       : (this.elem.offsetWidth / parent.offsetWidth) * 100;
@@ -22,7 +22,7 @@ class LabelView {
     return labelSize;
   }
 
-  getFixedPositionProperty(isVertical: boolean) {
+  getFixedPositionProperty(isVertical: boolean): 'left' | 'bottom' {
     const fixedPositionProperty = isVertical ? 'left' : 'bottom';
     return fixedPositionProperty;
   }

@@ -31,7 +31,7 @@ class ControlPanel {
     this.updateValues();
   }
 
-  private panelInit() {
+  private panelInit(): void {
     this._controlPanel.classList.add('controlPanel');
     this._parent.before(this._controlPanel);
     this.createMaxMinInputs();
@@ -42,7 +42,7 @@ class ControlPanel {
     this.createShowLabelCheckbox();
   }
 
-  private setEventListeners() {
+  private setEventListeners(): void {
     this.minMaxInputs.forEach(input =>
       input.addEventListener('change', this.changeMinMax.bind(this)),
     );
@@ -57,7 +57,7 @@ class ControlPanel {
     this.showLabelCheckbox.addEventListener('change', this.changeLabelVisibility.bind(this));
   }
 
-  getSliderOptions() {
+  getSliderOptions(): void {
     this.minMaxInputs.forEach(
       (input, index) => (input.value = this._slider.minMax[index].toString()),
     );
@@ -77,26 +77,26 @@ class ControlPanel {
     }
   }
 
-  private changeMinMax() {
+  private changeMinMax(): void {
     const newMinMax = this.minMaxInputs.map(input => parseInt(input.value));
     this._slider.minMax = newMinMax;
   }
 
-  private changeValues() {
+  private changeValues(): void {
     const newValues = this.valueInputs.map(input => parseInt(input.value));
     this._slider.rangeValue = newValues;
   }
-  private changeStep() {
+  private changeStep(): void {
     const newStep = parseInt(this.stepInput.value);
     this._slider.step = newStep;
   }
 
-  private changeOrientation() {
+  private changeOrientation(): void {
     const newOrientation = this.orientationCheckbox.checked ? true : false;
     this._slider.isVertical = newOrientation;
   }
 
-  private changeRange() {
+  private changeRange(): void {
     const newRange = this.rangeCheckbox.checked ? true : false;
     if (!newRange) {
       this.valueInputs[1].remove();
@@ -106,12 +106,12 @@ class ControlPanel {
     this._slider.hasRange = newRange;
   }
 
-  private changeLabelVisibility() {
+  private changeLabelVisibility(): void {
     const showLabels = this.showLabelCheckbox.checked ? true : false;
     this._slider.hasLabels = showLabels;
   }
 
-  private updateValues() {
+  private updateValues(): void {
     this._slider.observer.subscribe((valueData: sliderOptions) => {
       if (valueData.values) {
         const values = valueData.values;
@@ -125,7 +125,7 @@ class ControlPanel {
     });
   }
 
-  private createMaxMinInputs() {
+  private createMaxMinInputs(): void {
     const title = document.createElement('p');
     this._controlPanel.append(title);
     title.innerText = 'Min/Max';
@@ -140,11 +140,11 @@ class ControlPanel {
     this._minMaxInputs = [inputMin, inputMax];
   }
 
-  get minMaxInputs() {
+  get minMaxInputs(): HTMLInputElement[] {
     return this._minMaxInputs;
   }
 
-  private createValueInputs() {
+  private createValueInputs(): void {
     const title = document.createElement('p');
     this._controlPanel.append(title);
     title.innerText = 'Values';
@@ -163,11 +163,11 @@ class ControlPanel {
       this._valueInputs.push(inputMax);
     }
   }
-  get valueInputs() {
+  get valueInputs(): HTMLInputElement[] {
     return this._valueInputs;
   }
 
-  private createStepInput() {
+  private createStepInput(): void {
     const title = document.createElement('p');
     this._controlPanel.append(title);
     title.innerText = 'Step';
@@ -176,11 +176,11 @@ class ControlPanel {
     this._controlPanel.append(this._stepInput);
   }
 
-  get stepInput() {
+  get stepInput(): HTMLInputElement {
     return this._stepInput;
   }
 
-  private createOrientationCheck() {
+  private createOrientationCheck(): void {
     const title = document.createElement('p');
     this._controlPanel.append(title);
     title.innerText = 'Vertical';
@@ -189,11 +189,11 @@ class ControlPanel {
     this._controlPanel.append(this._orientationCheck);
   }
 
-  get orientationCheckbox() {
+  get orientationCheckbox(): HTMLInputElement {
     return this._orientationCheck;
   }
 
-  private createRangeCheckbox() {
+  private createRangeCheckbox(): void {
     const title = document.createElement('p');
     this._controlPanel.append(title);
     title.innerText = 'Range';
@@ -202,11 +202,11 @@ class ControlPanel {
     this._controlPanel.append(this._rangeCheck);
   }
 
-  get rangeCheckbox() {
+  get rangeCheckbox(): HTMLInputElement {
     return this._rangeCheck;
   }
 
-  private createShowLabelCheckbox() {
+  private createShowLabelCheckbox(): void {
     const title = document.createElement('p');
     this._controlPanel.append(title);
     title.innerText = 'Show labels';
@@ -214,7 +214,7 @@ class ControlPanel {
     this._showLabelCheck.type = 'checkbox';
     this._controlPanel.append(this._showLabelCheck);
   }
-  get showLabelCheckbox() {
+  get showLabelCheckbox(): HTMLInputElement {
     return this._showLabelCheck;
   }
 }

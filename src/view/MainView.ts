@@ -53,14 +53,14 @@ class MainView {
     );
 
     this._handlers.forEach(handler => {
-      handler.elem.ondragstart = function() {
+      handler.elem.ondragstart = function(): boolean {
         return false;
       };
       handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this));
     });
   }
 
-  private sliderInit() {
+  private sliderInit(): void {
     this._sliderBody.classList.add('sliderBody');
     this._parent.appendChild(this._sliderBody);
     this.setOrientation();
@@ -68,7 +68,7 @@ class MainView {
     this.setHandlerPosition();
   }
 
-  update(valueData: sliderOptions) {
+  update(valueData: sliderOptions): void {
     this._min = valueData.min ? valueData.min : this._min;
     this._max = valueData.max ? valueData.max : this._max;
     this._values = valueData.values ? valueData.values : this._values;
@@ -90,7 +90,7 @@ class MainView {
     );
   }
 
-  setOrientation() {
+  setOrientation(): void {
     if (this._isVertical) {
       this._parent.classList.remove('slider_horizontal');
       this._parent.classList.add('slider_vertical');
@@ -100,7 +100,7 @@ class MainView {
     }
   }
 
-  setHandlers() {
+  setHandlers(): void {
     this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));
     if (this._hasRange) {
       this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));
@@ -109,16 +109,16 @@ class MainView {
     }
   }
 
-  getHandlers() {
+  getHandlers(): HandlerView[] {
     return this._handlers;
   }
 
-  setHandlerPosition() {
+  setHandlerPosition(): void {
     this._handlers.forEach((handler, index) =>
       handler.setPosition(this._values[index], this._min, this._max, this._isVertical),
     );
   }
-  updateHandlersAmount() {
+  updateHandlersAmount(): void {
     if (!this._hasRange) {
       this._handlers[1].elem.remove();
       this._handlers[1].labelElem?.remove();
@@ -129,7 +129,7 @@ class MainView {
     }
   }
 
-  getCoords(elem: HTMLElement) {
+  getCoords(elem: HTMLElement): number {
     const box = elem.getBoundingClientRect();
     if (this._isVertical) {
       return box.bottom + pageYOffset;
@@ -137,7 +137,7 @@ class MainView {
       return box.left + pageXOffset;
     }
   }
-  dragAndDrop(e: MouseEvent) {
+  dragAndDrop(e: MouseEvent): void {
     e.preventDefault();
     const target = e.target as HTMLDivElement;
     this._handlerTargetId = target.id;
@@ -147,7 +147,7 @@ class MainView {
     document.addEventListener('mouseup', this._mouseUp);
   }
 
-  onMouseMove(e: MouseEvent) {
+  onMouseMove(e: MouseEvent): void {
     if (this._isVertical) {
       this.moveAt(e.pageY, this._handlerTargetId);
     } else {
@@ -155,7 +155,7 @@ class MainView {
     }
   }
 
-  moveAt(coordinate: number, targetId: string) {
+  moveAt(coordinate: number, targetId: string): void {
     const sliderCoord = this.getCoords(this._sliderBody);
     const value = this._isVertical
       ? ((sliderCoord - coordinate) / this._sliderBody.offsetHeight) * (this._max - this._min) +
@@ -173,7 +173,7 @@ class MainView {
     }
   }
 
-  onMouseUp() {
+  onMouseUp(): void {
     document.removeEventListener('mousemove', this._mouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }

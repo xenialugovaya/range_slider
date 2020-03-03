@@ -475,14 +475,14 @@ class MainView {
     );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    this._handlers.forEach(<span class="fstat-no" title="function not covered" >handler </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      handler.elem.ondragstart = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >      handler.elem.ondragstart = <span class="fstat-no" title="function not covered" >function(): boolean {</span></span>
 <span class="cstat-no" title="statement not covered" >        return false;</span>
       };
 <span class="cstat-no" title="statement not covered" >      handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this));</span>
     });
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >sliderInit(</span>) {
+  private <span class="fstat-no" title="function not covered" >sliderInit(</span>): void {
 <span class="cstat-no" title="statement not covered" >    this._sliderBody.classList.add('sliderBody');</span>
 <span class="cstat-no" title="statement not covered" >    this._parent.appendChild(this._sliderBody);</span>
 <span class="cstat-no" title="statement not covered" >    this.setOrientation();</span>
@@ -490,7 +490,7 @@ class MainView {
 <span class="cstat-no" title="statement not covered" >    this.setHandlerPosition();</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  update(</span>valueData: sliderOptions) {
+<span class="fstat-no" title="function not covered" >  update(</span>valueData: sliderOptions): void {
 <span class="cstat-no" title="statement not covered" >    this._min = valueData.min ? valueData.min : this._min;</span>
 <span class="cstat-no" title="statement not covered" >    this._max = valueData.max ? valueData.max : this._max;</span>
 <span class="cstat-no" title="statement not covered" >    this._values = valueData.values ? valueData.values : this._values;</span>
@@ -512,7 +512,7 @@ class MainView {
     );
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  setOrientation(</span>) {
+<span class="fstat-no" title="function not covered" >  setOrientation(</span>): void {
 <span class="cstat-no" title="statement not covered" >    if (this._isVertical) {</span>
 <span class="cstat-no" title="statement not covered" >      this._parent.classList.remove('slider_horizontal');</span>
 <span class="cstat-no" title="statement not covered" >      this._parent.classList.add('slider_vertical');</span>
@@ -522,7 +522,7 @@ class MainView {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  setHandlers(</span>) {
+<span class="fstat-no" title="function not covered" >  setHandlers(</span>): void {
 <span class="cstat-no" title="statement not covered" >    this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));</span>
 <span class="cstat-no" title="statement not covered" >    if (this._hasRange) {</span>
 <span class="cstat-no" title="statement not covered" >      this._handlers.push(new HandlerView(this._sliderBody, this._hasLabels));</span>
@@ -531,16 +531,16 @@ class MainView {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  getHandlers(</span>) {
+<span class="fstat-no" title="function not covered" >  getHandlers(</span>): HandlerView[] {
 <span class="cstat-no" title="statement not covered" >    return this._handlers;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  setHandlerPosition(</span>) {
+<span class="fstat-no" title="function not covered" >  setHandlerPosition(</span>): void {
 <span class="cstat-no" title="statement not covered" >    this._handlers.forEach(<span class="fstat-no" title="function not covered" >(h</span>andler, index) =&gt;</span>
 <span class="cstat-no" title="statement not covered" >      handler.setPosition(this._values[index], this._min, this._max, this._isVertical),</span>
     );
   }
-<span class="fstat-no" title="function not covered" >  updateHandlersAmount(</span>) {
+<span class="fstat-no" title="function not covered" >  updateHandlersAmount(</span>): void {
 <span class="cstat-no" title="statement not covered" >    if (!this._hasRange) {</span>
 <span class="cstat-no" title="statement not covered" >      this._handlers[1].elem.remove();</span>
 <span class="cstat-no" title="statement not covered" >      this._handlers[1].labelElem?.remove();</span>
@@ -551,7 +551,7 @@ class MainView {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  getCoords(</span>elem: HTMLElement) {
+<span class="fstat-no" title="function not covered" >  getCoords(</span>elem: HTMLElement): number {
     const box = <span class="cstat-no" title="statement not covered" >elem.getBoundingClientRect();</span>
 <span class="cstat-no" title="statement not covered" >    if (this._isVertical) {</span>
 <span class="cstat-no" title="statement not covered" >      return box.bottom + pageYOffset;</span>
@@ -559,7 +559,7 @@ class MainView {
 <span class="cstat-no" title="statement not covered" >      return box.left + pageXOffset;</span>
     }
   }
-<span class="fstat-no" title="function not covered" >  dragAndDrop(</span>e: MouseEvent) {
+<span class="fstat-no" title="function not covered" >  dragAndDrop(</span>e: MouseEvent): void {
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
     const target = <span class="cstat-no" title="statement not covered" >e.target as HTMLDivElement;</span>
 <span class="cstat-no" title="statement not covered" >    this._handlerTargetId = target.id;</span>
@@ -569,7 +569,7 @@ class MainView {
 <span class="cstat-no" title="statement not covered" >    document.addEventListener('mouseup', this._mouseUp);</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  onMouseMove(</span>e: MouseEvent) {
+<span class="fstat-no" title="function not covered" >  onMouseMove(</span>e: MouseEvent): void {
 <span class="cstat-no" title="statement not covered" >    if (this._isVertical) {</span>
 <span class="cstat-no" title="statement not covered" >      this.moveAt(e.pageY, this._handlerTargetId);</span>
     } else {
@@ -577,7 +577,7 @@ class MainView {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  moveAt(</span>coordinate: number, targetId: string) {
+<span class="fstat-no" title="function not covered" >  moveAt(</span>coordinate: number, targetId: string): void {
     const sliderCoord = <span class="cstat-no" title="statement not covered" >this.getCoords(this._sliderBody);</span>
     const value = <span class="cstat-no" title="statement not covered" >this._isVertical</span>
       ? ((sliderCoord - coordinate) / this._sliderBody.offsetHeight) * (this._max - this._min) +
@@ -595,7 +595,7 @@ class MainView {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  onMouseUp(</span>) {
+<span class="fstat-no" title="function not covered" >  onMouseUp(</span>): void {
 <span class="cstat-no" title="statement not covered" >    document.removeEventListener('mousemove', this._mouseMove);</span>
 <span class="cstat-no" title="statement not covered" >    document.removeEventListener('mouseup', this.onMouseUp);</span>
   }
@@ -609,7 +609,7 @@ export { MainView };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Mar 02 2020 13:11:06 GMT+0300 (Москва, стандартное время)
+                at Tue Mar 03 2020 16:07:56 GMT+0300 (Москва, стандартное время)
             </div>
         </div>
         <script src="../../prettify.js"></script>

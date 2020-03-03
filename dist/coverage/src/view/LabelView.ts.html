@@ -22,30 +22,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
@@ -54,7 +54,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -91,8 +91,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -104,16 +112,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -121,20 +121,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class LabelView {
   private _label: HTMLElement;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor() {</span>
-<span class="cstat-no" title="statement not covered" >    this._label = document.createElement('div');</span>
-<span class="cstat-no" title="statement not covered" >    this._label.classList.add('label');</span>
+  constructor() {
+    this._label = document.createElement('div');
+    this._label.classList.add('label');
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  get e</span>lem() {
-<span class="cstat-no" title="statement not covered" >    return this._label;</span>
+  get elem(): HTMLElement {
+    return this._label;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  setLabelValue(</span>value: number) {
-<span class="cstat-no" title="statement not covered" >    this._label.innerText = value.toString();</span>
+  setLabelValue(value: number): void {
+    this._label.innerText = value.toString();
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  getLabelSize(</span>isVertical: boolean, parent: HTMLElement) {
+<span class="fstat-no" title="function not covered" >  getLabelSize(</span>isVertical: boolean, parent: HTMLElement): number {
     const labelSize = <span class="cstat-no" title="statement not covered" >isVertical</span>
       ? (this.elem.offsetHeight / parent.offsetHeight) * 100
       : (this.elem.offsetWidth / parent.offsetWidth) * 100;
@@ -142,9 +142,9 @@
 <span class="cstat-no" title="statement not covered" >    return labelSize;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  getFixedPositionProperty(</span>isVertical: boolean) {
-    const fixedPositionProperty = <span class="cstat-no" title="statement not covered" >isVertical ? 'left' : 'bottom';</span>
-<span class="cstat-no" title="statement not covered" >    return fixedPositionProperty;</span>
+  getFixedPositionProperty(isVertical: boolean): 'left' | 'bottom' {
+    const fixedPositionProperty = isVertical ? 'left' : 'bottom';
+    return fixedPositionProperty;
   }
 }
 &nbsp;
@@ -156,7 +156,7 @@ export { LabelView };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Mar 02 2020 13:11:06 GMT+0300 (Москва, стандартное время)
+                at Tue Mar 03 2020 16:07:56 GMT+0300 (Москва, стандартное время)
             </div>
         </div>
         <script src="../../prettify.js"></script>
