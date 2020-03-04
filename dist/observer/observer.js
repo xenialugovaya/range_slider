@@ -11,6 +11,9 @@ class EventObserver {
     broadcast(data) {
         this._observers.forEach(subscriber => subscriber(data));
     }
+    get subscribers() {
+        return this._observers;
+    }
 }
 export { EventObserver };
 //# sourceMappingURL=observer.js.map

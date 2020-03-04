@@ -46,7 +46,10 @@ class SelectedArea {
           handler.offsetHeight +
           'px')
       : (this._selectedRange.style.width =
-          this.getCoords(handler, vertical) - this.getCoords(this._parent, vertical) + 'px');
+          this.getCoords(handler, vertical) -
+          this.getCoords(this._parent, vertical) +
+          handler.offsetWidth +
+          'px');
   }
 
   private setPositionRange(

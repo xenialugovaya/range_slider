@@ -163,10 +163,14 @@ class MainView {
       : ((coordinate - sliderCoord) / this._sliderBody.offsetWidth) * (this._max - this._min) +
         this._min;
     if (!targetId || targetId === 'handler_min') {
+      this._handlers[0].elem.style.zIndex = '100';
+      this._handlers[1].elem.style.zIndex = '10';
       this.observer.broadcast({
         values: [value, this._values[1]],
       });
     } else {
+      this._handlers[0].elem.style.zIndex = '10';
+      this._handlers[1].elem.style.zIndex = '100';
       this.observer.broadcast({
         values: [this._values[0], value],
       });

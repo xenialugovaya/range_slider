@@ -8,14 +8,23 @@ module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
-
+    
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine-jquery', 'jasmine'],
 
     reporters: ["spec", 'coverage-istanbul'],
     files: [
       "tests/index.ts"
+    ],
+    plugins: [
+      'karma-webpack',
+      'karma-jasmine',
+      'karma-jasmine-jquery',
+      'karma-chrome-launcher',
+      'karma-spec-reporter',
+      'karma-coverage',
+      'karma-coverage-istanbul-reporter'
     ],
     preprocessors: {
       "tests/index.ts": ["webpack"],
