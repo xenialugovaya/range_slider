@@ -107,6 +107,8 @@ class MainModel {
         values = values.map(value => Math.round(value / this.step) * this.step);
         if (values[0] > values[1])
             [values[0], values[1]] = [values[1], values[0]];
+        if (values[0] === values[1])
+            values[1] = values[1] + this.step;
         values = values.map(value => value < this.min ? this.min : value > this.max ? this.max : value);
         return values;
     }

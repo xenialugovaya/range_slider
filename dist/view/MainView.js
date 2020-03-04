@@ -28,7 +28,7 @@ class MainView {
     sliderInit() {
         this._sliderBody.classList.add('sliderBody');
         this._parent.appendChild(this._sliderBody);
-        this.setOrientation();
+        this.setOrientation(this._isVertical);
         this.setHandlers();
         this.setHandlerPosition();
     }
@@ -39,14 +39,14 @@ class MainView {
         this._isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this._isVertical;
         this._hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this._hasRange;
         this._hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this._hasLabels;
-        this.setOrientation();
+        this.setOrientation(this._isVertical);
         this.setHandlerPosition();
         this._handlers.forEach((handler, index) => handler.updateLabel(this._hasLabels, this._values[index]));
-        this.updateHandlersAmount();
+        this.updateHandlersAmount(this._hasRange);
         this._selectedArea.updateSelectedRange(this._hasRange, this._isVertical, this._handlers[1].elem, this._handlers[0].elem);
     }
-    setOrientation() {
-        if (this._isVertical) {
+    setOrientation(vertical) {
+        if (vertical) {
             this._parent.classList.remove('slider_horizontal');
             this._parent.classList.add('slider_vertical');
         }
@@ -69,9 +69,9 @@ class MainView {
     setHandlerPosition() {
         this._handlers.forEach((handler, index) => handler.setPosition(this._values[index], this._min, this._max, this._isVertical));
     }
-    updateHandlersAmount() {
+    updateHandlersAmount(range) {
         var _a;
-        if (!this._hasRange) {
+        if (!range) {
             this._handlers[1].elem.remove();
             (_a = this._handlers[1].labelElem) === null || _a === void 0 ? void 0 : _a.remove();
         }
@@ -115,11 +115,15 @@ class MainView {
             : ((coordinate - sliderCoord) / this._sliderBody.offsetWidth) * (this._max - this._min) +
                 this._min;
         if (!targetId || targetId === 'handler_min') {
+            this._handlers[0].elem.style.zIndex = '100';
+            this._handlers[1].elem.style.zIndex = '10';
             this.observer.broadcast({
                 values: [value, this._values[1]],
             });
         }
         else {
+            this._handlers[0].elem.style.zIndex = '10';
+            this._handlers[1].elem.style.zIndex = '100';
             this.observer.broadcast({
                 values: [this._values[0], value],
             });

@@ -30,6 +30,12 @@ describe('test model logic', function() {
       expect(model.rangeValue[1]).toEqual(50);
     });
 
+    it('if values are equal, max value should be increased by step', function() {
+      model.rangeValue = [20, 20];
+      model.step = 5;
+      expect(model.rangeValue[1]).toEqual(25);
+    });
+
     it('if min value is less than min limit it should be equal to min limit', function() {
       model.rangeValue = [0, 20];
       model.min = 10;

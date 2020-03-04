@@ -33,6 +33,7 @@ class HandlerView {
     const position = ((value - min) / valuesCount) * 100 - handlerSize / 2;
     this._handler.style[positionProperty] = `${position}%`;
     this.setLabelPosition(value, valuesCount, min, isVertical);
+    return position;
   }
 
   private setLabelPosition(value: number, valuesCount: number, min: number, isVertical: boolean) {
