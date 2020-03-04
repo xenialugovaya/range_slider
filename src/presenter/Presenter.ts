@@ -25,7 +25,7 @@ class Presenter {
     this.updateView();
   }
 
-  updateModel() {
+  private updateModel() {
     this._view.observer.subscribe((valueData: sliderOptions) => {
       if (valueData.min) this._model.min = valueData.min;
       if (valueData.max) this._model.max = valueData.max;
@@ -37,7 +37,7 @@ class Presenter {
     });
   }
 
-  updateView() {
+  private updateView() {
     this._model.observer.subscribe((valueData: sliderOptions) => {
       this._view.update(valueData);
     });

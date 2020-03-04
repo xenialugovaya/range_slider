@@ -55,4 +55,26 @@ describe('test main view logic', function() {
       expect($('#handler_max')).toExist();
     });
   });
+
+  describe('getCoords should return start coordinate depending on orientation', function() {
+    beforeEach(function() {
+      const elem = document.createElement('div');
+      document.body.append(elem);
+      elem.classList.add('test_coord');
+      elem.style.height = '10px';
+    });
+    it('should return bottom coordiante if vertical flag is true', function() {
+      const elem: HTMLElement = document.querySelector('.test_coord');
+
+      const vertical = true;
+      //getBoundingClientRect возвращает 8 по умолчанию
+      expect(view.getCoords(elem, vertical)).toEqual(18);
+    });
+    it('should return left coordiante if vertical flag is false', function() {
+      const elem: HTMLElement = document.querySelector('.test_coord');
+
+      const vertical = false;
+      expect(view.getCoords(elem, vertical)).toEqual(8);
+    });
+  });
 });

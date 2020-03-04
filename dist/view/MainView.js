@@ -33,7 +33,7 @@ class MainView {
         this.setHandlerPosition();
     }
     update(valueData) {
-        this._min = valueData.min ? valueData.min : this._min;
+        this._min = valueData.min !== undefined ? valueData.min : this._min;
         this._max = valueData.max ? valueData.max : this._max;
         this._values = valueData.values ? valueData.values : this._values;
         this._isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this._isVertical;
@@ -81,9 +81,9 @@ class MainView {
                 this._handlers[1].elem.before(this._handlers[1].labelElem);
         }
     }
-    getCoords(elem) {
+    getCoords(elem, vertical) {
         const box = elem.getBoundingClientRect();
-        if (this._isVertical) {
+        if (vertical) {
             return box.bottom + pageYOffset;
         }
         else {
@@ -108,7 +108,7 @@ class MainView {
         }
     }
     moveAt(coordinate, targetId) {
-        const sliderCoord = this.getCoords(this._sliderBody);
+        const sliderCoord = this.getCoords(this._sliderBody, this._isVertical);
         const value = this._isVertical
             ? ((sliderCoord - coordinate) / this._sliderBody.offsetHeight) * (this._max - this._min) +
                 this._min

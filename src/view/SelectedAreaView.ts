@@ -75,6 +75,10 @@ class SelectedArea {
       return box.left + pageXOffset;
     }
   }
+
+  get selectedArea() {
+    return this._selectedRange;
+  }
 }
 
 export { SelectedArea };

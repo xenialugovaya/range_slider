@@ -129,9 +129,9 @@ class MainView {
     }
   }
 
-  getCoords(elem: HTMLElement): number {
+  getCoords(elem: HTMLElement, vertical: boolean): number {
     const box = elem.getBoundingClientRect();
-    if (this._isVertical) {
+    if (vertical) {
       return box.bottom + pageYOffset;
     } else {
       return box.left + pageXOffset;
@@ -156,7 +156,7 @@ class MainView {
   }
 
   moveAt(coordinate: number, targetId: string): void {
-    const sliderCoord = this.getCoords(this._sliderBody);
+    const sliderCoord = this.getCoords(this._sliderBody, this._isVertical);
     const value = this._isVertical
       ? ((sliderCoord - coordinate) / this._sliderBody.offsetHeight) * (this._max - this._min) +
         this._min
