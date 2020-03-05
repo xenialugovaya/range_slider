@@ -68,4 +68,42 @@ describe('test model logic', function() {
     model.step = 10;
     expect(model.step).toEqual(10);
   });
+
+  describe('test update method', function() {
+    it('should set options correctly', function() {
+      const options = {
+        min: 0,
+        max: 100,
+        step: 1,
+        hasRange: false,
+        hasLabels: false,
+        isVertical: false,
+        values: [0, 1],
+      };
+      model.update(options);
+      expect(model.min).toEqual(0);
+      expect(model.max).toEqual(100);
+      expect(model.step).toEqual(1);
+      expect(model.hasRange).toBeFalsy();
+      expect(model.hasLabels).toBeFalsy();
+      expect(model.isVertical).toBeFalsy();
+      expect(model.rangeValue).toEqual([0, 1]);
+    });
+    it('should set options correctly if they are partly defined', function() {
+      const options = {
+        hasRange: true,
+        hasLabels: true,
+        isVertical: true,
+        values: [20, 30],
+      };
+      model.update(options);
+      expect(model.min).toEqual(0);
+      expect(model.max).toEqual(100);
+      expect(model.step).toEqual(1);
+      expect(model.hasRange).toBeTruthy();
+      expect(model.hasLabels).toBeTruthy();
+      expect(model.isVertical).toBeTruthy();
+      expect(model.rangeValue).toEqual([20, 30]);
+    });
+  });
 });

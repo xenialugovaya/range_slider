@@ -19,9 +19,6 @@ class MainView {
         this.sliderInit();
         this._selectedArea = new SelectedArea(this._sliderBody, this._hasRange, this._isVertical, this._handlers[0].elem, this._handlers[1].elem);
         this._handlers.forEach(handler => {
-            handler.elem.ondragstart = function () {
-                return false;
-            };
             handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this));
         });
     }

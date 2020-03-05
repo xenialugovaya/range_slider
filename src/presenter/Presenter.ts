@@ -27,13 +27,7 @@ class Presenter {
 
   private updateModel() {
     this._view.observer.subscribe((valueData: sliderOptions) => {
-      if (valueData.min) this._model.min = valueData.min;
-      if (valueData.max) this._model.max = valueData.max;
-      if (valueData.values) this._model.rangeValue = valueData.values;
-      if (valueData.isVertical !== undefined) this._model.isVertical = valueData.isVertical;
-      if (valueData.step) this._model.step = valueData.step;
-      if (valueData.hasRange !== undefined) this._model.hasRange = valueData.hasRange;
-      if (valueData.hasLabels !== undefined) this._model.hasLabels = valueData.hasLabels;
+      this._model.update(valueData);
     });
   }
 

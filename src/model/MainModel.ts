@@ -20,7 +20,15 @@ class MainModel {
     this._isVertical = sliderOptions.isVertical ? sliderOptions.isVertical : this._isVertical;
     this._hasLabels = sliderOptions.hasLabels ? sliderOptions.hasLabels : this._hasLabels;
   }
-
+  update(valueData: sliderOptions) {
+    if (valueData.min !== undefined) this.min = valueData.min;
+    if (valueData.max) this.max = valueData.max;
+    if (valueData.values) this.rangeValue = valueData.values;
+    if (valueData.isVertical !== undefined) this.isVertical = valueData.isVertical;
+    if (valueData.step) this.step = valueData.step;
+    if (valueData.hasRange !== undefined) this.hasRange = valueData.hasRange;
+    if (valueData.hasLabels !== undefined) this.hasLabels = valueData.hasLabels;
+  }
   notifyPresenter(valueData: sliderOptions) {
     this.observer.broadcast(valueData);
   }
