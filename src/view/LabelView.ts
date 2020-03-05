@@ -18,7 +18,6 @@ class LabelView {
     const labelSize = isVertical
       ? (this.elem.offsetHeight / parent.offsetHeight) * 100
       : (this.elem.offsetWidth / parent.offsetWidth) * 100;
-
     return labelSize;
   }
 

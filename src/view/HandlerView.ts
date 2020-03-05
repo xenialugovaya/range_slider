@@ -38,13 +38,13 @@ class HandlerView {
 
   private setLabelPosition(value: number, valuesCount: number, min: number, isVertical: boolean) {
     if (this._label) {
+      this.setLabelValue(value);
       const labelSize = this._label.getLabelSize(isVertical, this._parent);
       const fixedPositionProperty = this._label.getFixedPositionProperty(isVertical);
       const positionProperty = isVertical ? 'bottom' : 'left';
       const labelPosition = ((value - min) / valuesCount) * 100 - labelSize / 2;
       this._label.elem.style[positionProperty] = `${labelPosition}%`;
       this._label.elem.style[fixedPositionProperty] = '330%';
-      this.setLabelValue(value);
     }
   }
 
