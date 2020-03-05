@@ -1,4 +1,5 @@
 // requires all tests in `project/test/src/components/**/index.js`
+
 const tests = require.context('./src/', true, /\.spec.ts$/);
 
 tests.keys().forEach(tests);

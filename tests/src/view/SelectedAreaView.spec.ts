@@ -16,6 +16,8 @@ describe('test SelectedArea view', function() {
     range = false;
   });
   it('if range false, class selectedRange should exist', function() {
+    range = false;
+    selectedArea.updateSelectedRange(range, vertical, handlerMax, handlerMin);
     expect(selectedArea.selectedArea).toHaveClass('selectedRange');
   });
 

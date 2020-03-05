@@ -2,7 +2,7 @@ import { HandlerView } from '../../../src/view/HandlerView';
 
 describe('test handler view logic', function() {
   setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
-  const parent: HTMLElement = document.querySelector('.sliderBody');
+  const parent: any = document.querySelector('.sliderBody');
   let handler = new HandlerView(parent, true);
 
   describe('test get func for handler and label elements', function() {
@@ -17,7 +17,7 @@ describe('test handler view logic', function() {
   describe('test setPosition func for handler and label', function() {
     beforeEach(function() {
       setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
-      const parent: HTMLElement = document.querySelector('.sliderBody');
+      const parent: any = document.querySelector('.sliderBody');
       handler = new HandlerView(parent, true);
     });
     it('should set position for handler correctly', function() {
@@ -40,7 +40,7 @@ describe('test handler view logic', function() {
   describe('test updateLabel func', function() {
     it('updateLabel should add label if flag showlabel is true', function() {
       setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
-      const parent: HTMLElement = document.querySelector('.sliderBody');
+      const parent: any = document.querySelector('.sliderBody');
       handler = new HandlerView(parent, false);
       const value = 10;
       const showLabel = true;
@@ -54,7 +54,7 @@ describe('test handler view logic', function() {
 
     it('updateLabel should remove label if flag showlabel is false', function() {
       setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
-      const parent: HTMLElement = document.querySelector('.sliderBody');
+      const parent: any = document.querySelector('.sliderBody');
       handler = new HandlerView(parent, true);
       const value = 10;
       const showLabel = false;

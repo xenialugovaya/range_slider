@@ -2,7 +2,7 @@ import { MainView } from '../../../src/view/MainView';
 
 describe('test main view logic', function() {
   setFixtures('<div class="slider"></div>');
-  const parent: HTMLElement | null = document.querySelector('.slider');
+  const parent: any = document.querySelector('.slider');
   const hasRange = true;
   const isVertical = true;
   const min = 0;
@@ -11,9 +11,8 @@ describe('test main view logic', function() {
   const hasLabels = true;
 
   let view: MainView;
-  if (parent) {
-    view = new MainView(parent, hasRange, isVertical, min, max, values, hasLabels);
-  }
+
+  view = new MainView(parent, hasRange, isVertical, min, max, values, hasLabels);
 
   describe('method setOrientation should change parent class depending on orientation', function() {
     it('if flag vertical is true, slider class should be slider_vertical', function() {
@@ -38,7 +37,7 @@ describe('test main view logic', function() {
     });
     it('method updateHandlersAmount should add/remove handler if range true/false', function() {
       setFixtures('<div class="slider"></div>');
-      const parent: HTMLElement | null = document.querySelector('.slider');
+      const parent: any = document.querySelector('.slider');
       const hasRange = true;
       if (parent) {
         view = new MainView(parent, hasRange, isVertical, min, max, values, hasLabels);
@@ -64,17 +63,43 @@ describe('test main view logic', function() {
       elem.style.height = '10px';
     });
     it('should return bottom coordiante if vertical flag is true', function() {
-      const elem: HTMLElement = document.querySelector('.test_coord');
+      const elem: any = document.querySelector('.test_coord');
 
       const vertical = true;
       //getBoundingClientRect возвращает 8 по умолчанию
       expect(view.getCoords(elem, vertical)).toEqual(18);
     });
     it('should return left coordiante if vertical flag is false', function() {
-      const elem: HTMLElement = document.querySelector('.test_coord');
-
+      const elem: any = document.querySelector('.test_coord');
       const vertical = false;
       expect(view.getCoords(elem, vertical)).toEqual(8);
+    });
+  });
+
+  describe('test events', function() {
+    it('mousedown event should be triggered on handlers', function() {
+      setFixtures('<div class="slider"></div>');
+      const parent: any = document.querySelector('.slider');
+      const hasRange = true;
+      const isVertical = true;
+      const min = 0;
+      const max = 100;
+      const values = [10, 20];
+      const hasLabels = true;
+      const view = new MainView(parent, hasRange, isVertical, min, max, values, hasLabels);
+      const handlerMin = document.querySelector('#handler_min') as HTMLElement;
+      const handlerMax = document.querySelector('#handler_max') as HTMLElement;
+      spyOn(view.observer, 'broadcast').and.callThrough();
+      handlerMin.dispatchEvent(new MouseEvent('mousedown'));
+      document.dispatchEvent(new MouseEvent('mousemove'));
+
+      expect(view.observer.broadcast).toHaveBeenCalled();
+
+      document.dispatchEvent(new MouseEvent('mouseup'));
+
+      handlerMax.dispatchEvent(new MouseEvent('mousedown'));
+      document.dispatchEvent(new MouseEvent('mousemove'));
+      expect(view.observer.broadcast).toHaveBeenCalled();
     });
   });
 });

@@ -53,9 +53,6 @@ class MainView {
     );
 
     this._handlers.forEach(handler => {
-      handler.elem.ondragstart = function(): boolean {
-        return false;
-      };
       handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this));
     });
   }

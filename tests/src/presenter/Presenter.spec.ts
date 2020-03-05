@@ -14,19 +14,4 @@ describe('test presenter logic', function() {
       expect(presenter.parent).toHaveClass('slider');
     });
   });
-
-  describe('test updateModel method', function() {
-    it('should update model options', function() {
-      const valueData: sliderOptions = {
-        min: 10,
-        max: 20,
-      };
-      spyOn(presenter, 'updateModel').and.callFake(function() {
-        if (valueData.min) model.min = valueData.min;
-        if (valueData.max) model.max = valueData.max;
-        expect(model.min).toEqual(10);
-        expect(model.max).toEqual(20);
-      });
-    });
-  });
 });

@@ -3,7 +3,7 @@ import { Facade } from '../../../src/presenter/Facade';
 
 describe('test facade', function() {
   setFixtures('<div class="slider"></div>');
-  const parent: HTMLElement | null = document.querySelector('.slider');
+  const parent: any = document.querySelector('.slider');
   const options: sliderOptions = {
     min: 0,
     max: 100,
