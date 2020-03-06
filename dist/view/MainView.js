@@ -39,7 +39,7 @@ class MainView {
         this.setOrientation(this._isVertical);
         this.setHandlerPosition();
         this._handlers.forEach((handler, index) => handler.updateLabel(this._hasLabels, this._values[index]));
-        this.updateHandlersAmount(this._hasRange);
+        this.setRange(this._hasRange);
         this._selectedArea.updateSelectedRange(this._hasRange, this._isVertical, this._handlers[1].elem, this._handlers[0].elem);
     }
     setOrientation(vertical) {
@@ -66,7 +66,7 @@ class MainView {
     setHandlerPosition() {
         this._handlers.forEach((handler, index) => handler.setPosition(this._values[index], this._min, this._max, this._isVertical));
     }
-    updateHandlersAmount(range) {
+    setRange(range) {
         var _a;
         if (!range) {
             this._handlers[1].elem.remove();

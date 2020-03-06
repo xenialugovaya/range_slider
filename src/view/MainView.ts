@@ -78,7 +78,7 @@ class MainView {
     this._handlers.forEach((handler, index) =>
       handler.updateLabel(this._hasLabels, this._values[index]),
     );
-    this.updateHandlersAmount(this._hasRange);
+    this.setRange(this._hasRange);
     this._selectedArea.updateSelectedRange(
       this._hasRange,
       this._isVertical,
@@ -115,7 +115,7 @@ class MainView {
       handler.setPosition(this._values[index], this._min, this._max, this._isVertical),
     );
   }
-  updateHandlersAmount(range: boolean): void {
+  setRange(range: boolean): void {
     if (!range) {
       this._handlers[1].elem.remove();
       this._handlers[1].labelElem?.remove();

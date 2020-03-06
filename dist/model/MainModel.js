@@ -18,7 +18,7 @@ class MainModel {
         this._hasLabels = sliderOptions.hasLabels ? sliderOptions.hasLabels : this._hasLabels;
     }
     update(valueData) {
-        if (valueData.min)
+        if (valueData.min !== undefined)
             this.min = valueData.min;
         if (valueData.max)
             this.max = valueData.max;
