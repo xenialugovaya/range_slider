@@ -35,7 +35,7 @@ describe('test main view logic', function() {
       expect(view.getHandlers()[0].elem).toHaveClass('handler');
       expect(view.getHandlers()[1].elem).toHaveClass('handler');
     });
-    it('method updateHandlersAmount should add/remove handler if range true/false', function() {
+    it('method setRange should add/remove handler if range true/false', function() {
       setFixtures('<div class="slider"></div>');
       const parent: any = document.querySelector('.slider');
       const hasRange = true;
@@ -46,11 +46,11 @@ describe('test main view logic', function() {
       expect($('#handler_max')).toExist();
 
       let range = false;
-      view.updateHandlersAmount(range);
+      view.setRange(range);
       expect($('#handler_max')).not.toExist();
 
       range = true;
-      view.updateHandlersAmount(range);
+      view.setRange(range);
       expect($('#handler_max')).toExist();
     });
   });
