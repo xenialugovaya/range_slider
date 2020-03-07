@@ -12,7 +12,7 @@ class MainModel {
   private _hasLabels = true;
   constructor(sliderOptions: sliderOptions) {
     this.observer = new EventObserver();
-    this._min = sliderOptions.min ? sliderOptions.min : 0;
+    this._min = sliderOptions.min ? sliderOptions.min : this._min;
     this._max = sliderOptions.max ? sliderOptions.max : this._max;
     this._step = sliderOptions.step ? sliderOptions.step : this._step;
     this._values = sliderOptions.values ? sliderOptions.values : this._values;
