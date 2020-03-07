@@ -18,14 +18,14 @@ Report on tests coverage: <a href='https://xenialugovaya.github.io/range_slider/
 
 <h2>Initialize slider</h2>
 <pre>
-<code><div class='slider'></div></code>
+<code>&lt;div class='slider'&gt&lt;/div&gt</code>
 </pre>
-with default options
+<p>with default options</p>
 <pre>
 <code>$('.slider').slider();</code>
 </pre>
 
-with custom options
+<p>with custom options</p>
 <pre>
 <code>$('.slider').slider({
     min: 0,
