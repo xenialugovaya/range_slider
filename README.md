@@ -19,7 +19,7 @@ Report on tests coverage: <a href='https://xenialugovaya.github.io/range_slider/
 <h2>Initialize slider</h2>
 <pre>
 
-<code>&lt;div class='slider'&gt&lt;/div&gt</code>
+<code>&lt;div class='slider'&gt;&lt;/div&gt;</code>
 
 </pre>
 <p>with default options</p>
