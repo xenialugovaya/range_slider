@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 
 
 module.exports = {
@@ -28,10 +30,12 @@ module.exports = {
         use: [
           // Creates `style` nodes from JS strings
           'style-loader',
+          MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
           'css-loader',
           // Compiles Sass to CSS
           'sass-loader',
+          
         ],
       },
       {
@@ -70,7 +74,11 @@ module.exports = {
       template: './src/demo/demo.pug',
       filename: 'index.html',
     }),
+    new MiniCssExtractPlugin({
+      filename: `assets/css/main.css`,
+    }),
   ],
+  
 
 
 };
