@@ -6,14 +6,33 @@ Demo page: <a href='https://xenialugovaya.github.io/Range-slider/'>see demo page
 
 Report on tests coverage: <a href='https://xenialugovaya.github.io/Range-slider/coverage/'>see report</a>
 
+<h2>To install project</h2>
+<pre>
+<code>$ git clone https://github.com/xenialugovaya/Range-slider</code>
+</pre>
+
 <h2>Build project</h2>
 <pre>
-<code>$ npm run build</code>
+<code>
+$ cd Range-slider
+$ npm i
+$ npm run build
+</code>
+</pre>
+
+<h2>Run development mode</h2>
+<pre>
+<code>$ npm run start</code>
 </pre>
 
 <h2>Run tests</h2>
 <pre>
 <code>$ npm run test</code>
+</pre>
+
+<h2>Publish</h2>
+<pre>
+<code>$ npm run deploy</code>
 </pre>
 
 <h2>Initialize slider</h2>
