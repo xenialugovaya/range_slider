@@ -9,7 +9,8 @@
     "debug": "eslint --debug",
     "build": "webpack --config webpack.dev.config.js --mode production",
     "start": "webpack-dev-server --config webpack.dev.config.js",
-    "test": "karma start karma.conf.js"
+    "test": "karma start karma.conf.js",
+    "deploy": "gh-pages -d dist"
   },
   "author": "Xenia Lugovaya",
   "license": "ISC",
@@ -49,6 +50,7 @@
   },
   "dependencies": {
     "@types/jquery": "^3.3.32",
+    "gh-pages": "^2.2.0",
     "jquery": "^3.4.1"
   }
 }

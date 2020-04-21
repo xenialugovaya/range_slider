@@ -2,9 +2,9 @@
 
 customizable jQuery plugin
 
-Demo page: <a href='https://xenialugovaya.github.io/Range-slider/dist/index.html'>see demo page</a>
+Demo page: <a href='https://xenialugovaya.github.io/Range-slider/'>see demo page</a>
 
-Report on tests coverage: <a href='https://xenialugovaya.github.io/Range-slider/dist/coverage/index.html'>see report</a>
+Report on tests coverage: <a href='https://xenialugovaya.github.io/Range-slider/coverage/'>see report</a>
 
 <h2>Build project</h2>
 <pre>
