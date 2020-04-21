@@ -1,9 +1,9 @@
-import { HandlerView } from './HandlerView';
-import { SelectedArea } from './SelectedAreaView';
-import { EventObserver } from '../observer/observer';
+import HandlerView from './HandlerView';
+import SelectedArea from './SelectedAreaView';
+import EventObserver from '../observer/observer';
 import { sliderOptions } from '../model/sliderOptions';
 
-class MainView {
+export default class MainView {
   public observer: EventObserver;
 
   private sliderBody: HTMLElement;
@@ -65,7 +65,7 @@ class MainView {
       this.handlers[1].elem,
     );
 
-    this.handlers.forEach(handler => {
+    this.handlers.forEach((handler) => {
       handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this));
     });
   }
@@ -88,9 +88,7 @@ class MainView {
 
     this.setOrientation(this.isVertical);
     this.setHandlerPosition();
-    this.handlers.forEach((handler, index) =>
-      handler.updateLabel(this.hasLabels, this.values[index]),
-    );
+    this.handlers.forEach((handler, index) => handler.updateLabel(this.hasLabels, this.values[index]));
     this.setRange(this.hasRange);
     this.selectedArea.updateSelectedRange(
       this.hasRange,
@@ -124,9 +122,7 @@ class MainView {
   }
 
   setHandlerPosition(): void {
-    this.handlers.forEach((handler, index) =>
-      handler.setPosition(this.values[index], this.min, this.max, this.isVertical),
-    );
+    this.handlers.forEach((handler, index) => handler.setPosition(this.values[index], this.min, this.max, this.isVertical));
   }
 
   setRange(range: boolean): void {
@@ -170,10 +166,10 @@ class MainView {
   moveAt(coordinate: number, targetId: string): void {
     const sliderCoord = this.getCoords(this.sliderBody, this.isVertical);
     const value = this.isVertical
-      ? ((sliderCoord - coordinate) / this.sliderBody.offsetHeight) * (this.max - this.min) +
-        this.min
-      : ((coordinate - sliderCoord) / this.sliderBody.offsetWidth) * (this.max - this.min) +
-        this.min;
+      ? ((sliderCoord - coordinate) / this.sliderBody.offsetHeight) * (this.max - this.min)
+        + this.min
+      : ((coordinate - sliderCoord) / this.sliderBody.offsetWidth) * (this.max - this.min)
+        + this.min;
     if (!targetId || targetId === 'handler_min') {
       this.handlers[0].elem.style.zIndex = '100';
       this.handlers[1].elem.style.zIndex = '10';
@@ -194,5 +190,3 @@ class MainView {
     document.removeEventListener('mouseup', this.onMouseUp);
   }
 }
-
-export { MainView };

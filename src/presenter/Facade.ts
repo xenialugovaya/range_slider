@@ -1,29 +1,29 @@
-import { MainModel } from '../model/MainModel';
-import { Presenter } from './Presenter';
+import MainModel from '../model/MainModel';
+import Presenter from './Presenter';
 import { sliderOptions } from '../model/sliderOptions';
-import { EventObserver } from '../observer/observer';
+import EventObserver from '../observer/observer';
 
-class Facade {
+export default class Facade {
   private model: MainModel;
 
   private presenter: Presenter;
 
   public observer: EventObserver;
 
-  constructor(parent: HTMLElement, sliderOptions: sliderOptions) {
+  constructor(parent: HTMLElement, options: sliderOptions) {
     this.observer = new EventObserver();
-    this.model = new MainModel(sliderOptions);
+    this.model = new MainModel(options);
     this.presenter = new Presenter(parent, this.model);
     this.updateValues();
   }
 
-  updateValues() {
+  updateValues(): void {
     this.model.observer.subscribe((valueData: sliderOptions) => {
       this.observer.broadcast(valueData);
     });
   }
 
-  get parent() {
+  get parent(): HTMLElement {
     return this.presenter.parent;
   }
 
@@ -75,5 +75,3 @@ class Facade {
     this.model.hasLabels = label;
   }
 }
-
-export { Facade };

@@ -1,7 +1,7 @@
-import { EventObserver } from '../observer/observer';
+import EventObserver from '../observer/observer';
 import { sliderOptions } from './sliderOptions';
 
-class MainModel {
+export default class MainModel {
   public observer: EventObserver;
 
   private minValue = 0;
@@ -18,18 +18,18 @@ class MainModel {
 
   private labels = true;
 
-  constructor(sliderOptions: sliderOptions) {
+  constructor(options: sliderOptions) {
     this.observer = new EventObserver();
-    this.minValue = sliderOptions.min ? sliderOptions.min : this.minValue;
-    this.maxValue = sliderOptions.max ? sliderOptions.max : this.maxValue;
-    this.stepValue = sliderOptions.step ? sliderOptions.step : this.stepValue;
-    this.values = sliderOptions.values ? sliderOptions.values : this.values;
-    this.range = sliderOptions.hasRange ? sliderOptions.hasRange : this.range;
-    this.vertical = sliderOptions.isVertical ? sliderOptions.isVertical : this.vertical;
-    this.labels = sliderOptions.hasLabels ? sliderOptions.hasLabels : this.labels;
+    this.minValue = options.min ? options.min : this.minValue;
+    this.maxValue = options.max ? options.max : this.maxValue;
+    this.stepValue = options.step ? options.step : this.stepValue;
+    this.values = options.values ? options.values : this.values;
+    this.range = options.hasRange ? options.hasRange : this.range;
+    this.vertical = options.isVertical ? options.isVertical : this.vertical;
+    this.labels = options.hasLabels ? options.hasLabels : this.labels;
   }
 
-  update(valueData: sliderOptions) {
+  update(valueData: sliderOptions): void {
     if (valueData.min !== undefined) this.min = valueData.min;
     if (valueData.max) this.max = valueData.max;
     if (valueData.values) this.rangeValue = valueData.values;
@@ -39,7 +39,7 @@ class MainModel {
     if (valueData.hasLabels !== undefined) this.hasLabels = valueData.hasLabels;
   }
 
-  notifyPresenter(valueData: sliderOptions) {
+  notifyPresenter(valueData: sliderOptions): void {
     this.observer.broadcast(valueData);
   }
 
@@ -137,16 +137,14 @@ class MainModel {
   // check that values of handlers are within min and max
   // check that value 0 is less than value 1 for range
   calcValues(values: number[]): number[] {
-    values = values.map((value) => Math.round(value / this.stepValue) * this.stepValue);
+    let checkedValues = values.map((value) => Math.round(value / this.stepValue) * this.stepValue);
 
-    if (values[0] > values[1]) [values[0], values[1]] = [values[1], values[0]];
+    if (checkedValues[0] > checkedValues[1]) [checkedValues[0], checkedValues[1]] = [checkedValues[1], checkedValues[0]];
 
-    if (values[0] === values[1]) values[1] += this.stepValue;
+    if (checkedValues[0] === checkedValues[1]) checkedValues[1] += this.stepValue;
 
-    values = values.map((value) => value < this.minValue ? this.minValue : value > this.maxValue ? this.maxValue : value,);
+    checkedValues = checkedValues.map((value) => (value < this.minValue ? this.minValue : value > this.maxValue ? this.maxValue : value));
 
-    return values;
+    return checkedValues;
   }
 }
-
-export { MainModel };

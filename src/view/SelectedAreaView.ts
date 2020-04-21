@@ -1,4 +1,4 @@
-class SelectedArea {
+export default class SelectedArea {
   private selectedRange: HTMLElement;
 
   private parent: HTMLElement;
@@ -76,5 +76,3 @@ class SelectedArea {
     return this.selectedRange;
   }
 }
-
-export { SelectedArea };

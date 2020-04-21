@@ -1,4 +1,4 @@
-type sliderOptions = {
+export type sliderOptions = {
   min?: number;
   max?: number;
   step?: number;
@@ -7,5 +7,3 @@ type sliderOptions = {
   hasRange?: boolean;
   hasLabels?: boolean;
 };
-
-export { sliderOptions };

@@ -1,4 +1,4 @@
-class EventObserver {
+export default class EventObserver {
   private observers: Function[];
 
   constructor() {
@@ -10,16 +10,14 @@ class EventObserver {
   }
 
   unsubscribe(fn: Function): void {
-    this.observers = this.observers.filter(subscriber => subscriber !== fn);
+    this.observers = this.observers.filter((subscriber) => subscriber !== fn);
   }
 
   broadcast(data: object): void {
-    this.observers.forEach(subscriber => subscriber(data));
+    this.observers.forEach((subscriber) => subscriber(data));
   }
 
   get subscribers(): Function[] {
     return this.observers;
   }
 }
-
-export { EventObserver };

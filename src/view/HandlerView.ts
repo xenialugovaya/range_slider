@@ -1,6 +1,6 @@
-import { LabelView } from './LabelView';
+import LabelView from './LabelView';
 
-class HandlerView {
+export default class HandlerView {
   private parent: HTMLElement;
 
   private handler: HTMLElement;
@@ -74,5 +74,3 @@ class HandlerView {
     }
   }
 }
-
-export { HandlerView };

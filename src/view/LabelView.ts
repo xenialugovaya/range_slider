@@ -1,4 +1,4 @@
-class LabelView {
+export default class LabelView {
   private label: HTMLElement;
 
   constructor() {
@@ -27,5 +27,3 @@ class LabelView {
     return fixedPositionProperty;
   }
 }
-
-export { LabelView };

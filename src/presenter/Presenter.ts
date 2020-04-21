@@ -1,8 +1,8 @@
-import { MainModel } from '../model/MainModel';
-import { MainView } from '../view/MainView';
+import MainModel from '../model/MainModel';
+import MainView from '../view/MainView';
 import { sliderOptions } from '../model/sliderOptions';
 
-class Presenter {
+export default class Presenter {
   private model: MainModel;
 
   private view: MainView;
@@ -28,21 +28,19 @@ class Presenter {
     this.updateView();
   }
 
-  private updateModel() {
+  private updateModel(): void {
     this.view.observer.subscribe((valueData: sliderOptions) => {
       this.model.update(valueData);
     });
   }
 
-  private updateView() {
+  private updateView(): void {
     this.model.observer.subscribe((valueData: sliderOptions) => {
       this.view.update(valueData);
     });
   }
 
-  get parent() {
+  get parent(): HTMLElement {
     return this.parentNode;
   }
 }
-
-export { Presenter };

@@ -1,7 +1,7 @@
-import { Facade } from '../../presenter/Facade';
+import Facade from '../../presenter/Facade';
 import { sliderOptions } from '../../model/sliderOptions';
 
-class ControlPanel {
+export default class ControlPanel {
   private slider: Facade;
 
   private parent: HTMLElement;
@@ -63,7 +63,7 @@ class ControlPanel {
   }
 
   getSliderOptions(): void {
-    this.minMax.forEach((input, index) => (input.value = this.slider.minMax[index].toString()));
+    this.minMax.forEach((input, index) => { (input.value = this.slider.minMax[index].toString()); });
     this.values[0].value = this.slider.rangeValue[0].toString();
     if (this.values[1]) {
       this.values[1].value = this.slider.rangeValue[1].toString();
@@ -81,17 +81,17 @@ class ControlPanel {
   }
 
   private changeMinMax(): void {
-    const newMinMax = this.minMax.map((input) => parseInt(input.value));
+    const newMinMax = this.minMax.map((input) => parseInt(input.value, 10));
     this.slider.minMax = newMinMax;
   }
 
   private changeValues(): void {
-    const newValues = this.values.map((input) => parseInt(input.value));
+    const newValues = this.values.map((input) => parseInt(input.value, 10));
     this.slider.rangeValue = newValues;
   }
 
   private changeStep(): void {
-    const newStep = parseInt(this.step.value);
+    const newStep = parseInt(this.step.value, 10);
     this.slider.step = newStep;
   }
 
@@ -120,11 +120,11 @@ class ControlPanel {
       if (valueData.values) {
         const { values } = valueData;
 
-        this.values.forEach((input, index) => (input.value = values[index].toString()));
+        this.values.forEach((input, index) => { (input.value = values[index].toString()); });
       }
       if (valueData.min && valueData.max) {
         const minMax = [valueData.min, valueData.max];
-        this.minMax.forEach((input, index) => (input.value = minMax[index].toString()));
+        this.minMax.forEach((input, index) => { (input.value = minMax[index].toString()); });
       }
     });
   }
@@ -224,5 +224,3 @@ class ControlPanel {
     return this.showLabelCheck;
   }
 }
-
-export { ControlPanel };
