@@ -1,17 +1,17 @@
 class LabelView {
-  private _label: HTMLElement;
+  private label: HTMLElement;
 
   constructor() {
-    this._label = document.createElement('div');
-    this._label.classList.add('label');
+    this.label = document.createElement('div');
+    this.label.classList.add('label');
   }
 
   get elem(): HTMLElement {
-    return this._label;
+    return this.label;
   }
 
   setLabelValue(value: number): void {
-    this._label.innerText = value.toString();
+    this.label.innerText = value.toString();
   }
 
   getLabelSize(isVertical: boolean, parent: HTMLElement): number {

@@ -4,72 +4,75 @@ import { sliderOptions } from '../model/sliderOptions';
 import { EventObserver } from '../observer/observer';
 
 class Facade {
-  private _model: MainModel;
-  private _presenter: Presenter;
+  private model: MainModel;
+
+  private presenter: Presenter;
+
   public observer: EventObserver;
 
   constructor(parent: HTMLElement, sliderOptions: sliderOptions) {
     this.observer = new EventObserver();
-    this._model = new MainModel(sliderOptions);
-    this._presenter = new Presenter(parent, this._model);
+    this.model = new MainModel(sliderOptions);
+    this.presenter = new Presenter(parent, this.model);
     this.updateValues();
   }
 
   updateValues() {
-    this._model.observer.subscribe((valueData: sliderOptions) => {
+    this.model.observer.subscribe((valueData: sliderOptions) => {
       this.observer.broadcast(valueData);
     });
   }
 
   get parent() {
-    return this._presenter.parent;
+    return this.presenter.parent;
   }
 
   get minMax(): number[] {
-    return [this._model.min, this._model.max];
+    return [this.model.min, this.model.max];
   }
 
   set minMax(value: number[]) {
-    [this._model.min, this._model.max] = value;
+    [this.model.min, this.model.max] = value;
   }
 
   get rangeValue(): number[] {
-    return this._model.rangeValue;
+    return this.model.rangeValue;
   }
 
   set rangeValue(value: number[]) {
-    this._model.rangeValue = value;
+    this.model.rangeValue = value;
   }
 
   get step(): number {
-    return this._model.step;
+    return this.model.step;
   }
 
   set step(value: number) {
-    this._model.step = value;
+    this.model.step = value;
   }
 
   get isVertical(): boolean {
-    return this._model.isVertical;
+    return this.model.isVertical;
   }
 
   set isVertical(vertical: boolean) {
-    this._model.isVertical = vertical;
+    this.model.isVertical = vertical;
   }
 
   get hasRange(): boolean {
-    return this._model.hasRange;
+    return this.model.hasRange;
   }
 
   set hasRange(range: boolean) {
-    this._model.hasRange = range;
+    this.model.hasRange = range;
   }
+
   get hasLabels(): boolean {
-    return this._model.hasLabels;
+    return this.model.hasLabels;
   }
 
   set hasLabels(label: boolean) {
-    this._model.hasLabels = label;
+    this.model.hasLabels = label;
   }
 }
 

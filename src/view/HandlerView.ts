@@ -1,28 +1,32 @@
 import { LabelView } from './LabelView';
 
 class HandlerView {
-  private _parent: HTMLElement;
-  private _handler: HTMLElement;
-  private _label: LabelView | null;
-  private _showLabel: boolean;
+  private parent: HTMLElement;
+
+  private handler: HTMLElement;
+
+  private label: LabelView | null;
+
+  private showLabel: boolean;
 
   constructor(parent: HTMLElement, showLabel: boolean) {
-    this._handler = document.createElement('div');
-    this._parent = parent;
-    this._showLabel = showLabel;
-    this._label = showLabel ? new LabelView() : null;
+    this.handler = document.createElement('div');
+    this.parent = parent;
+    this.showLabel = showLabel;
+    this.label = showLabel ? new LabelView() : null;
     this.handlerInit();
   }
+
   private handlerInit() {
-    this._parent.append(this._handler);
-    this._handler.classList.add('handler');
-    if (this._label) this._handler.before(this._label.elem);
+    this.parent.append(this.handler);
+    this.handler.classList.add('handler');
+    if (this.label) this.handler.before(this.label.elem);
   }
 
   private getHandlerSize(isVertical: boolean) {
     const handlerSize = isVertical
-      ? (this._handler.offsetHeight / this._parent.offsetHeight) * 100
-      : (this._handler.offsetWidth / this._parent.offsetWidth) * 100;
+      ? (this.handler.offsetHeight / this.parent.offsetHeight) * 100
+      : (this.handler.offsetWidth / this.parent.offsetWidth) * 100;
     return handlerSize;
   }
 
@@ -31,40 +35,42 @@ class HandlerView {
     const positionProperty = isVertical ? 'bottom' : 'left';
     const handlerSize = this.getHandlerSize(isVertical);
     const position = ((value - min) / valuesCount) * 100 - handlerSize / 2;
-    this._handler.style[positionProperty] = `${position}%`;
+    this.handler.style[positionProperty] = `${position}%`;
     this.setLabelPosition(value, valuesCount, min, isVertical);
     return position;
   }
 
   private setLabelPosition(value: number, valuesCount: number, min: number, isVertical: boolean) {
-    if (this._label) {
+    if (this.label) {
       this.setLabelValue(value);
-      const labelSize = this._label.getLabelSize(isVertical, this._parent);
-      const fixedPositionProperty = this._label.getFixedPositionProperty(isVertical);
+      const labelSize = this.label.getLabelSize(isVertical, this.parent);
+      const fixedPositionProperty = this.label.getFixedPositionProperty(isVertical);
       const positionProperty = isVertical ? 'bottom' : 'left';
       const labelPosition = ((value - min) / valuesCount) * 100 - labelSize / 2;
-      this._label.elem.style[positionProperty] = `${labelPosition}%`;
-      this._label.elem.style[fixedPositionProperty] = '330%';
+      this.label.elem.style[positionProperty] = `${labelPosition}%`;
+      this.label.elem.style[fixedPositionProperty] = '330%';
     }
   }
 
   get elem() {
-    return this._handler;
+    return this.handler;
   }
+
   get labelElem() {
-    return this._label?.elem;
+    return this.label?.elem;
   }
+
   private setLabelValue(value: number) {
-    if (this._label) this._label.setLabelValue(value);
+    if (this.label) this.label.setLabelValue(value);
   }
 
   updateLabel(showLabel: boolean | undefined, value: number) {
     if (showLabel) {
-      this._label = this._label ? this._label : new LabelView();
-      this._handler.before(this._label.elem);
+      this.label = this.label ? this.label : new LabelView();
+      this.handler.before(this.label.elem);
       this.setLabelValue(value);
     } else {
-      this._label?.elem.remove();
+      this.label?.elem.remove();
     }
   }
 }

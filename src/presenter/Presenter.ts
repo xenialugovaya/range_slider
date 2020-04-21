@@ -3,42 +3,45 @@ import { MainView } from '../view/MainView';
 import { sliderOptions } from '../model/sliderOptions';
 
 class Presenter {
-  private _model: MainModel;
-  private _view: MainView;
-  private _values: number[];
-  private _parent: HTMLElement;
+  private model: MainModel;
+
+  private view: MainView;
+
+  private values: number[];
+
+  private parentNode: HTMLElement;
 
   constructor(parent: HTMLElement, model: MainModel) {
-    this._model = model;
-    this._values = this._model.rangeValue;
-    this._parent = parent;
-    this._view = new MainView(
-      this._parent,
-      this._model.hasRange,
-      this._model.isVertical,
-      this._model.min,
-      this._model.max,
-      this._values,
-      this._model.hasLabels,
+    this.model = model;
+    this.values = this.model.rangeValue;
+    this.parentNode = parent;
+    this.view = new MainView(
+      this.parentNode,
+      this.model.hasRange,
+      this.model.isVertical,
+      this.model.min,
+      this.model.max,
+      this.values,
+      this.model.hasLabels,
     );
     this.updateModel();
     this.updateView();
   }
 
   private updateModel() {
-    this._view.observer.subscribe((valueData: sliderOptions) => {
-      this._model.update(valueData);
+    this.view.observer.subscribe((valueData: sliderOptions) => {
+      this.model.update(valueData);
     });
   }
 
   private updateView() {
-    this._model.observer.subscribe((valueData: sliderOptions) => {
-      this._view.update(valueData);
+    this.model.observer.subscribe((valueData: sliderOptions) => {
+      this.view.update(valueData);
     });
   }
 
   get parent() {
-    return this._parent;
+    return this.parentNode;
   }
 }
 

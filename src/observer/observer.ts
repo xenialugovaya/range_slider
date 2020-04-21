@@ -1,20 +1,24 @@
 class EventObserver {
-  private _observers: Function[];
+  private observers: Function[];
+
   constructor() {
-    this._observers = [];
+    this.observers = [];
   }
+
   subscribe(fn: Function): void {
-    this._observers.push(fn);
+    this.observers.push(fn);
   }
+
   unsubscribe(fn: Function): void {
-    this._observers = this._observers.filter(subscriber => subscriber !== fn);
+    this.observers = this.observers.filter(subscriber => subscriber !== fn);
   }
+
   broadcast(data: object): void {
-    this._observers.forEach(subscriber => subscriber(data));
+    this.observers.forEach(subscriber => subscriber(data));
   }
 
   get subscribers(): Function[] {
-    return this._observers;
+    return this.observers;
   }
 }
 

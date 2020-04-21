@@ -1,6 +1,7 @@
 class SelectedArea {
-  private _selectedRange: HTMLElement;
-  private _parent: HTMLElement;
+  private selectedRange: HTMLElement;
+
+  private parent: HTMLElement;
 
   constructor(
     parent: HTMLElement,
@@ -9,14 +10,14 @@ class SelectedArea {
     handlerMin: HTMLElement,
     handlerMax: HTMLElement,
   ) {
-    this._parent = parent;
-    this._selectedRange = document.createElement('div');
-    this._parent.append(this._selectedRange);
+    this.parent = parent;
+    this.selectedRange = document.createElement('div');
+    this.parent.append(this.selectedRange);
     if (!range) {
-      this._selectedRange.classList.add('selectedRange');
+      this.selectedRange.classList.add('selectedRange');
       this.setPositionSingle(vertical, handlerMin);
     } else {
-      this._selectedRange.classList.add('range_between');
+      this.selectedRange.classList.add('range_between');
       this.setPositionRange(vertical, handlerMax, handlerMin);
     }
   }
@@ -28,28 +29,24 @@ class SelectedArea {
     handlerMin: HTMLElement,
   ): void {
     if (!range) {
-      this._selectedRange.classList.add('selectedRange');
-      this._selectedRange.classList.remove('range_between');
+      this.selectedRange.classList.add('selectedRange');
+      this.selectedRange.classList.remove('range_between');
       this.setPositionSingle(vertical, handlerMin);
     } else {
-      this._selectedRange.classList.remove('selectedRange');
-      this._selectedRange.classList.add('range_between');
+      this.selectedRange.classList.remove('selectedRange');
+      this.selectedRange.classList.add('range_between');
       this.setPositionRange(vertical, handlerMax, handlerMin);
     }
   }
 
   private setPositionSingle(vertical: boolean, handler: HTMLElement): void {
     vertical
-      ? (this._selectedRange.style.height =
-          this.getCoords(this._parent, vertical) -
-          this.getCoords(handler, vertical) +
-          handler.offsetHeight +
-          'px')
-      : (this._selectedRange.style.width =
-          this.getCoords(handler, vertical) -
-          this.getCoords(this._parent, vertical) +
-          handler.offsetWidth +
-          'px');
+      ? (this.selectedRange.style.height = `${this.getCoords(this.parent, vertical)
+          - this.getCoords(handler, vertical)
+          + handler.offsetHeight}px`)
+      : (this.selectedRange.style.width = `${this.getCoords(handler, vertical)
+          - this.getCoords(this.parent, vertical)
+          + handler.offsetWidth}px`);
   }
 
   private setPositionRange(
@@ -59,25 +56,24 @@ class SelectedArea {
   ): void {
     const posMin = vertical ? 'bottom' : 'left';
     const length = vertical ? 'height' : 'width';
-    this._selectedRange.style[posMin] = vertical
-      ? this.getCoords(this._parent, vertical) - this.getCoords(handlerMin, vertical) + 'px'
-      : this.getCoords(handlerMin, vertical) - this.getCoords(this._parent, vertical) + 'px';
-    this._selectedRange.style[length] = vertical
-      ? this.getCoords(handlerMin, vertical) - this.getCoords(handlerMax, vertical) + 'px'
-      : this.getCoords(handlerMax, vertical) - this.getCoords(handlerMin, vertical) + 'px';
+    this.selectedRange.style[posMin] = vertical
+      ? `${this.getCoords(this.parent, vertical) - this.getCoords(handlerMin, vertical)}px`
+      : `${this.getCoords(handlerMin, vertical) - this.getCoords(this.parent, vertical)}px`;
+    this.selectedRange.style[length] = vertical
+      ? `${this.getCoords(handlerMin, vertical) - this.getCoords(handlerMax, vertical)}px`
+      : `${this.getCoords(handlerMax, vertical) - this.getCoords(handlerMin, vertical)}px`;
   }
 
   private getCoords(elem: HTMLElement, vertical: boolean): number {
     const box = elem.getBoundingClientRect();
     if (vertical) {
       return box.bottom + pageYOffset;
-    } else {
-      return box.left + pageXOffset;
     }
+    return box.left + pageXOffset;
   }
 
   get selectedArea() {
-    return this._selectedRange;
+    return this.selectedRange;
   }
 }
 
