@@ -1,26 +1,26 @@
-import { HandlerView } from '../../../src/view/HandlerView';
+import HandlerView from '../../../src/view/HandlerView';
 
-describe('test handler view logic', function() {
+describe('test handler view logic', () => {
   setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
   const parent: any = document.querySelector('.sliderBody');
   let handler = new HandlerView(parent, true);
 
-  describe('test get func for handler and label elements', function() {
-    it('should return handler htmlelement', function() {
+  describe('test get func for handler and label elements', () => {
+    it('should return handler htmlelement', () => {
       expect(handler.elem).toHaveClass('handler');
     });
-    it('should return label htmlelement', function() {
+    it('should return label htmlelement', () => {
       expect(handler.labelElem).toHaveClass('label');
     });
   });
 
-  describe('test setPosition func for handler and label', function() {
-    beforeEach(function() {
+  describe('test setPosition func for handler and label', () => {
+    beforeEach(() => {
       setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
       const parent: any = document.querySelector('.sliderBody');
       handler = new HandlerView(parent, true);
     });
-    it('should set position for handler correctly', function() {
+    it('should set position for handler correctly', () => {
       $('.handler').css({ height: '10px' });
       $('.sliderBody').css({ height: '100px' });
       const value = 10;
@@ -37,8 +37,8 @@ describe('test handler view logic', function() {
     });
   });
 
-  describe('test updateLabel func', function() {
-    it('updateLabel should add label if flag showlabel is true', function() {
+  describe('test updateLabel func', () => {
+    it('updateLabel should add label if flag showlabel is true', () => {
       setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
       const parent: any = document.querySelector('.sliderBody');
       handler = new HandlerView(parent, false);
@@ -52,7 +52,7 @@ describe('test handler view logic', function() {
       expect(handler.labelElem).toHaveClass('label');
     });
 
-    it('updateLabel should remove label if flag showlabel is false', function() {
+    it('updateLabel should remove label if flag showlabel is false', () => {
       setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
       const parent: any = document.querySelector('.sliderBody');
       handler = new HandlerView(parent, true);

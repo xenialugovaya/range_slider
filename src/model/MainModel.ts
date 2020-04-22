@@ -44,33 +44,37 @@ export default class MainModel {
   }
 
   get min(): number {
-    if (this.minValue < this.maxValue) {
-      return Math.round(this.minValue / this.stepValue) * this.stepValue;
+    if (this.minValue > this.maxValue) {
+      // return Math.round(this.maxValue / this.stepValue) * this.stepValue;
+      return this.maxValue;
     }
-    return Math.round(this.maxValue / this.stepValue) * this.stepValue;
+    // return Math.round(this.minValue / this.stepValue) * this.stepValue;
+    return this.minValue;
   }
 
   set min(min: number) {
     this.minValue = min;
     this.notifyPresenter({
-      min: this.minValue,
-      max: this.maxValue,
+      min: this.min,
+      max: this.max,
       values: this.rangeValue,
     });
   }
 
   get max(): number {
     if (this.maxValue < this.minValue) {
-      return Math.round(this.minValue / this.stepValue) * this.stepValue;
+      // return Math.round(this.minValue / this.stepValue) * this.stepValue;
+      return this.minValue;
     }
-    return Math.round(this.maxValue / this.stepValue) * this.stepValue;
+    // return Math.round(this.maxValue / this.stepValue) * this.stepValue;
+    return this.maxValue;
   }
 
   set max(max: number) {
     this.maxValue = max;
     this.notifyPresenter({
-      min: this.minValue,
-      max: this.maxValue,
+      min: this.min,
+      max: this.max,
       values: this.rangeValue,
     });
   }
@@ -134,16 +138,24 @@ export default class MainModel {
     });
   }
 
-  // check that values of handlers are within min and max
-  // check that value 0 is less than value 1 for range
   calcValues(values: number[]): number[] {
-    let checkedValues = values.map((value) => Math.round(value / this.stepValue) * this.stepValue);
+    let checkedValues = [];
+    if (!this.range) {
+      checkedValues = values.map((value) => {
+        if ((this.max - value) < (this.stepValue / 2) && value > (this.min + this.stepValue)) {
+          return this.max;
+        }
+        return Math.round(value / this.stepValue) * this.stepValue + this.min;
+      });
+    } else {
+      checkedValues = values.map((value) => Math.round(value / this.stepValue) * this.stepValue);
+    }
 
     if (checkedValues[0] > checkedValues[1]) [checkedValues[0], checkedValues[1]] = [checkedValues[1], checkedValues[0]];
 
-    if (checkedValues[0] === checkedValues[1]) checkedValues[1] += this.stepValue;
+    // if (checkedValues[0] === checkedValues[1]) checkedValues[1] += this.stepValue;
 
-    checkedValues = checkedValues.map((value) => (value < this.minValue ? this.minValue : value > this.maxValue ? this.maxValue : value));
+    checkedValues = checkedValues.map((value) => (value < this.min ? this.min : value > this.max ? this.max : value));
 
     return checkedValues;
   }

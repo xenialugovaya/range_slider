@@ -1,29 +1,29 @@
-import { LabelView } from '../../../src/view/LabelView';
+import LabelView from '../../../src/view/LabelView';
 
 const label = new LabelView();
 
-describe('test label view', function() {
-  beforeEach(function() {
+describe('test label view', () => {
+  beforeEach(() => {
     setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
   });
 
-  it('label should have class label', function() {
+  it('label should have class label', () => {
     expect(label.elem).toHaveClass('label');
   });
 
-  it('value to label should be set correctly', function() {
+  it('value to label should be set correctly', () => {
     label.setLabelValue(10);
     expect(label.elem.innerText).toEqual('10');
   });
 
-  it('should return correct position property depending on orientation', function() {
+  it('should return correct position property depending on orientation', () => {
     let isVertical = true;
     expect(label.getFixedPositionProperty(isVertical)).toEqual('left');
     isVertical = false;
     expect(label.getFixedPositionProperty(isVertical)).toEqual('bottom');
   });
 
-  it('should return label width in %, if orientation is horizontal', function() {
+  it('should return label width in %, if orientation is horizontal', () => {
     const parent: HTMLElement | null = document.querySelector('.sliderBody');
     parent?.append(label.elem);
     $('.sliderBody').css({ width: '100px' });
@@ -33,7 +33,7 @@ describe('test label view', function() {
     if (parent) expect(label.getLabelSize(isVertical, parent)).toEqual((10 / 100) * 100);
   });
 
-  it('should return label height in %, if orientation is vertical', function() {
+  it('should return label height in %, if orientation is vertical', () => {
     const parent: HTMLElement | null = document.querySelector('.sliderBody');
     parent?.append(label.elem);
     $('.sliderBody').css({ height: '100px' });

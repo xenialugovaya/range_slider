@@ -1,4 +1,4 @@
-import { MainModel } from '../../../src/model/MainModel';
+import MainModel from '../../../src/model/MainModel';
 
 describe('test model logic', () => {
   let model: MainModel = new MainModel({});
