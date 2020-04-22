@@ -128,7 +128,14 @@
 <a name='L70'></a><a href='#L70'>70</a>
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -144,6 +151,7 @@
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
@@ -179,10 +187,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">522x</span>
+<span class="cline-any cline-yes">512x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">391x</span>
@@ -198,33 +208,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { LabelView } from './LabelView';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import LabelView from './LabelView';
 &nbsp;
-class HandlerView {
-  private _parent: HTMLElement;
-  private _handler: HTMLElement;
-  private _label: LabelView | null;
-  private _showLabel: boolean;
+export default class HandlerView {
+  private parent: HTMLElement;
+&nbsp;
+  private handler: HTMLElement;
+&nbsp;
+  private label: LabelView | null;
+&nbsp;
+  private showLabel: boolean;
 &nbsp;
   constructor(parent: HTMLElement, showLabel: boolean) {
-    this._handler = document.createElement('div');
-    this._parent = parent;
-    this._showLabel = showLabel;
-    this._label = showLabel ? new LabelView() : null;
+    this.handler = document.createElement('div');
+    this.parent = parent;
+    this.showLabel = showLabel;
+    this.label = showLabel ? new LabelView() : null;
     this.handlerInit();
   }
+&nbsp;
   private handlerInit() {
-    this._parent.append(this._handler);
-    this._handler.classList.add('handler');
-    if (this._label) this._handler.before(this._label.elem);
+    this.parent.append(this.handler);
+    this.handler.classList.add('handler');
+    if (this.label) this.handler.before(this.label.elem);
   }
 &nbsp;
   private getHandlerSize(isVertical: boolean) {
     const handlerSize = isVertical
-      ? (this._handler.offsetHeight / this._parent.offsetHeight) * 100
-      : (this._handler.offsetWidth / this._parent.offsetWidth) * 100;
+      ? (this.handler.offsetHeight / this.parent.offsetHeight) * 100
+      : (this.handler.offsetWidth / this.parent.offsetWidth) * 100;
     return handlerSize;
   }
 &nbsp;
@@ -233,45 +245,45 @@ class HandlerView {
     const positionProperty = isVertical ? 'bottom' : 'left';
     const handlerSize = this.getHandlerSize(isVertical);
     const position = ((value - min) / valuesCount) * 100 - handlerSize / 2;
-    this._handler.style[positionProperty] = `${position}%`;
+    this.handler.style[positionProperty] = `${position}%`;
     this.setLabelPosition(value, valuesCount, min, isVertical);
     return position;
   }
 &nbsp;
   private setLabelPosition(value: number, valuesCount: number, min: number, isVertical: boolean) {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (this._label) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (this.label) {
       this.setLabelValue(value);
-      const labelSize = this._label.getLabelSize(isVertical, this._parent);
-      const fixedPositionProperty = this._label.getFixedPositionProperty(isVertical);
+      const labelSize = this.label.getLabelSize(isVertical, this.parent);
+      const fixedPositionProperty = this.label.getFixedPositionProperty(isVertical);
       const positionProperty = isVertical ? 'bottom' : 'left';
       const labelPosition = ((value - min) / valuesCount) * 100 - labelSize / 2;
-      this._label.elem.style[positionProperty] = `${labelPosition}%`;
-      this._label.elem.style[fixedPositionProperty] = '330%';
+      this.label.elem.style[positionProperty] = `${labelPosition}%`;
+      this.label.elem.style[fixedPositionProperty] = '330%';
     }
   }
 &nbsp;
   get elem() {
-    return this._handler;
+    return this.handler;
   }
+&nbsp;
   get labelElem() {
-    return this._label?.elem;
+    return this.label?.elem;
   }
+&nbsp;
   private setLabelValue(value: number) {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (this._label) this._label.setLabelValue(value);
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (this.label) this.label.setLabelValue(value);
   }
 &nbsp;
   updateLabel(showLabel: boolean | undefined, value: number) {
     if (showLabel) {
-      this._label = this._label ? this._label : new LabelView();
-      this._handler.before(this._label.elem);
+      this.label = this.label ? this.label : new LabelView();
+      this.handler.before(this.label.elem);
       this.setLabelValue(value);
     } else {
-      this._label<span class="branch-0 cbranch-no" title="branch not covered" >?.e</span>lem.remove();
+      this.label<span class="branch-0 cbranch-no" title="branch not covered" >?.e</span>lem.remove();
     }
   }
 }
-&nbsp;
-export { HandlerView };
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -279,7 +291,7 @@ export { HandlerView };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Mar 06 2020 19:21:11 GMT+0300 (Москва, стандартное время)
+                at Wed Apr 22 2020 13:29:30 GMT+0300 (Москва, стандартное время)
             </div>
         </div>
         <script src="../../prettify.js"></script>
