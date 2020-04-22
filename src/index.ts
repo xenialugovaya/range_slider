@@ -1,4 +1,5 @@
 import './scss/main.scss';
+import './assets/favicons/favicons';
 import Facade from './presenter/Facade';
 
 $(() => {
