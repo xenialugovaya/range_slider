@@ -153,8 +153,6 @@ export default class MainModel {
 
     if (checkedValues[0] > checkedValues[1]) [checkedValues[0], checkedValues[1]] = [checkedValues[1], checkedValues[0]];
 
-    // if (checkedValues[0] === checkedValues[1]) checkedValues[1] += this.stepValue;
-
     checkedValues = checkedValues.map((value) => (value < this.min ? this.min : value > this.max ? this.max : value));
 
     return checkedValues;
