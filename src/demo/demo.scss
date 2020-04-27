@@ -5,6 +5,9 @@
 .slider{
   display: inline-block;  
   margin-left: 100px;
+  .sliderBody{
+    cursor: pointer;
+  }
 }
 
 .controlPanel{

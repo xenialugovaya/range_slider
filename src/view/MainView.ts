@@ -64,10 +64,6 @@ export default class MainView {
       this.handlers[0].elem,
       this.handlers[1].elem,
     );
-
-    this.handlers.forEach((handler) => {
-      handler.elem.addEventListener('mousedown', this.dragAndDrop.bind(this));
-    });
   }
 
   private sliderInit(): void {
@@ -76,6 +72,14 @@ export default class MainView {
     this.setOrientation(this.isVertical);
     this.setHandlers();
     this.setHandlerPosition();
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    this.handlers.forEach((handler) => {
+      handler.elem.addEventListener('mousedown', this.handleHandlerMouseDown.bind(this));
+    });
+    this.sliderBody.addEventListener('click', this.handleSliderBodyClick.bind(this));
   }
 
   update(valueData: sliderOptions): void {
@@ -150,8 +154,22 @@ export default class MainView {
     return box.left + pageXOffset;
   }
 
-  dragAndDrop(e: MouseEvent): void {
-    e.preventDefault();
+  handleSliderBodyClick(e: MouseEvent): void {
+    let clickCoordinate = e.pageX;
+    const handlersCoordinates = this.handlers.map((handler) => this.getCoords(handler.elem, this.isVertical));
+    if (this.isVertical) {
+      clickCoordinate = e.pageY;
+    }
+    const handlerDistance = [Math.abs(clickCoordinate - handlersCoordinates[0]), Math.abs(clickCoordinate - handlersCoordinates[1])];
+    if (handlerDistance[0] < handlerDistance[1]) {
+      this.handlerTargetId = 'handler_min';
+    } else {
+      this.handlerTargetId = 'handler_max';
+    }
+    this.moveAt(clickCoordinate, this.handlerTargetId);
+  }
+
+  handleHandlerMouseDown(e: MouseEvent): void {
     const target = e.target as HTMLDivElement;
     this.handlerTargetId = target.id;
     this.mouseMove = this.onMouseMove.bind(this);
@@ -175,6 +193,7 @@ export default class MainView {
         + this.min
       : ((coordinate - sliderCoord) / this.sliderBody.offsetWidth) * (this.max - this.min)
         + this.min;
+    console.log(targetId);
     if (!targetId || targetId === 'handler_min') {
       this.handlers[0].elem.style.zIndex = '100';
       this.handlers[1].elem.style.zIndex = '10';

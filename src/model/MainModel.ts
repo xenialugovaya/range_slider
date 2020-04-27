@@ -144,7 +144,7 @@ export default class MainModel {
       checkedValues = values.map((value) => {
         if ((this.max - value) < (this.stepValue / 2) && value > (this.min + this.stepValue)) {
           return this.max;
-        } if (this.stepValue > 1) {
+        } if (this.stepValue > 1 && this.min >= 0) {
           return Math.round(value / this.stepValue) * this.stepValue + this.min;
         }
         return Math.round(value / this.stepValue) * this.stepValue;
