@@ -123,6 +123,11 @@ export default class MainView {
 
   setHandlerPosition(): void {
     this.handlers.forEach((handler, index) => handler.setPosition(this.values[index], this.min, this.max, this.isVertical));
+    if (this.values[0] === this.max) {
+      this.handlers[0].elem.style.zIndex = '100';
+    } else {
+      this.handlers[0].elem.style.zIndex = '1';
+    }
   }
 
   setRange(range: boolean): void {
