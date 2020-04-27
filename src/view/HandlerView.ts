@@ -67,8 +67,8 @@ export default class HandlerView {
   updateLabel(showLabel: boolean | undefined, value: number) {
     if (showLabel) {
       this.label = this.label ? this.label : new LabelView();
-      this.handler.before(this.label.elem);
       this.setLabelValue(value);
+      this.handler.before(this.label.elem);
     } else {
       this.label?.elem.remove();
     }

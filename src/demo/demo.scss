@@ -5,6 +5,7 @@
 .slider{
   display: inline-block;  
   margin-left: 100px;
+  user-select: none;
   .sliderBody{
     cursor: pointer;
   }

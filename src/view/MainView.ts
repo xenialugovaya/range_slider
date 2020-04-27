@@ -129,7 +129,7 @@ export default class MainView {
     this.handlers.forEach((handler, index) => handler.setPosition(this.values[index], this.min, this.max, this.isVertical));
     if (this.values[0] === this.max) {
       this.handlers[0].elem.style.zIndex = '100';
-    } else {
+    } else if (this.values[0] === this.min) {
       this.handlers[0].elem.style.zIndex = '1';
     }
   }
@@ -188,21 +188,32 @@ export default class MainView {
 
   moveAt(coordinate: number, targetId: string): void {
     const sliderCoord = this.getCoords(this.sliderBody, this.isVertical);
-    const value = this.isVertical
+    let value = this.isVertical
       ? ((sliderCoord - coordinate) / this.sliderBody.offsetHeight) * (this.max - this.min)
         + this.min
       : ((coordinate - sliderCoord) / this.sliderBody.offsetWidth) * (this.max - this.min)
         + this.min;
-    console.log(targetId);
     if (!targetId || targetId === 'handler_min') {
-      this.handlers[0].elem.style.zIndex = '100';
-      this.handlers[1].elem.style.zIndex = '10';
+      if (value > this.values[1] && this.values[1] !== this.max) {
+        value = this.values[1];
+        this.handlers[0].elem.style.zIndex = '10';
+        this.handlers[1].elem.style.zIndex = '100';
+      } else {
+        this.handlers[0].elem.style.zIndex = '100';
+        this.handlers[1].elem.style.zIndex = '10';
+      }
       this.observer.broadcast({
         values: [value, this.values[1]],
       });
     } else {
-      this.handlers[0].elem.style.zIndex = '10';
-      this.handlers[1].elem.style.zIndex = '100';
+      if (value < this.values[0]) {
+        value = this.values[0];
+        this.handlers[0].elem.style.zIndex = '100';
+        this.handlers[1].elem.style.zIndex = '10';
+      } else {
+        this.handlers[0].elem.style.zIndex = '10';
+        this.handlers[1].elem.style.zIndex = '100';
+      }
       this.observer.broadcast({
         values: [this.values[0], value],
       });
