@@ -119,12 +119,14 @@ export default class ControlPanel {
     this.slider.observer.subscribe((valueData: sliderOptions) => {
       if (valueData.values) {
         const { values } = valueData;
-
         this.values.forEach((input, index) => { (input.value = values[index].toString()); });
       }
       if (valueData.min && valueData.max) {
         const minMax = [valueData.min, valueData.max];
         this.minMax.forEach((input, index) => { (input.value = minMax[index].toString()); });
+      }
+      if (valueData.step) {
+        this.step.value = valueData.step.toString();
       }
     });
   }

@@ -84,7 +84,8 @@ export default class MainModel {
   }
 
   set step(step: number) {
-    this.stepValue = step;
+    this.stepValue = this.verifyStep(step);
+    console.log(this.stepValue);
     this.notifyPresenter({
       step: this.stepValue,
       values: this.rangeValue,
@@ -92,7 +93,7 @@ export default class MainModel {
   }
 
   get rangeValue(): number[] {
-    return this.calcValues(this.values);
+    return this.verifyValues(this.values);
   }
 
   set rangeValue(values: number[]) {
@@ -138,7 +139,7 @@ export default class MainModel {
     });
   }
 
-  calcValues(values: number[]): number[] {
+  verifyValues(values: number[]): number[] {
     let checkedValues = [];
     if (!this.range) {
       checkedValues = values.map((value) => {
@@ -158,5 +159,15 @@ export default class MainModel {
     checkedValues = checkedValues.map((value) => (value < this.min ? this.min : value > this.max ? this.max : value));
 
     return checkedValues;
+  }
+
+  verifyStep(step: number): number {
+    const maxStep = this.max - this.min;
+    if (step > maxStep) {
+      return maxStep;
+    } if (step <= 0) {
+      return 1;
+    }
+    return step;
   }
 }
