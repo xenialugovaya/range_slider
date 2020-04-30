@@ -58,6 +58,7 @@ export default class MainModel {
       min: this.min,
       max: this.max,
       values: this.rangeValue,
+      step: this.step,
     });
   }
 
@@ -76,18 +77,19 @@ export default class MainModel {
       min: this.min,
       max: this.max,
       values: this.rangeValue,
+      step: this.step,
     });
   }
 
   get step(): number {
+    this.stepValue = this.verifyStep(this.stepValue);
     return this.stepValue;
   }
 
   set step(step: number) {
     this.stepValue = this.verifyStep(step);
-    console.log(this.stepValue);
     this.notifyPresenter({
-      step: this.stepValue,
+      step: this.step,
       values: this.rangeValue,
     });
   }
