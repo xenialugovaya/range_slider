@@ -121,11 +121,11 @@ export default class ControlPanel {
         const { values } = valueData;
         this.values.forEach((input, index) => { (input.value = values[index].toString()); });
       }
-      if (valueData.min && valueData.max) {
+      if (valueData.min !== undefined && valueData.max !== undefined) {
         const minMax = [valueData.min, valueData.max];
         this.minMax.forEach((input, index) => { (input.value = minMax[index].toString()); });
       }
-      if (valueData.step) {
+      if (valueData.step !== undefined) {
         this.step.value = valueData.step.toString();
       }
     });

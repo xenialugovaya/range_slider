@@ -45,10 +45,8 @@ export default class MainModel {
 
   get min(): number {
     if (this.minValue > this.maxValue) {
-      // return Math.round(this.maxValue / this.stepValue) * this.stepValue;
       return this.maxValue;
     }
-    // return Math.round(this.minValue / this.stepValue) * this.stepValue;
     return this.minValue;
   }
 
@@ -57,17 +55,18 @@ export default class MainModel {
     this.notifyPresenter({
       min: this.min,
       max: this.max,
-      values: this.rangeValue,
+      values: this.verifyValues(this.rangeValue),
       step: this.step,
     });
   }
 
   get max(): number {
     if (this.maxValue < this.minValue) {
-      // return Math.round(this.minValue / this.stepValue) * this.stepValue;
       return this.minValue;
     }
-    // return Math.round(this.maxValue / this.stepValue) * this.stepValue;
+    if (this.maxValue === this.minValue) {
+      return this.maxValue + this.stepValue;
+    }
     return this.maxValue;
   }
 
@@ -76,7 +75,7 @@ export default class MainModel {
     this.notifyPresenter({
       min: this.min,
       max: this.max,
-      values: this.rangeValue,
+      values: this.verifyValues(this.rangeValue),
       step: this.step,
     });
   }
@@ -90,16 +89,24 @@ export default class MainModel {
     this.stepValue = this.verifyStep(step);
     this.notifyPresenter({
       step: this.step,
-      values: this.rangeValue,
+      values: this.verifyValues(this.rangeValue),
     });
   }
 
   get rangeValue(): number[] {
-    return this.verifyValues(this.values);
+    return this.values;
   }
 
   set rangeValue(values: number[]) {
-    this.values = values;
+    values.forEach((value, index) => {
+      if (value !== this.values[index]) {
+        this.values[index] = this.verifyValue(value);
+      }
+    });
+    // console.log(values);
+    // console.log(this.values);
+    this.verifyMinMaxValues();
+    // this.values = this.verifyValues(values);
     this.notifyPresenter({
       values: this.rangeValue,
     });
@@ -143,24 +150,50 @@ export default class MainModel {
 
   verifyValues(values: number[]): number[] {
     let checkedValues = [];
-    if (!this.range) {
-      checkedValues = values.map((value) => {
-        if ((this.max - value) < (this.stepValue / 2) && value > (this.min + this.stepValue)) {
-          return this.max;
-        } if (this.stepValue > 1 && this.min >= 0) {
-          return Math.round(value / this.stepValue) * this.stepValue + this.min;
-        }
-        return Math.round(value / this.stepValue) * this.stepValue;
-      });
-    } else {
-      checkedValues = values.map((value) => Math.round(value / this.stepValue) * this.stepValue);
-    }
+
+    checkedValues = values.map((value) => {
+      const modulus = (this.max - this.min) % this.stepValue;
+      if (modulus > 0 && value > this.max - modulus) {
+        return this.max - modulus;
+      }
+      if (this.min < 0) {
+        const shift = Math.abs(this.min) - Math.round(Math.abs(this.min) / this.stepValue) * this.stepValue;
+        return Math.round(value / this.stepValue) * this.stepValue - shift;
+      }
+      return Math.round(value / this.stepValue) * this.stepValue + this.min;
+    });
 
     if (checkedValues[0] > checkedValues[1]) [checkedValues[0], checkedValues[1]] = [checkedValues[1], checkedValues[0]];
 
     checkedValues = checkedValues.map((value) => (value < this.min ? this.min : value > this.max ? this.max : value));
 
     return checkedValues;
+  }
+
+  verifyMinMaxValues(): void {
+    if (this.values[0] > this.values[1]) {
+      [this.values[0], this.values[1]] = [this.values[1], this.values[0]];
+    }
+  }
+
+  verifyValue(value: number): number {
+    let checkedValue;
+    const modulus = (this.max - this.min) % this.stepValue;
+    if (modulus > 0 && value > this.max - modulus) {
+      checkedValue = this.max - modulus;
+      console.log('modulus: ', checkedValue);
+      return checkedValue;
+    }
+    if (this.min < 0) {
+      const shift = Math.abs(this.min) - Math.round(Math.abs(this.min) / this.stepValue) * this.stepValue;
+      checkedValue = Math.round(value / this.stepValue) * this.stepValue - shift;
+      console.log('minus: ', checkedValue);
+      return checkedValue;
+    }
+    checkedValue = Math.round(value / this.stepValue) * this.stepValue + this.min;
+    checkedValue = checkedValue < this.min ? this.min : checkedValue > this.max ? this.max : checkedValue;
+    console.log('standard: ', checkedValue);
+    return checkedValue;
   }
 
   verifyStep(step: number): number {

@@ -84,7 +84,7 @@ export default class MainView {
 
   update(valueData: sliderOptions): void {
     this.min = valueData.min !== undefined ? valueData.min : this.min;
-    this.max = valueData.max ? valueData.max : this.max;
+    this.max = valueData.max !== undefined ? valueData.max : this.max;
     this.values = valueData.values ? valueData.values : this.values;
     this.isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this.isVertical;
     this.hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this.hasRange;
@@ -193,9 +193,10 @@ export default class MainView {
     const sliderCoord = this.getCoords(this.sliderBody, this.isVertical);
     let value = this.isVertical
       ? ((sliderCoord - coordinate) / this.sliderBody.offsetHeight) * (this.max - this.min)
-        + this.min
-      : ((coordinate - sliderCoord) / this.sliderBody.offsetWidth) * (this.max - this.min)
-        + this.min;
+      : ((coordinate - sliderCoord) / this.sliderBody.offsetWidth) * (this.max - this.min);
+    if (this.min < 0) {
+      value += this.min;
+    }
     if (!targetId || targetId === 'handler_min') {
       if (value > this.values[1] && this.values[1] !== this.max && this.hasRange) {
         value = this.values[1];
