@@ -119,7 +119,7 @@ export default class MainModel {
   set isVertical(vertical: boolean) {
     this.vertical = vertical;
     this.notifyPresenter({
-      values: this.rangeValue,
+      values: this.verifyValues(this.rangeValue),
       isVertical: this.vertical,
     });
   }
@@ -131,7 +131,7 @@ export default class MainModel {
   set hasRange(range: boolean) {
     this.range = range;
     this.notifyPresenter({
-      values: this.rangeValue,
+      values: this.verifyValues(this.rangeValue),
       hasRange: this.range,
     });
   }
