@@ -163,9 +163,12 @@ export default class MainView {
     const handlerDistance = [Math.abs(clickCoordinate - handlersCoordinates[0]), Math.abs(clickCoordinate - handlersCoordinates[1])];
     if (handlerDistance[0] < handlerDistance[1]) {
       this.handlerTargetId = 'handler_min';
+    } else if (handlerDistance[0] === handlerDistance[1] && clickCoordinate < handlersCoordinates[0]) {
+      this.handlerTargetId = 'handler_min';
     } else {
       this.handlerTargetId = 'handler_max';
     }
+
     this.moveAt(clickCoordinate, this.handlerTargetId);
   }
 
@@ -194,7 +197,7 @@ export default class MainView {
       : ((coordinate - sliderCoord) / this.sliderBody.offsetWidth) * (this.max - this.min)
         + this.min;
     if (!targetId || targetId === 'handler_min') {
-      if (value > this.values[1] && this.values[1] !== this.max) {
+      if (value > this.values[1] && this.values[1] !== this.max && this.hasRange) {
         value = this.values[1];
         this.handlers[0].elem.style.zIndex = '10';
         this.handlers[1].elem.style.zIndex = '100';
