@@ -55,7 +55,7 @@ export default class MainModel {
     this.notifyPresenter({
       min: this.min,
       max: this.max,
-      values: this.verifyValues(this.rangeValue),
+      values: this.rangeValue,
       step: this.step,
     });
   }
@@ -75,7 +75,7 @@ export default class MainModel {
     this.notifyPresenter({
       min: this.min,
       max: this.max,
-      values: this.verifyValues(this.rangeValue),
+      values: this.rangeValue,
       step: this.step,
     });
   }
@@ -89,11 +89,14 @@ export default class MainModel {
     this.stepValue = this.verifyStep(step);
     this.notifyPresenter({
       step: this.step,
-      values: this.verifyValues(this.rangeValue),
+      values: this.rangeValue,
     });
   }
 
   get rangeValue(): number[] {
+    this.values = this.values.map((value) => this.verifyValue(value));
+    this.verifyMinMaxValues();
+    this.verifyLimits();
     return this.values;
   }
 
@@ -101,13 +104,12 @@ export default class MainModel {
     values.forEach((value, index) => {
       if (value !== this.values[index]) {
         this.values[index] = this.verifyValue(value);
-        console.log(this.verifyValue(value));
       }
     });
     this.verifyMinMaxValues();
     this.verifyLimits();
     this.notifyPresenter({
-      values: this.rangeValue,
+      values: this.values,
     });
   }
 
@@ -118,7 +120,7 @@ export default class MainModel {
   set isVertical(vertical: boolean) {
     this.vertical = vertical;
     this.notifyPresenter({
-      values: this.verifyValues(this.rangeValue),
+      values: this.rangeValue,
       isVertical: this.vertical,
     });
   }
@@ -130,7 +132,7 @@ export default class MainModel {
   set hasRange(range: boolean) {
     this.range = range;
     this.notifyPresenter({
-      values: this.verifyValues(this.rangeValue),
+      values: this.rangeValue,
       hasRange: this.range,
     });
   }
@@ -145,28 +147,6 @@ export default class MainModel {
       values: this.rangeValue,
       hasLabels: this.labels,
     });
-  }
-
-  verifyValues(values: number[]): number[] {
-    let checkedValues = [];
-
-    checkedValues = values.map((value) => {
-      const modulus = (this.max - this.min) % this.stepValue;
-      if (modulus > 0 && value > this.max - modulus) {
-        return this.max - modulus;
-      }
-      if (this.min < 0) {
-        const shift = Math.abs(this.min) - Math.round(Math.abs(this.min) / this.stepValue) * this.stepValue;
-        return Math.round(value / this.stepValue) * this.stepValue - shift;
-      }
-      return Math.round(value / this.stepValue) * this.stepValue + this.min;
-    });
-
-    if (checkedValues[0] > checkedValues[1]) [checkedValues[0], checkedValues[1]] = [checkedValues[1], checkedValues[0]];
-
-    checkedValues = checkedValues.map((value) => (value < this.min ? this.min : value > this.max ? this.max : value));
-
-    return checkedValues;
   }
 
   verifyValue(value: number): number {
