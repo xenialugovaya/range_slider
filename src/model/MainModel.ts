@@ -101,12 +101,11 @@ export default class MainModel {
     values.forEach((value, index) => {
       if (value !== this.values[index]) {
         this.values[index] = this.verifyValue(value);
+        console.log(this.verifyValue(value));
       }
     });
-    // console.log(values);
-    // console.log(this.values);
     this.verifyMinMaxValues();
-    // this.values = this.verifyValues(values);
+    this.verifyLimits();
     this.notifyPresenter({
       values: this.rangeValue,
     });
@@ -170,30 +169,30 @@ export default class MainModel {
     return checkedValues;
   }
 
+  verifyValue(value: number): number {
+    let checkedValue;
+    const modulus = (this.max - this.min) % this.stepValue;
+    if (modulus > 0 && value > this.max - modulus) {
+      checkedValue = this.max - modulus;
+      return checkedValue;
+    }
+    if (this.min < 0) {
+      const shift = Math.abs(this.min) - Math.round(Math.abs(this.min) / this.stepValue) * this.stepValue;
+      checkedValue = Math.round(value / this.stepValue) * this.stepValue - shift;
+      return checkedValue;
+    }
+    checkedValue = Math.round(value / this.stepValue) * this.stepValue + this.min;
+    return checkedValue;
+  }
+
   verifyMinMaxValues(): void {
     if (this.values[0] > this.values[1]) {
       [this.values[0], this.values[1]] = [this.values[1], this.values[0]];
     }
   }
 
-  verifyValue(value: number): number {
-    let checkedValue;
-    const modulus = (this.max - this.min) % this.stepValue;
-    if (modulus > 0 && value > this.max - modulus) {
-      checkedValue = this.max - modulus;
-      console.log('modulus: ', checkedValue);
-      return checkedValue;
-    }
-    if (this.min < 0) {
-      const shift = Math.abs(this.min) - Math.round(Math.abs(this.min) / this.stepValue) * this.stepValue;
-      checkedValue = Math.round(value / this.stepValue) * this.stepValue - shift;
-      console.log('minus: ', checkedValue);
-      return checkedValue;
-    }
-    checkedValue = Math.round(value / this.stepValue) * this.stepValue + this.min;
-    checkedValue = checkedValue < this.min ? this.min : checkedValue > this.max ? this.max : checkedValue;
-    console.log('standard: ', checkedValue);
-    return checkedValue;
+  verifyLimits(): void {
+    this.values = this.values.map((value) => (value < this.min ? this.min : value > this.max ? this.max : value));
   }
 
   verifyStep(step: number): number {
