@@ -154,14 +154,17 @@ export default class MainModel {
     const modulus = (this.max - this.min) % this.stepValue;
     if (modulus > 0 && value > this.max - modulus) {
       checkedValue = this.max - modulus;
+      console.log('modulus: ', checkedValue);
       return checkedValue;
     }
     if (this.min < 0) {
       const shift = Math.abs(this.min) - Math.round(Math.abs(this.min) / this.stepValue) * this.stepValue;
       checkedValue = Math.round(value / this.stepValue) * this.stepValue - shift;
+      console.log('minus: ', checkedValue);
       return checkedValue;
     }
     checkedValue = Math.round(value / this.stepValue) * this.stepValue + this.min;
+    console.log('standard: ', checkedValue);
     return checkedValue;
   }
 

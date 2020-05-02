@@ -79,7 +79,7 @@ export default class MainView {
     this.handlers.forEach((handler) => {
       handler.elem.addEventListener('mousedown', this.handleHandlerMouseDown.bind(this));
     });
-    this.sliderBody.addEventListener('click', this.handleSliderBodyClick.bind(this));
+    this.sliderBody.addEventListener('mousedown', this.handleSliderBodyMouseDown.bind(this));
   }
 
   update(valueData: sliderOptions): void {
@@ -154,7 +154,7 @@ export default class MainView {
     return box.left + pageXOffset;
   }
 
-  handleSliderBodyClick(e: MouseEvent): void {
+  handleSliderBodyMouseDown(e: MouseEvent): void {
     let clickCoordinate = e.pageX;
     const handlersCoordinates = this.handlers.map((handler) => this.getCoords(handler.elem, this.isVertical));
     if (this.isVertical) {
@@ -173,6 +173,7 @@ export default class MainView {
   }
 
   handleHandlerMouseDown(e: MouseEvent): void {
+    e.stopPropagation();
     const target = e.target as HTMLDivElement;
     this.handlerTargetId = target.id;
     this.mouseMove = this.onMouseMove.bind(this);
@@ -197,6 +198,7 @@ export default class MainView {
     if (this.min < 0) {
       value += this.min;
     }
+    console.log(targetId);
     if (!targetId || targetId === 'handler_min') {
       if (value > this.values[1] && this.values[1] !== this.max && this.hasRange) {
         value = this.values[1];
