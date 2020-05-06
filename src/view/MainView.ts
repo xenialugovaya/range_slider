@@ -198,7 +198,6 @@ export default class MainView {
     if (this.min < 0) {
       value += this.min;
     }
-    console.log(targetId);
     if (!targetId || targetId === 'handler_min') {
       if (value > this.values[1] && this.values[1] !== this.max && this.hasRange) {
         value = this.values[1];
