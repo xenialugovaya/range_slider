@@ -24,7 +24,7 @@ export default class ControlPanel {
 
   constructor(slider: Facade) {
     this.slider = slider;
-    this.parent = this.slider.parent;
+    this.parent = this.slider.getParent();
     this.controlPanel = document.createElement('div');
     this.values = [];
     this.minMax = [];
@@ -46,7 +46,7 @@ export default class ControlPanel {
     this.createMaxMinInputs();
     this.createValueInputs();
     this.createStepInput();
-    this.createOrientationCheck();
+    this.createOrientationCheckbox();
     this.createRangeCheckbox();
     this.createShowLabelCheckbox();
   }
@@ -56,9 +56,7 @@ export default class ControlPanel {
     this.values.forEach((input) => input.addEventListener('change', this.changeValues.bind(this)));
     this.step.addEventListener('change', this.changeStep.bind(this));
     this.orientationCheckbox.addEventListener('change', this.changeOrientation.bind(this));
-
     this.rangeCheckbox.addEventListener('change', this.changeRange.bind(this));
-
     this.showLabelCheckbox.addEventListener('change', this.changeLabelVisibility.bind(this));
   }
 
@@ -187,7 +185,7 @@ export default class ControlPanel {
     return this.step;
   }
 
-  private createOrientationCheck(): void {
+  private createOrientationCheckbox(): void {
     const title = document.createElement('p');
     this.controlPanel.append(title);
     title.innerText = 'Vertical';

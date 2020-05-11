@@ -40,12 +40,14 @@ export default class SelectedArea {
   }
 
   private setPositionSingle(vertical: boolean, handler: HTMLElement): void {
-    vertical
-      ? (this.selectedRange.style.height = `${this.getCoords(this.parent, vertical)
-          - this.getCoords(handler, vertical)
-          + handler.offsetHeight}px`)
-      : (this.selectedRange.style.width = `${((this.getCoords(handler, vertical)
-          - this.getCoords(this.parent, vertical)) / this.parent.offsetWidth) * 100}%`);
+    if (vertical) {
+      (this.selectedRange.style.height = `${this.getCoords(this.parent, vertical)
+        - this.getCoords(handler, vertical)
+        + handler.offsetHeight}px`);
+    } else {
+      (this.selectedRange.style.width = `${((this.getCoords(handler, vertical)
+        - this.getCoords(this.parent, vertical)) / this.parent.offsetWidth) * 100}%`);
+    }
   }
 
   private setPositionRange(
@@ -57,7 +59,7 @@ export default class SelectedArea {
     const length = vertical ? 'height' : 'width';
     this.selectedRange.style[posMin] = vertical
       ? `${((this.getCoords(this.parent, vertical) - this.getCoords(handlerMin, vertical)) / this.parent.offsetHeight) * 100}%`
-      : `${((this.getCoords(handlerMin, vertical) - this.getCoords(this.parent, vertical)) / this.parent.offsetWidth) * 100}%`;
+      : `${((this.getCoords(handlerMin, vertical) - this.getCoords(this.parent, vertical) + (handlerMin.offsetWidth / 2)) / this.parent.offsetWidth) * 100}%`;
     this.selectedRange.style[length] = vertical
       ? `${((this.getCoords(handlerMin, vertical) - this.getCoords(handlerMax, vertical)) / this.parent.offsetHeight) * 100}%`
       : `${((this.getCoords(handlerMax, vertical) - this.getCoords(handlerMin, vertical)) / this.parent.offsetWidth) * 100}%`;

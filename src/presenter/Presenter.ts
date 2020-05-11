@@ -40,7 +40,7 @@ export default class Presenter {
     });
   }
 
-  get parent(): HTMLElement {
+  getParent(): HTMLElement {
     return this.parentNode;
   }
 }

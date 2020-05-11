@@ -23,8 +23,8 @@ export default class Facade {
     });
   }
 
-  get parent(): HTMLElement {
-    return this.presenter.parent;
+  getParent(): HTMLElement {
+    return this.presenter.getParent();
   }
 
   get minMax(): number[] {
