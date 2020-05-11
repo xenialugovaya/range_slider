@@ -52,7 +52,7 @@ export default class HandlerView {
     }
   }
 
-  get elem() {
+  getElement(): HTMLElement {
     return this.handler;
   }
 

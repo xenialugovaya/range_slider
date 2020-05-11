@@ -61,8 +61,8 @@ export default class MainView {
       this.sliderBody,
       this.hasRange,
       this.isVertical,
-      this.handlers[0].elem,
-      this.handlers[1].elem,
+      this.handlers[0].getElement(),
+      this.handlers[1].getElement(),
     );
   }
 
@@ -77,7 +77,7 @@ export default class MainView {
 
   bindEvents() {
     this.handlers.forEach((handler) => {
-      handler.elem.addEventListener('mousedown', this.handleHandlerMouseDown.bind(this));
+      handler.getElement().addEventListener('mousedown', this.handleHandlerMouseDown.bind(this));
     });
     this.sliderBody.addEventListener('mousedown', this.handleSliderBodyMouseDown.bind(this));
   }
@@ -96,8 +96,8 @@ export default class MainView {
     this.selectedArea.updateSelectedRange(
       this.hasRange,
       this.isVertical,
-      this.handlers[1].elem,
-      this.handlers[0].elem,
+      this.handlers[1].getElement(),
+      this.handlers[0].getElement(),
     );
   }
 
@@ -115,8 +115,8 @@ export default class MainView {
     this.handlers.push(new HandlerView(this.sliderBody, this.hasLabels));
     if (this.hasRange) {
       this.handlers.push(new HandlerView(this.sliderBody, this.hasLabels));
-      this.handlers[0].elem.id = 'handler_min';
-      this.handlers[1].elem.id = 'handler_max';
+      this.handlers[0].getElement().id = 'handler_min';
+      this.handlers[1].getElement().id = 'handler_max';
     }
   }
 
@@ -127,26 +127,26 @@ export default class MainView {
   setHandlerPosition(): void {
     this.handlers.forEach((handler, index) => handler.setPosition(this.values[index], this.min, this.max, this.isVertical));
     if (this.values[0] === this.max) {
-      this.handlers[0].elem.style.zIndex = '100';
+      this.handlers[0].getElement().style.zIndex = '100';
     } else if (this.values[0] === this.min) {
-      this.handlers[0].elem.style.zIndex = '1';
+      this.handlers[0].getElement().style.zIndex = '1';
     }
   }
 
   setRange(range: boolean): void {
     if (!range) {
-      this.handlers[1].elem.remove();
+      this.handlers[1].getElement().remove();
       this.handlers[1].labelElem?.remove();
     } else {
-      this.handlers[0].elem.after(this.handlers[1].elem);
+      this.handlers[0].getElement().after(this.handlers[1].getElement());
       if (this.handlers[1].labelElem && this.hasLabels) {
-        this.handlers[1].elem.before(this.handlers[1].labelElem);
+        this.handlers[1].getElement().before(this.handlers[1].labelElem);
       }
     }
   }
 
-  getCoords(elem: HTMLElement, vertical: boolean): number {
-    const box = elem.getBoundingClientRect();
+  getCoords(element: HTMLElement, vertical: boolean): number {
+    const box = element.getBoundingClientRect();
     if (vertical) {
       return box.bottom + pageYOffset;
     }
@@ -155,7 +155,7 @@ export default class MainView {
 
   handleSliderBodyMouseDown(e: MouseEvent): void {
     let clickCoordinate = e.pageX;
-    const handlersCoordinates = this.handlers.map((handler) => this.getCoords(handler.elem, this.isVertical));
+    const handlersCoordinates = this.handlers.map((handler) => this.getCoords(handler.getElement(), this.isVertical));
     if (this.isVertical) {
       clickCoordinate = e.pageY;
     }
@@ -200,11 +200,11 @@ export default class MainView {
     if (!targetId || targetId === 'handler_min') {
       if ((value + this.min) > this.values[1] && this.values[1] !== this.max && this.hasRange) {
         value = this.values[1];
-        this.handlers[0].elem.style.zIndex = '10';
-        this.handlers[1].elem.style.zIndex = '100';
+        this.handlers[0].getElement().style.zIndex = '10';
+        this.handlers[1].getElement().style.zIndex = '100';
       } else {
-        this.handlers[0].elem.style.zIndex = '100';
-        this.handlers[1].elem.style.zIndex = '10';
+        this.handlers[0].getElement().style.zIndex = '100';
+        this.handlers[1].getElement().style.zIndex = '10';
       }
       this.observer.broadcast({
         values: [value, this.values[1]],
@@ -212,11 +212,11 @@ export default class MainView {
     } else {
       if (value < this.values[0]) {
         value = this.values[0];
-        this.handlers[0].elem.style.zIndex = '100';
-        this.handlers[1].elem.style.zIndex = '10';
+        this.handlers[0].getElement().style.zIndex = '100';
+        this.handlers[1].getElement().style.zIndex = '10';
       } else {
-        this.handlers[0].elem.style.zIndex = '10';
-        this.handlers[1].elem.style.zIndex = '100';
+        this.handlers[0].getElement().style.zIndex = '10';
+        this.handlers[1].getElement().style.zIndex = '100';
       }
       this.observer.broadcast({
         values: [this.values[0], value],
