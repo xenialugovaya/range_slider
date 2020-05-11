@@ -144,7 +144,7 @@ export default class MainModel {
   set hasLabels(label: boolean) {
     this.labels = label;
     this.notifyPresenter({
-      values: this.rangeValue,
+      // values: this.rangeValue,
       hasLabels: this.labels,
     });
   }
@@ -165,7 +165,9 @@ export default class MainModel {
       checkedValue = Math.round(value / this.stepValue) * this.stepValue - shift;
       return checkedValue;
     }
-
+    if (value === this.values[0] || value === this.values[1]) {
+      return value;
+    }
     checkedValue = Math.round(value / this.stepValue) * this.stepValue + this.min;
     return checkedValue;
   }

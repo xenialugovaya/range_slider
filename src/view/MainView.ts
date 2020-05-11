@@ -89,7 +89,6 @@ export default class MainView {
     this.isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this.isVertical;
     this.hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this.hasRange;
     this.hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this.hasLabels;
-
     this.setOrientation(this.isVertical);
     this.handlers.forEach((handler, index) => handler.updateLabel(this.hasLabels, this.values[index]));
     this.setRange(this.hasRange);
