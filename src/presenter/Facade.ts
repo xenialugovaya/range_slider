@@ -28,50 +28,51 @@ export default class Facade {
   }
 
   get minMax(): number[] {
-    return [this.model.min, this.model.max];
+    return [this.model.getMin(), this.model.getMax()];
   }
 
   set minMax(value: number[]) {
-    [this.model.min, this.model.max] = value;
+    this.model.setMin(value[0]);
+    this.model.setMax(value[1]);
   }
 
   get rangeValue(): number[] {
-    return this.model.rangeValue;
+    return this.model.getValues();
   }
 
-  set rangeValue(value: number[]) {
-    this.model.rangeValue = value;
+  set rangeValue(values: number[]) {
+    this.model.setValues(values);
   }
 
   get step(): number {
-    return this.model.step;
+    return this.model.getStep();
   }
 
   set step(value: number) {
-    this.model.step = value;
+    this.model.setStep(value);
   }
 
   get isVertical(): boolean {
-    return this.model.isVertical;
+    return this.model.getOrientation();
   }
 
   set isVertical(vertical: boolean) {
-    this.model.isVertical = vertical;
+    this.model.setOrientation(vertical);
   }
 
   get hasRange(): boolean {
-    return this.model.hasRange;
+    return this.model.getRange();
   }
 
   set hasRange(range: boolean) {
-    this.model.hasRange = range;
+    this.model.setRange(range);
   }
 
   get hasLabels(): boolean {
-    return this.model.hasLabels;
+    return this.model.getLabels();
   }
 
   set hasLabels(label: boolean) {
-    this.model.hasLabels = label;
+    this.model.setLabels(label);
   }
 }

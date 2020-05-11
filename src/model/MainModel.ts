@@ -30,37 +30,37 @@ export default class MainModel {
   }
 
   update(valueData: sliderOptions): void {
-    if (valueData.min !== undefined) this.min = valueData.min;
-    if (valueData.max) this.max = valueData.max;
-    if (valueData.values) this.rangeValue = valueData.values;
-    if (valueData.isVertical !== undefined) this.isVertical = valueData.isVertical;
-    if (valueData.step) this.step = valueData.step;
-    if (valueData.hasRange !== undefined) this.hasRange = valueData.hasRange;
-    if (valueData.hasLabels !== undefined) this.hasLabels = valueData.hasLabels;
+    if (valueData.min !== undefined) this.setMin(valueData.min);
+    if (valueData.max) this.setMax(valueData.max);
+    if (valueData.values) this.setValues(valueData.values);
+    if (valueData.isVertical !== undefined) this.setOrientation(valueData.isVertical);
+    if (valueData.step) this.setStep(valueData.step);
+    if (valueData.hasRange !== undefined) this.setRange(valueData.hasRange);
+    if (valueData.hasLabels !== undefined) this.setLabels(valueData.hasLabels);
   }
 
   notifyPresenter(valueData: sliderOptions): void {
     this.observer.broadcast(valueData);
   }
 
-  get min(): number {
+  getMin(): number {
     if (this.minValue > this.maxValue) {
       return this.maxValue;
     }
     return this.minValue;
   }
 
-  set min(min: number) {
+  setMin(min: number): void {
     this.minValue = min;
     this.notifyPresenter({
-      min: this.min,
-      max: this.max,
-      values: this.rangeValue,
-      step: this.step,
+      min: this.getMin(),
+      max: this.getMax(),
+      values: this.getValues(),
+      step: this.getStep(),
     });
   }
 
-  get max(): number {
+  getMax(): number {
     if (this.maxValue < this.minValue) {
       return this.minValue;
     }
@@ -70,37 +70,37 @@ export default class MainModel {
     return this.maxValue;
   }
 
-  set max(max: number) {
+  setMax(max: number): void {
     this.maxValue = max;
     this.notifyPresenter({
-      min: this.min,
-      max: this.max,
-      values: this.rangeValue,
-      step: this.step,
+      min: this.getMin(),
+      max: this.getMax(),
+      values: this.getValues(),
+      step: this.getStep(),
     });
   }
 
-  get step(): number {
+  getStep(): number {
     this.stepValue = this.verifyStep(this.stepValue);
     return this.stepValue;
   }
 
-  set step(step: number) {
+  setStep(step: number): void {
     this.stepValue = this.verifyStep(step);
     this.notifyPresenter({
-      step: this.step,
-      values: this.rangeValue,
+      step: this.getStep(),
+      values: this.getValues(),
     });
   }
 
-  get rangeValue(): number[] {
+  getValues(): number[] {
     this.values = this.values.map((value) => this.verifyValue(value));
     this.verifyMinMaxValues();
     this.verifyLimits();
     return this.values;
   }
 
-  set rangeValue(values: number[]) {
+  setValues(values: number[]): void {
     values.forEach((value, index) => {
       if (value !== this.values[index]) {
         this.values[index] = this.verifyValue(value);
@@ -113,62 +113,61 @@ export default class MainModel {
     });
   }
 
-  get isVertical(): boolean {
+  getOrientation(): boolean {
     return this.vertical;
   }
 
-  set isVertical(vertical: boolean) {
+  setOrientation(vertical: boolean): void {
     this.vertical = vertical;
     this.notifyPresenter({
-      values: this.rangeValue,
-      isVertical: this.vertical,
+      values: this.getValues(),
+      isVertical: this.getOrientation(),
     });
   }
 
-  get hasRange(): boolean {
+  getRange(): boolean {
     return this.range;
   }
 
-  set hasRange(range: boolean) {
+  setRange(range: boolean): void {
     this.range = range;
     this.notifyPresenter({
-      values: this.rangeValue,
-      hasRange: this.range,
+      values: this.getValues(),
+      hasRange: this.getRange(),
     });
   }
 
-  get hasLabels(): boolean {
+  getLabels(): boolean {
     return this.labels;
   }
 
-  set hasLabels(label: boolean) {
+  setLabels(label: boolean): void {
     this.labels = label;
     this.notifyPresenter({
-      // values: this.rangeValue,
-      hasLabels: this.labels,
+      hasLabels: this.getLabels(),
     });
   }
 
   verifyValue(value: number): number {
     let checkedValue;
-    const modulus = (this.max - this.min) % this.stepValue;
-    if (modulus > 0 && (value + this.min) > this.max - modulus) {
-      checkedValue = this.max - modulus;
+    const modulus = (this.getMax() - this.getMin()) % this.stepValue;
+    if (modulus > 0 && (value + this.getMin()) > this.getMax() - modulus) {
+      checkedValue = this.getMax() - modulus;
       return checkedValue;
     }
-    if (this.min < 0) {
-      if (modulus > 0 && value > this.max - modulus) {
-        checkedValue = this.max - modulus;
+    if (this.getMin() < 0) {
+      if (modulus > 0 && value > this.getMax() - modulus) {
+        checkedValue = this.getMax() - modulus;
         return checkedValue;
       }
-      const shift = Math.abs(this.min) - Math.round(Math.abs(this.min) / this.stepValue) * this.stepValue;
+      const shift = Math.abs(this.getMin()) - Math.round(Math.abs(this.getMin()) / this.stepValue) * this.stepValue;
       checkedValue = Math.round(value / this.stepValue) * this.stepValue - shift;
       return checkedValue;
     }
     if (value === this.values[0] || value === this.values[1]) {
       return value;
     }
-    checkedValue = Math.round(value / this.stepValue) * this.stepValue + this.min;
+    checkedValue = Math.round(value / this.stepValue) * this.stepValue + this.getMin();
     return checkedValue;
   }
 
@@ -179,11 +178,11 @@ export default class MainModel {
   }
 
   verifyLimits(): void {
-    this.values = this.values.map((value) => (value < this.min ? this.min : value > this.max ? this.max : value));
+    this.values = this.values.map((value) => (value < this.getMin() ? this.getMin() : value > this.getMax() ? this.getMax() : value));
   }
 
   verifyStep(step: number): number {
-    const maxStep = this.max - this.min;
+    const maxStep = this.getMax() - this.getMin();
     if (step > maxStep) {
       return maxStep;
     } if (step <= 0) {

@@ -13,16 +13,16 @@ export default class Presenter {
 
   constructor(parent: HTMLElement, model: MainModel) {
     this.model = model;
-    this.values = this.model.rangeValue;
+    this.values = this.model.getValues();
     this.parentNode = parent;
     this.view = new MainView(
       this.parentNode,
-      this.model.hasRange,
-      this.model.isVertical,
-      this.model.min,
-      this.model.max,
+      this.model.getRange(),
+      this.model.getOrientation(),
+      this.model.getMin(),
+      this.model.getMax(),
       this.values,
-      this.model.hasLabels,
+      this.model.getLabels(),
     );
     this.updateModel();
     this.updateView();

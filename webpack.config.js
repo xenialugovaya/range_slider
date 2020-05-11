@@ -1,8 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 
 module.exports = {
@@ -18,12 +17,12 @@ module.exports = {
       },
       {
         test: /\.ts$/,
-        exclude: [ path.resolve(__dirname, "tests") ],
+        exclude: [path.resolve(__dirname, 'tests')],
         enforce: 'post',
         use: {
           loader: 'istanbul-instrumenter-loader',
-          options: { esModules: true }
-        }
+          options: { esModules: true },
+        },
       },
       {
         test: /\.s[ac]ss$/i,
@@ -32,23 +31,22 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader',
-          
         ],
       },
       {
         test: /\.pug$/,
         loader: 'pug-loader',
-        exclude: '/node_modules/'
+        exclude: '/node_modules/',
       },
- 
+
     ],
   },
   resolve: {
     extensions: ['.ts', '.js'],
 
   },
- 
-  
+
+
   output: {
     filename: 'sliderApp.js',
     path: path.resolve(__dirname, './dist'),
@@ -59,11 +57,11 @@ module.exports = {
     hot: true,
   },
   plugins: [
- 
+
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-  
+
     }),
     new HtmlWebpackPlugin({
       inject: false,
@@ -72,10 +70,9 @@ module.exports = {
       filename: 'index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: `assets/css/main.css`,
+      filename: 'assets/css/main.css',
     }),
   ],
-  
 
 
 };
