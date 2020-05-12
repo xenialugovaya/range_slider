@@ -3,25 +3,26 @@ import MainView from '../view/MainView';
 import { sliderOptions } from '../model/sliderOptions';
 
 export default class Presenter {
-  private model: MainModel;
+  private model!: MainModel;
 
-  private view: MainView;
+  private view!: MainView;
 
-  private values: number[];
-
-  private parentNode: HTMLElement;
+  private parent!: HTMLElement;
 
   constructor(parent: HTMLElement, model: MainModel) {
+    this.init(parent, model);
+  }
+
+  private init(parent: HTMLElement, model: MainModel): void {
     this.model = model;
-    this.values = this.model.getValues();
-    this.parentNode = parent;
+    this.parent = parent;
     this.view = new MainView(
-      this.parentNode,
+      this.parent,
       this.model.getRange(),
       this.model.getOrientation(),
       this.model.getMin(),
       this.model.getMax(),
-      this.values,
+      this.model.getValues(),
       this.model.getLabels(),
     );
     this.updateModel();
@@ -41,6 +42,6 @@ export default class Presenter {
   }
 
   getParent(): HTMLElement {
-    return this.parentNode;
+    return this.parent;
   }
 }

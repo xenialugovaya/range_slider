@@ -8,10 +8,9 @@ export default class Facade {
 
   private presenter: Presenter;
 
-  public observer: EventObserver;
+  public observer = new EventObserver();
 
   constructor(parent: HTMLElement, options: sliderOptions) {
-    this.observer = new EventObserver();
     this.model = new MainModel(options);
     this.presenter = new Presenter(parent, this.model);
     this.updateValues();
