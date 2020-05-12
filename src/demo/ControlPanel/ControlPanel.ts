@@ -2,65 +2,31 @@ import Facade from '../../presenter/Facade';
 import { sliderOptions } from '../../model/sliderOptions';
 
 export default class ControlPanel {
-  private slider: Facade;
+  private slider!: Facade;
 
   private parent!: (Node & ParentNode) | null;
 
-  private controlPanel: HTMLElement;
+  private controlPanel = document.createElement('div');
 
-  private minMax: HTMLInputElement[];
+  private minMax: HTMLInputElement[] = [];
 
-  private values: HTMLInputElement[];
+  private values: HTMLInputElement[] = [];
 
-  private step: HTMLInputElement;
+  private step = document.createElement('input');
 
-  private orientationCheck: HTMLInputElement;
+  private orientationCheck = document.createElement('input');
 
-  private rangeCheck: HTMLInputElement;
+  private rangeCheck = document.createElement('input');
 
-  private showLabelCheck: HTMLInputElement;
+  private showLabelCheck = document.createElement('input');
 
-  private hasRange: boolean;
+  private hasRange!: boolean;
 
   constructor(slider: Facade) {
-    this.slider = slider;
-    this.parent = this.slider.getParent().parentNode;
-    this.controlPanel = document.createElement('div');
-    this.values = [];
-    this.minMax = [];
-    this.step = document.createElement('input');
-    this.orientationCheck = document.createElement('input');
-    this.rangeCheck = document.createElement('input');
-    this.showLabelCheck = document.createElement('input');
-    this.hasRange = slider.getRange();
-
-    this.panelInit();
-    this.setEventListeners();
-    this.getSliderOptions();
-    this.updateValues();
+    this.init(slider);
   }
 
-  private panelInit(): void {
-    this.controlPanel.classList.add('demo-slider__control-panel');
-    this.parent?.parentElement?.prepend(this.controlPanel);
-    this.createMaxMinInputs();
-    this.createValueInputs();
-    this.createStepInput();
-    this.createOrientationCheckbox();
-    this.createRangeCheckbox();
-    this.createShowLabelCheckbox();
-  }
-
-  private setEventListeners(): void {
-    this.minMax.forEach((input) => input.addEventListener('change', this.changeMinMax.bind(this)));
-    this.values.forEach((input) => input.addEventListener('change', this.changeValues.bind(this)));
-    this.step.addEventListener('change', this.changeStep.bind(this));
-    this.getOrientationCheckbox().addEventListener('change', this.changeOrientation.bind(this));
-    this.getRangeCheckbox().addEventListener('change', this.changeRange.bind(this));
-    this.getShowLabelCheckbox().addEventListener('change', this.changeLabelVisibility.bind(this));
-  }
-
-  getSliderOptions(): void {
+  public getSliderOptions(): void {
     this.minMax.forEach((input, index) => { (input.value = this.slider.getMinMax()[index].toString()); });
     this.values[0].value = this.slider.getValues()[0].toString();
     if (this.values[1]) {
@@ -76,6 +42,56 @@ export default class ControlPanel {
     if (this.slider.getLabels()) {
       this.getShowLabelCheckbox().checked = true;
     }
+  }
+
+  public getMinMaxInputs(): HTMLInputElement[] {
+    return this.minMax;
+  }
+
+  public getValueInputs(): HTMLInputElement[] {
+    return this.values;
+  }
+
+  public getStepInput(): HTMLInputElement {
+    return this.step;
+  }
+
+  public getOrientationCheckbox(): HTMLInputElement {
+    return this.orientationCheck;
+  }
+
+  public getRangeCheckbox(): HTMLInputElement {
+    return this.rangeCheck;
+  }
+
+  public getShowLabelCheckbox(): HTMLInputElement {
+    return this.showLabelCheck;
+  }
+
+  private init(slider: Facade): void {
+    this.slider = slider;
+    this.parent = this.slider.getParent().parentNode;
+    this.hasRange = slider.getRange();
+    this.controlPanel.classList.add('demo-slider__control-panel');
+    this.parent?.parentElement?.prepend(this.controlPanel);
+    this.createMaxMinInputs();
+    this.createValueInputs();
+    this.createStepInput();
+    this.createOrientationCheckbox();
+    this.createRangeCheckbox();
+    this.createShowLabelCheckbox();
+    this.setEventListeners();
+    this.getSliderOptions();
+    this.updateValues();
+  }
+
+  private setEventListeners(): void {
+    this.minMax.forEach((input) => input.addEventListener('change', this.changeMinMax.bind(this)));
+    this.values.forEach((input) => input.addEventListener('change', this.changeValues.bind(this)));
+    this.step.addEventListener('change', this.changeStep.bind(this));
+    this.getOrientationCheckbox().addEventListener('change', this.changeOrientation.bind(this));
+    this.getRangeCheckbox().addEventListener('change', this.changeRange.bind(this));
+    this.getShowLabelCheckbox().addEventListener('change', this.changeLabelVisibility.bind(this));
   }
 
   private changeMinMax(): void {
@@ -145,10 +161,6 @@ export default class ControlPanel {
     this.minMax = [inputMin, inputMax];
   }
 
-  getMinMaxInputs(): HTMLInputElement[] {
-    return this.minMax;
-  }
-
   private createValueInputs(): void {
     const title = document.createElement('p');
     title.classList.add('demo-slider__title');
@@ -170,10 +182,6 @@ export default class ControlPanel {
     }
   }
 
-  getValueInputs(): HTMLInputElement[] {
-    return this.values;
-  }
-
   private createStepInput(): void {
     const title = document.createElement('p');
     title.classList.add('demo-slider__title');
@@ -182,10 +190,6 @@ export default class ControlPanel {
     this.step.classList.add('demo-slider__input');
     this.step.type = 'number';
     this.controlPanel.append(this.step);
-  }
-
-  getStepInput(): HTMLInputElement {
-    return this.step;
   }
 
   private createOrientationCheckbox(): void {
@@ -198,10 +202,6 @@ export default class ControlPanel {
     this.controlPanel.append(this.orientationCheck);
   }
 
-  getOrientationCheckbox(): HTMLInputElement {
-    return this.orientationCheck;
-  }
-
   private createRangeCheckbox(): void {
     const title = document.createElement('p');
     title.classList.add('demo-slider__title');
@@ -212,10 +212,6 @@ export default class ControlPanel {
     this.controlPanel.append(this.rangeCheck);
   }
 
-  getRangeCheckbox(): HTMLInputElement {
-    return this.rangeCheck;
-  }
-
   private createShowLabelCheckbox(): void {
     const title = document.createElement('p');
     title.classList.add('demo-slider__title');
@@ -224,9 +220,5 @@ export default class ControlPanel {
     this.showLabelCheck.classList.add('demo-slider__input');
     this.showLabelCheck.type = 'checkbox';
     this.controlPanel.append(this.showLabelCheck);
-  }
-
-  getShowLabelCheckbox(): HTMLInputElement {
-    return this.showLabelCheck;
   }
 }
