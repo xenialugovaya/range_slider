@@ -4,7 +4,7 @@ import { sliderOptions } from '../../model/sliderOptions';
 export default class ControlPanel {
   private slider: Facade;
 
-  private parent: HTMLElement;
+  private parent!: (Node & ParentNode) | null;
 
   private controlPanel: HTMLElement;
 
@@ -24,7 +24,7 @@ export default class ControlPanel {
 
   constructor(slider: Facade) {
     this.slider = slider;
-    this.parent = this.slider.getParent();
+    this.parent = this.slider.getParent().parentNode;
     this.controlPanel = document.createElement('div');
     this.values = [];
     this.minMax = [];
@@ -41,8 +41,8 @@ export default class ControlPanel {
   }
 
   private panelInit(): void {
-    this.controlPanel.classList.add('controlPanel');
-    this.parent.before(this.controlPanel);
+    this.controlPanel.classList.add('demo-slider__control-panel');
+    this.parent?.parentElement?.prepend(this.controlPanel);
     this.createMaxMinInputs();
     this.createValueInputs();
     this.createStepInput();
@@ -131,12 +131,13 @@ export default class ControlPanel {
 
   private createMaxMinInputs(): void {
     const title = document.createElement('p');
+    title.classList.add('demo-slider__title');
     this.controlPanel.append(title);
     title.innerText = 'Min/Max';
     const inputMin = document.createElement('input');
     const inputMax = document.createElement('input');
-    inputMin.classList.add('limit_value');
-    inputMax.classList.add('limit_value');
+    inputMin.classList.add('demo-slider__input');
+    inputMax.classList.add('demo-slider__input');
     inputMin.type = 'number';
     inputMax.type = 'number';
     this.controlPanel.append(inputMin);
@@ -150,18 +151,19 @@ export default class ControlPanel {
 
   private createValueInputs(): void {
     const title = document.createElement('p');
+    title.classList.add('demo-slider__title');
     this.controlPanel.append(title);
     title.innerText = 'Values';
     const inputSingle = document.createElement('input');
-    inputSingle.classList.add('handler_value');
+    inputSingle.classList.add('demo-slider__input', 'demo-slider__handler-value');
     inputSingle.type = 'number';
     this.controlPanel.append(inputSingle);
     this.values.push(inputSingle);
     if (this.hasRange) {
-      const inputMin = document.querySelector('.handler_value');
-      if (inputMin) inputMin.classList.add('value_min');
+      const inputMin = document.querySelector('.demo-slider__handler-value');
+      if (inputMin) inputMin.classList.add('demo-slider__handler-value_min');
       const inputMax = document.createElement('input');
-      inputMax.classList.add('handler_value', 'value_max');
+      inputMax.classList.add('demo-slider__input', 'demo-slider__handler-value', 'demo-slider__handler-value_max');
       inputMax.type = 'number';
       this.controlPanel.append(inputMax);
       this.values.push(inputMax);
@@ -174,9 +176,10 @@ export default class ControlPanel {
 
   private createStepInput(): void {
     const title = document.createElement('p');
+    title.classList.add('demo-slider__title');
     this.controlPanel.append(title);
     title.innerText = 'Step';
-    this.step.classList.add('step_value');
+    this.step.classList.add('demo-slider__input');
     this.step.type = 'number';
     this.controlPanel.append(this.step);
   }
@@ -187,9 +190,10 @@ export default class ControlPanel {
 
   private createOrientationCheckbox(): void {
     const title = document.createElement('p');
+    title.classList.add('demo-slider__title');
     this.controlPanel.append(title);
     title.innerText = 'Vertical';
-    this.orientationCheck.classList.add('vertical_checkbox');
+    this.orientationCheck.classList.add('demo-slider__input');
     this.orientationCheck.type = 'checkbox';
     this.controlPanel.append(this.orientationCheck);
   }
@@ -200,9 +204,10 @@ export default class ControlPanel {
 
   private createRangeCheckbox(): void {
     const title = document.createElement('p');
+    title.classList.add('demo-slider__title');
     this.controlPanel.append(title);
     title.innerText = 'Range';
-    this.rangeCheck.classList.add('range_checkbox');
+    this.rangeCheck.classList.add('demo-slider__input');
     this.rangeCheck.type = 'checkbox';
     this.controlPanel.append(this.rangeCheck);
   }
@@ -213,9 +218,10 @@ export default class ControlPanel {
 
   private createShowLabelCheckbox(): void {
     const title = document.createElement('p');
+    title.classList.add('demo-slider__title');
     this.controlPanel.append(title);
     title.innerText = 'Show labels';
-    this.showLabelCheck.classList.add('showlabel_checkbox');
+    this.showLabelCheck.classList.add('demo-slider__input');
     this.showLabelCheck.type = 'checkbox';
     this.controlPanel.append(this.showLabelCheck);
   }

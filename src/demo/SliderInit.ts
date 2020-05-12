@@ -7,7 +7,9 @@ export default class SliderInit {
 
   private slider = document.createElement('div');
 
-  private wrapper = document.createElement('div');
+  private sliderWrapper = document.createElement('div');
+
+  private demoSlider = document.createElement('div');
 
   constructor(options: sliderOptions) {
     this.init(options);
@@ -16,9 +18,11 @@ export default class SliderInit {
   private init(options: sliderOptions) {
     this.options = options;
     this.slider.classList.add('slider');
-    this.wrapper.classList.add('slider__wrapper');
-    document.body.append(this.wrapper);
-    this.wrapper.append(this.slider);
+    this.sliderWrapper.classList.add('demo-slider__slider');
+    this.demoSlider.classList.add('demo-slider');
+    document.body.append(this.demoSlider);
+    this.demoSlider.append(this.sliderWrapper);
+    this.sliderWrapper.append(this.slider);
     const facade: Facade = new Facade(this.slider, this.options);
     const panel: ControlPanel = new ControlPanel(facade);
     return { facade, panel };

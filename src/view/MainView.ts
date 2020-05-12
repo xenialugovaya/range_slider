@@ -83,7 +83,7 @@ export default class MainView {
     this.hasRange = hasRange;
     this.hasLabels = hasLabels;
     this.parent = parent;
-    this.sliderBody.classList.add('sliderBody');
+    this.sliderBody.classList.add('slider__body');
     this.parent.appendChild(this.sliderBody);
     this.setOrientation(this.isVertical);
     this.setHandlers();

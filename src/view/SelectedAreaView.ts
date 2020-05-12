@@ -20,12 +20,12 @@ export default class SelectedArea {
     handlerMin: HTMLElement,
   ): void {
     if (!range) {
-      this.selectedRange.classList.add('selectedRange');
-      this.selectedRange.classList.remove('range_between');
+      this.selectedRange.classList.add('slider__selected');
+      this.selectedRange.classList.remove('slider__selected-range');
       this.setPositionSingle(vertical, handlerMin);
     } else {
-      this.selectedRange.classList.remove('selectedRange');
-      this.selectedRange.classList.add('range_between');
+      this.selectedRange.classList.remove('slider__selected');
+      this.selectedRange.classList.add('slider__selected-range');
       this.setPositionRange(vertical, handlerMax, handlerMin);
     }
   }
@@ -40,10 +40,10 @@ export default class SelectedArea {
     this.parent = parent;
     this.parent.append(this.selectedRange);
     if (!range) {
-      this.selectedRange.classList.add('selectedRange');
+      this.selectedRange.classList.add('slider__selected');
       this.setPositionSingle(vertical, handlerMin);
     } else {
-      this.selectedRange.classList.add('range_between');
+      this.selectedRange.classList.add('slider__selected-range');
       this.setPositionRange(vertical, handlerMax, handlerMin);
     }
   }

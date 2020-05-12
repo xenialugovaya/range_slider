@@ -26,6 +26,6 @@ export default class LabelView {
   }
 
   private init(): void {
-    this.label.classList.add('label');
+    this.label.classList.add('slider__label');
   }
 }
