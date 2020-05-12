@@ -1,7 +1,7 @@
 export default class SelectedArea {
-  private selectedRange: HTMLElement;
+  private selectedRange = document.createElement('div');
 
-  private parent: HTMLElement;
+  private parent!: HTMLElement;
 
   constructor(
     parent: HTMLElement,
@@ -10,19 +10,10 @@ export default class SelectedArea {
     handlerMin: HTMLElement,
     handlerMax: HTMLElement,
   ) {
-    this.parent = parent;
-    this.selectedRange = document.createElement('div');
-    this.parent.append(this.selectedRange);
-    if (!range) {
-      this.selectedRange.classList.add('selectedRange');
-      this.setPositionSingle(vertical, handlerMin);
-    } else {
-      this.selectedRange.classList.add('range_between');
-      this.setPositionRange(vertical, handlerMax, handlerMin);
-    }
+    this.init(parent, range, vertical, handlerMin, handlerMax);
   }
 
-  updateSelectedRange(
+  public updateSelectedRange(
     range: boolean,
     vertical: boolean,
     handlerMax: HTMLElement,
@@ -39,14 +30,32 @@ export default class SelectedArea {
     }
   }
 
+  private init(
+    parent: HTMLElement,
+    range: boolean,
+    vertical: boolean,
+    handlerMin: HTMLElement,
+    handlerMax: HTMLElement,
+  ): void {
+    this.parent = parent;
+    this.parent.append(this.selectedRange);
+    if (!range) {
+      this.selectedRange.classList.add('selectedRange');
+      this.setPositionSingle(vertical, handlerMin);
+    } else {
+      this.selectedRange.classList.add('range_between');
+      this.setPositionRange(vertical, handlerMax, handlerMin);
+    }
+  }
+
   private setPositionSingle(vertical: boolean, handler: HTMLElement): void {
     if (vertical) {
-      (this.selectedRange.style.height = `${this.getCoords(this.parent, vertical)
-        - this.getCoords(handler, vertical)
+      (this.selectedRange.style.height = `${this.getCoordinate(this.parent, vertical)
+        - this.getCoordinate(handler, vertical)
         + handler.offsetHeight}px`);
     } else {
-      (this.selectedRange.style.width = `${((this.getCoords(handler, vertical)
-        - this.getCoords(this.parent, vertical)) / this.parent.offsetWidth) * 100}%`);
+      (this.selectedRange.style.width = `${((this.getCoordinate(handler, vertical)
+        - this.getCoordinate(this.parent, vertical)) / this.parent.offsetWidth) * 100}%`);
     }
   }
 
@@ -58,22 +67,22 @@ export default class SelectedArea {
     const posMin = vertical ? 'bottom' : 'left';
     const length = vertical ? 'height' : 'width';
     this.selectedRange.style[posMin] = vertical
-      ? `${((this.getCoords(this.parent, vertical) - this.getCoords(handlerMin, vertical)) / this.parent.offsetHeight) * 100}%`
-      : `${((this.getCoords(handlerMin, vertical) - this.getCoords(this.parent, vertical) + (handlerMin.offsetWidth / 2)) / this.parent.offsetWidth) * 100}%`;
+      ? `${((this.getCoordinate(this.parent, vertical) - this.getCoordinate(handlerMin, vertical)) / this.parent.offsetHeight) * 100}%`
+      : `${((this.getCoordinate(handlerMin, vertical) - this.getCoordinate(this.parent, vertical) + (handlerMin.offsetWidth / 2)) / this.parent.offsetWidth) * 100}%`;
     this.selectedRange.style[length] = vertical
-      ? `${((this.getCoords(handlerMin, vertical) - this.getCoords(handlerMax, vertical)) / this.parent.offsetHeight) * 100}%`
-      : `${((this.getCoords(handlerMax, vertical) - this.getCoords(handlerMin, vertical)) / this.parent.offsetWidth) * 100}%`;
+      ? `${((this.getCoordinate(handlerMin, vertical) - this.getCoordinate(handlerMax, vertical)) / this.parent.offsetHeight) * 100}%`
+      : `${((this.getCoordinate(handlerMax, vertical) - this.getCoordinate(handlerMin, vertical)) / this.parent.offsetWidth) * 100}%`;
   }
 
-  private getCoords(elem: HTMLElement, vertical: boolean): number {
-    const box = elem.getBoundingClientRect();
+  private getCoordinate(element: HTMLElement, vertical: boolean): number {
+    const box = element.getBoundingClientRect();
     if (vertical) {
       return box.bottom + pageYOffset;
     }
     return box.left + pageXOffset;
   }
 
-  getSelectedArea() {
+  getSelectedArea(): HTMLDivElement {
     return this.selectedRange;
   }
 }
