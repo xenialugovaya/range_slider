@@ -1,28 +1,31 @@
 export default class LabelView {
-  private label: HTMLElement;
+  private label = document.createElement('div');
 
   constructor() {
-    this.label = document.createElement('div');
-    this.label.classList.add('label');
+    this.init();
   }
 
-  getElement(): HTMLElement {
+  public getElement(): HTMLElement {
     return this.label;
   }
 
-  setLabelValue(value: number): void {
+  public setLabelValue(value: number): void {
     this.label.innerText = value.toString();
   }
 
-  getLabelSize(isVertical: boolean, parent: HTMLElement): number {
+  public getLabelSize(isVertical: boolean, parent: HTMLElement): number {
     const labelSize = isVertical
       ? (this.getElement().offsetHeight / parent.offsetHeight) * 100
       : (this.getElement().offsetWidth / parent.offsetWidth) * 100;
     return labelSize;
   }
 
-  getFixedPositionProperty(isVertical: boolean): 'left' | 'bottom' {
+  public getFixedPositionProperty(isVertical: boolean): 'left' | 'bottom' {
     const fixedPositionProperty = isVertical ? 'left' : 'bottom';
     return fixedPositionProperty;
+  }
+
+  private init(): void {
+    this.label.classList.add('label');
   }
 }
