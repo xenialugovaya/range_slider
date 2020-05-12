@@ -6,7 +6,7 @@ export default class LabelView {
     this.label.classList.add('label');
   }
 
-  get elem(): HTMLElement {
+  getElement(): HTMLElement {
     return this.label;
   }
 
@@ -16,8 +16,8 @@ export default class LabelView {
 
   getLabelSize(isVertical: boolean, parent: HTMLElement): number {
     const labelSize = isVertical
-      ? (this.elem.offsetHeight / parent.offsetHeight) * 100
-      : (this.elem.offsetWidth / parent.offsetWidth) * 100;
+      ? (this.getElement().offsetHeight / parent.offsetHeight) * 100
+      : (this.getElement().offsetWidth / parent.offsetWidth) * 100;
 
     return labelSize;
   }

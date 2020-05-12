@@ -20,7 +20,7 @@ export default class HandlerView {
   private handlerInit() {
     this.parent.append(this.handler);
     this.handler.classList.add('handler');
-    if (this.label) this.handler.before(this.label.elem);
+    if (this.label) this.handler.before(this.label.getElement());
   }
 
   private getHandlerSize(isVertical: boolean) {
@@ -47,8 +47,8 @@ export default class HandlerView {
       const fixedPositionProperty = this.label.getFixedPositionProperty(isVertical);
       const positionProperty = isVertical ? 'bottom' : 'left';
       const labelPosition = ((value - min) / valuesCount) * 100 - labelSize / 2;
-      this.label.elem.style[positionProperty] = `${labelPosition}%`;
-      this.label.elem.style[fixedPositionProperty] = '330%';
+      this.label.getElement().style[positionProperty] = `${labelPosition}%`;
+      this.label.getElement().style[fixedPositionProperty] = '330%';
     }
   }
 
@@ -57,7 +57,7 @@ export default class HandlerView {
   }
 
   getLabelElement(): HTMLElement | undefined {
-    return this.label?.elem;
+    return this.label?.getElement();
   }
 
   private setLabelValue(value: number) {
@@ -68,9 +68,9 @@ export default class HandlerView {
     if (showLabel) {
       this.label = this.label ? this.label : new LabelView();
       this.setLabelValue(value);
-      this.handler.before(this.label.elem);
+      this.handler.before(this.label.getElement());
     } else {
-      this.label?.elem.remove();
+      this.label?.getElement().remove();
     }
   }
 }
