@@ -32,7 +32,7 @@ export default class ControlPanel {
     this.orientationCheck = document.createElement('input');
     this.rangeCheck = document.createElement('input');
     this.showLabelCheck = document.createElement('input');
-    this.hasRange = slider.hasRange;
+    this.hasRange = slider.getRange();
 
     this.panelInit();
     this.setEventListeners();
@@ -61,41 +61,41 @@ export default class ControlPanel {
   }
 
   getSliderOptions(): void {
-    this.minMax.forEach((input, index) => { (input.value = this.slider.minMax[index].toString()); });
-    this.values[0].value = this.slider.rangeValue[0].toString();
+    this.minMax.forEach((input, index) => { (input.value = this.slider.getMinMax()[index].toString()); });
+    this.values[0].value = this.slider.getValues()[0].toString();
     if (this.values[1]) {
-      this.values[1].value = this.slider.rangeValue[1].toString();
+      this.values[1].value = this.slider.getValues()[1].toString();
     }
-    this.step.value = this.slider.step.toString();
-    if (this.slider.isVertical) {
+    this.step.value = this.slider.getStep().toString();
+    if (this.slider.getOrientation()) {
       this.orientationCheckbox.checked = true;
     }
-    if (this.slider.hasRange) {
+    if (this.slider.getRange()) {
       this.rangeCheckbox.checked = true;
     }
-    if (this.slider.hasLabels) {
+    if (this.slider.getLabels()) {
       this.showLabelCheckbox.checked = true;
     }
   }
 
   private changeMinMax(): void {
     const newMinMax = this.minMax.map((input) => parseInt(input.value, 10));
-    this.slider.minMax = newMinMax;
+    this.slider.setMinMax(newMinMax);
   }
 
   private changeValues(): void {
     const newValues = this.values.map((input) => parseInt(input.value, 10));
-    this.slider.rangeValue = newValues;
+    this.slider.setValues(newValues);
   }
 
   private changeStep(): void {
     const newStep = parseInt(this.step.value, 10);
-    this.slider.step = newStep;
+    this.slider.setStep(newStep);
   }
 
   private changeOrientation(): void {
     const newOrientation = !!this.orientationCheckbox.checked;
-    this.slider.isVertical = newOrientation;
+    this.slider.setOrientation(newOrientation);
   }
 
   private changeRange(): void {
@@ -105,12 +105,12 @@ export default class ControlPanel {
     } else {
       this.values[0].after(this.values[1]);
     }
-    this.slider.hasRange = newRange;
+    this.slider.setRange(newRange);
   }
 
   private changeLabelVisibility(): void {
     const showLabels = !!this.showLabelCheckbox.checked;
-    this.slider.hasLabels = showLabels;
+    this.slider.setLabels(showLabels);
   }
 
   private updateValues(): void {

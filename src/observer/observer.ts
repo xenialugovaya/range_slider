@@ -17,7 +17,7 @@ export default class EventObserver {
     this.observers.forEach((subscriber) => subscriber(data));
   }
 
-  get subscribers(): Function[] {
+  getSubscribers(): Function[] {
     return this.observers;
   }
 }

@@ -27,52 +27,52 @@ export default class Facade {
     return this.presenter.getParent();
   }
 
-  get minMax(): number[] {
+  getMinMax(): number[] {
     return [this.model.getMin(), this.model.getMax()];
   }
 
-  set minMax(value: number[]) {
+  setMinMax(value: number[]) {
     this.model.setMin(value[0]);
     this.model.setMax(value[1]);
   }
 
-  get rangeValue(): number[] {
+  getValues(): number[] {
     return this.model.getValues();
   }
 
-  set rangeValue(values: number[]) {
+  setValues(values: number[]) {
     this.model.setValues(values);
   }
 
-  get step(): number {
+  getStep(): number {
     return this.model.getStep();
   }
 
-  set step(value: number) {
+  setStep(value: number) {
     this.model.setStep(value);
   }
 
-  get isVertical(): boolean {
+  getOrientation(): boolean {
     return this.model.getOrientation();
   }
 
-  set isVertical(vertical: boolean) {
+  setOrientation(vertical: boolean) {
     this.model.setOrientation(vertical);
   }
 
-  get hasRange(): boolean {
+  getRange(): boolean {
     return this.model.getRange();
   }
 
-  set hasRange(range: boolean) {
+  setRange(range: boolean) {
     this.model.setRange(range);
   }
 
-  get hasLabels(): boolean {
+  getLabels(): boolean {
     return this.model.getLabels();
   }
 
-  set hasLabels(label: boolean) {
+  setLabels(label: boolean) {
     this.model.setLabels(label);
   }
 }
