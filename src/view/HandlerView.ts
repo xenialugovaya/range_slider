@@ -1,36 +1,17 @@
 import LabelView from './LabelView';
 
 export default class HandlerView {
-  private parent: HTMLElement;
+  private parent!: HTMLElement;
 
-  private handler: HTMLElement;
+  private handler = document.createElement('div');
 
-  private label: LabelView | null;
-
-  private showLabel: boolean;
+  private label!: LabelView | null;
 
   constructor(parent: HTMLElement, showLabel: boolean) {
-    this.handler = document.createElement('div');
-    this.parent = parent;
-    this.showLabel = showLabel;
-    this.label = showLabel ? new LabelView() : null;
-    this.handlerInit();
+    this.init(parent, showLabel);
   }
 
-  private handlerInit() {
-    this.parent.append(this.handler);
-    this.handler.classList.add('handler');
-    if (this.label) this.handler.before(this.label.getElement());
-  }
-
-  private getHandlerSize(isVertical: boolean) {
-    const handlerSize = isVertical
-      ? (this.handler.offsetHeight / this.parent.offsetHeight) * 100
-      : (this.handler.offsetWidth / this.parent.offsetWidth) * 100;
-    return handlerSize;
-  }
-
-  public setPosition(value: number, min: number, max: number, isVertical: boolean) {
+  public setPosition(value: number, min: number, max: number, isVertical: boolean): number {
     const valuesCount = max - min;
     const positionProperty = isVertical ? 'bottom' : 'left';
     const handlerSize = this.getHandlerSize(isVertical);
@@ -40,7 +21,40 @@ export default class HandlerView {
     return position;
   }
 
-  private setLabelPosition(value: number, valuesCount: number, min: number, isVertical: boolean) {
+  public updateLabel(showLabel: boolean | undefined, value: number): void {
+    if (showLabel) {
+      this.label = this.label ? this.label : new LabelView();
+      this.setLabelValue(value);
+      this.handler.before(this.label.getElement());
+    } else {
+      this.label?.getElement().remove();
+    }
+  }
+
+  public getElement(): HTMLElement {
+    return this.handler;
+  }
+
+  public getLabelElement(): HTMLElement | undefined {
+    return this.label?.getElement();
+  }
+
+  private init(parent: HTMLElement, showLabel: boolean): void {
+    this.parent = parent;
+    this.parent.append(this.handler);
+    this.handler.classList.add('handler');
+    this.label = showLabel ? new LabelView() : null;
+    if (this.label) this.handler.before(this.label.getElement());
+  }
+
+  private getHandlerSize(isVertical: boolean): number {
+    const handlerSize = isVertical
+      ? (this.handler.offsetHeight / this.parent.offsetHeight) * 100
+      : (this.handler.offsetWidth / this.parent.offsetWidth) * 100;
+    return handlerSize;
+  }
+
+  private setLabelPosition(value: number, valuesCount: number, min: number, isVertical: boolean): void {
     if (this.label) {
       this.setLabelValue(value);
       const labelSize = this.label.getLabelSize(isVertical, this.parent);
@@ -52,25 +66,7 @@ export default class HandlerView {
     }
   }
 
-  getElement(): HTMLElement {
-    return this.handler;
-  }
-
-  getLabelElement(): HTMLElement | undefined {
-    return this.label?.getElement();
-  }
-
-  private setLabelValue(value: number) {
+  private setLabelValue(value: number): void {
     if (this.label) this.label.setLabelValue(value);
-  }
-
-  public updateLabel(showLabel: boolean | undefined, value: number) {
-    if (showLabel) {
-      this.label = this.label ? this.label : new LabelView();
-      this.setLabelValue(value);
-      this.handler.before(this.label.getElement());
-    } else {
-      this.label?.getElement().remove();
-    }
   }
 }
