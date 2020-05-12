@@ -73,7 +73,7 @@ export default class SelectedArea {
     return box.left + pageXOffset;
   }
 
-  get selectedArea() {
+  getSelectedArea() {
     return this.selectedRange;
   }
 }

@@ -55,9 +55,9 @@ export default class ControlPanel {
     this.minMax.forEach((input) => input.addEventListener('change', this.changeMinMax.bind(this)));
     this.values.forEach((input) => input.addEventListener('change', this.changeValues.bind(this)));
     this.step.addEventListener('change', this.changeStep.bind(this));
-    this.orientationCheckbox.addEventListener('change', this.changeOrientation.bind(this));
-    this.rangeCheckbox.addEventListener('change', this.changeRange.bind(this));
-    this.showLabelCheckbox.addEventListener('change', this.changeLabelVisibility.bind(this));
+    this.getOrientationCheckbox().addEventListener('change', this.changeOrientation.bind(this));
+    this.getRangeCheckbox().addEventListener('change', this.changeRange.bind(this));
+    this.getShowLabelCheckbox().addEventListener('change', this.changeLabelVisibility.bind(this));
   }
 
   getSliderOptions(): void {
@@ -68,13 +68,13 @@ export default class ControlPanel {
     }
     this.step.value = this.slider.getStep().toString();
     if (this.slider.getOrientation()) {
-      this.orientationCheckbox.checked = true;
+      this.getOrientationCheckbox().checked = true;
     }
     if (this.slider.getRange()) {
-      this.rangeCheckbox.checked = true;
+      this.getRangeCheckbox().checked = true;
     }
     if (this.slider.getLabels()) {
-      this.showLabelCheckbox.checked = true;
+      this.getShowLabelCheckbox().checked = true;
     }
   }
 
@@ -94,12 +94,12 @@ export default class ControlPanel {
   }
 
   private changeOrientation(): void {
-    const newOrientation = !!this.orientationCheckbox.checked;
+    const newOrientation = !!this.getOrientationCheckbox().checked;
     this.slider.setOrientation(newOrientation);
   }
 
   private changeRange(): void {
-    const newRange = !!this.rangeCheckbox.checked;
+    const newRange = !!this.getRangeCheckbox().checked;
     if (!newRange) {
       this.values[1].remove();
     } else {
@@ -109,7 +109,7 @@ export default class ControlPanel {
   }
 
   private changeLabelVisibility(): void {
-    const showLabels = !!this.showLabelCheckbox.checked;
+    const showLabels = !!this.getShowLabelCheckbox().checked;
     this.slider.setLabels(showLabels);
   }
 
@@ -144,7 +144,7 @@ export default class ControlPanel {
     this.minMax = [inputMin, inputMax];
   }
 
-  get minMaxInputs(): HTMLInputElement[] {
+  getMinMaxInputs(): HTMLInputElement[] {
     return this.minMax;
   }
 
@@ -168,7 +168,7 @@ export default class ControlPanel {
     }
   }
 
-  get valueInputs(): HTMLInputElement[] {
+  getValueInputs(): HTMLInputElement[] {
     return this.values;
   }
 
@@ -181,7 +181,7 @@ export default class ControlPanel {
     this.controlPanel.append(this.step);
   }
 
-  get stepInput(): HTMLInputElement {
+  getStepInput(): HTMLInputElement {
     return this.step;
   }
 
@@ -194,7 +194,7 @@ export default class ControlPanel {
     this.controlPanel.append(this.orientationCheck);
   }
 
-  get orientationCheckbox(): HTMLInputElement {
+  getOrientationCheckbox(): HTMLInputElement {
     return this.orientationCheck;
   }
 
@@ -207,7 +207,7 @@ export default class ControlPanel {
     this.controlPanel.append(this.rangeCheck);
   }
 
-  get rangeCheckbox(): HTMLInputElement {
+  getRangeCheckbox(): HTMLInputElement {
     return this.rangeCheck;
   }
 
@@ -220,7 +220,7 @@ export default class ControlPanel {
     this.controlPanel.append(this.showLabelCheck);
   }
 
-  get showLabelCheckbox(): HTMLInputElement {
+  getShowLabelCheckbox(): HTMLInputElement {
     return this.showLabelCheck;
   }
 }
