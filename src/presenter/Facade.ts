@@ -4,13 +4,17 @@ import { sliderOptions } from '../model/sliderOptions';
 import EventObserver from '../observer/observer';
 
 export default class Facade {
-  private model: MainModel;
+  private model!: MainModel;
 
-  private presenter: Presenter;
+  private presenter!: Presenter;
 
   public observer = new EventObserver();
 
   constructor(parent: HTMLElement, options: sliderOptions) {
+    this.init(parent, options);
+  }
+
+  private init(parent: HTMLElement, options: sliderOptions): void {
     this.model = new MainModel(options);
     this.presenter = new Presenter(parent, this.model);
     this.updateValues();
@@ -30,7 +34,7 @@ export default class Facade {
     return [this.model.getMin(), this.model.getMax()];
   }
 
-  setMinMax(value: number[]) {
+  setMinMax(value: number[]): void {
     this.model.setMin(value[0]);
     this.model.setMax(value[1]);
   }
@@ -39,7 +43,7 @@ export default class Facade {
     return this.model.getValues();
   }
 
-  setValues(values: number[]) {
+  setValues(values: number[]): void {
     this.model.setValues(values);
   }
 
@@ -47,7 +51,7 @@ export default class Facade {
     return this.model.getStep();
   }
 
-  setStep(value: number) {
+  setStep(value: number): void {
     this.model.setStep(value);
   }
 
@@ -55,7 +59,7 @@ export default class Facade {
     return this.model.getOrientation();
   }
 
-  setOrientation(vertical: boolean) {
+  setOrientation(vertical: boolean): void {
     this.model.setOrientation(vertical);
   }
 
@@ -63,7 +67,7 @@ export default class Facade {
     return this.model.getRange();
   }
 
-  setRange(range: boolean) {
+  setRange(range: boolean): void {
     this.model.setRange(range);
   }
 
@@ -71,7 +75,7 @@ export default class Facade {
     return this.model.getLabels();
   }
 
-  setLabels(label: boolean) {
+  setLabels(label: boolean): void {
     this.model.setLabels(label);
   }
 }
