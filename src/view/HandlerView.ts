@@ -30,7 +30,7 @@ export default class HandlerView {
     return handlerSize;
   }
 
-  setPosition(value: number, min: number, max: number, isVertical: boolean) {
+  public setPosition(value: number, min: number, max: number, isVertical: boolean) {
     const valuesCount = max - min;
     const positionProperty = isVertical ? 'bottom' : 'left';
     const handlerSize = this.getHandlerSize(isVertical);
@@ -56,7 +56,7 @@ export default class HandlerView {
     return this.handler;
   }
 
-  get labelElem() {
+  getLabelElement(): HTMLElement | undefined {
     return this.label?.elem;
   }
 
@@ -64,7 +64,7 @@ export default class HandlerView {
     if (this.label) this.label.setLabelValue(value);
   }
 
-  updateLabel(showLabel: boolean | undefined, value: number) {
+  public updateLabel(showLabel: boolean | undefined, value: number) {
     if (showLabel) {
       this.label = this.label ? this.label : new LabelView();
       this.setLabelValue(value);

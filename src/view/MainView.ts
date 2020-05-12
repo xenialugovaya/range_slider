@@ -134,13 +134,16 @@ export default class MainView {
   }
 
   setRange(range: boolean): void {
+    const maxHandlerElement = this.handlers[1].getElement();
+    const maxHandlerLabel = this.handlers[1].getLabelElement();
+    const minHandlerElement = this.handlers[0].getElement();
     if (!range) {
-      this.handlers[1].getElement().remove();
-      this.handlers[1].labelElem?.remove();
+      maxHandlerElement.remove();
+      maxHandlerLabel?.remove();
     } else {
-      this.handlers[0].getElement().after(this.handlers[1].getElement());
-      if (this.handlers[1].labelElem && this.hasLabels) {
-        this.handlers[1].getElement().before(this.handlers[1].labelElem);
+      minHandlerElement.after(maxHandlerElement);
+      if (maxHandlerLabel && this.hasLabels) {
+        maxHandlerElement.before(maxHandlerLabel);
       }
     }
   }
