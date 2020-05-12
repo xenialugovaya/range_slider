@@ -54,7 +54,7 @@ export default class SelectedArea {
         - this.getCoordinate(handler, vertical)
         + handler.offsetHeight}px`);
     } else {
-      (this.selectedRange.style.width = `${((this.getCoordinate(handler, vertical)
+      (this.selectedRange.style.width = `${(((this.getCoordinate(handler, vertical) + (handler.offsetWidth / 2))
         - this.getCoordinate(this.parent, vertical)) / this.parent.offsetWidth) * 100}%`);
     }
   }
