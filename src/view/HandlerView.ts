@@ -18,6 +18,7 @@ export default class HandlerView {
     const position = ((value - min) / valuesCount) * 100 - handlerSize / 2;
     this.handler.style[positionProperty] = `${position}%`;
     this.setLabelPosition(value, valuesCount, min, isVertical);
+    this.setDefaultStyles(isVertical);
     return position;
   }
 
@@ -68,5 +69,16 @@ export default class HandlerView {
 
   private setLabelValue(value: number): void {
     if (this.label) this.label.setLabelValue(value);
+  }
+
+  private setDefaultStyles(vertical: boolean): void{
+    if (vertical) {
+      const shift = (this.handler.offsetHeight / 2) - (this.parent.offsetWidth / 2);
+      this.handler.style.left = `-${shift}px`;
+      this.handler.style.top = 'auto';
+    } else {
+      const shift = (this.handler.offsetWidth / 2) - (this.parent.offsetHeight / 2);
+      this.handler.style.top = `-${shift}px`;
+    }
   }
 }

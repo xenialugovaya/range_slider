@@ -23,11 +23,17 @@ export default class SelectedArea {
       this.selectedRange.classList.add('slider__selected');
       this.selectedRange.classList.remove('slider__selected-range');
       this.setPositionSingle(vertical, handlerMin);
+      this.setDefaultStyles(vertical, range);
     } else {
       this.selectedRange.classList.remove('slider__selected');
       this.selectedRange.classList.add('slider__selected-range');
       this.setPositionRange(vertical, handlerMax, handlerMin);
+      this.setDefaultStyles(vertical, range);
     }
+  }
+
+  public getSelectedArea(): HTMLDivElement {
+    return this.selectedRange;
   }
 
   private init(
@@ -42,9 +48,11 @@ export default class SelectedArea {
     if (!range) {
       this.selectedRange.classList.add('slider__selected');
       this.setPositionSingle(vertical, handlerMin);
+      this.setDefaultStyles(vertical, range);
     } else {
       this.selectedRange.classList.add('slider__selected-range');
       this.setPositionRange(vertical, handlerMax, handlerMin);
+      this.setDefaultStyles(vertical, range);
     }
   }
 
@@ -74,15 +82,25 @@ export default class SelectedArea {
       : `${((this.getCoordinate(handlerMax, vertical) - this.getCoordinate(handlerMin, vertical)) / this.parent.offsetWidth) * 100}%`;
   }
 
+  private setDefaultStyles(vertical: boolean, range: boolean): void{
+    if (vertical) {
+      this.selectedRange.style.width = '100%';
+      if (range) {
+        this.selectedRange.style.left = '0%';
+      }
+    } else {
+      this.selectedRange.style.height = '100%';
+      if (range) {
+        this.selectedRange.style.bottom = '0%';
+      }
+    }
+  }
+
   private getCoordinate(element: HTMLElement, vertical: boolean): number {
     const box = element.getBoundingClientRect();
     if (vertical) {
       return box.bottom + pageYOffset;
     }
     return box.left + pageXOffset;
-  }
-
-  getSelectedArea(): HTMLDivElement {
-    return this.selectedRange;
   }
 }
