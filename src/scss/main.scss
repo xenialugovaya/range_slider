@@ -10,42 +10,12 @@ $labelColor:#FF6A6A;
       height: 500px;
       width:4px;
 
-      // .slider__handler{
-      //   left: -6px;
-      // }
-
-      // .slider__selected-range{
-      //   left: 0;
-      //   width: 100%;
-      // }
-
-      // .slider__selected{
-      //   left: 0 !important;
-      //   width: 100% !important;
-      //   bottom: 0 !important;
-      // }
-
 	  @media (max-width: 1130px) {
       margin-top: 100px;
     }
   }
   
 	&_horizontal{
-		// .slider__handler{
-		// 	top: -6px !important;
-		// }
-
-		// .slider__selected-range{
-		// 	bottom: 0 !important;
-		// 	height: 100% !important;
-		// }
-
-		// .slider__selected{
-		// 	top: 0 !important;
-		// 	left: 0 !important;
-		// 	height: 100% !important;
-		// }
-
 		@media (max-width: 1130px) {
 			margin-left: 15px;
 			margin-top: 100px;
