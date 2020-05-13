@@ -212,7 +212,8 @@ export default class MainView {
         values: [value, this.values[1]],
       });
     } else {
-      if (value < this.values[0]) {
+      const maxValueLessThanMinValue = this.min < 0 ? value < this.values[0] : (value + this.min) < this.values[0];
+      if (maxValueLessThanMinValue) {
         value = this.values[0];
         this.handlers[0].getElement().style.zIndex = '100';
         this.handlers[1].getElement().style.zIndex = '10';
