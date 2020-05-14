@@ -31,5 +31,7 @@ describe('test SelectedArea view', () => {
   it('check default styles for horizontal orientation', () => {
     vertical = false;
     expect(selectedArea.getSelectedArea().style.bottom).toEqual('0%');
+    range = false;
+    expect(selectedArea.getSelectedArea().style.left).toEqual('0%');
   });
 });
