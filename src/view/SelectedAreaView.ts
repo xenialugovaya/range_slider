@@ -7,27 +7,25 @@ export default class SelectedArea {
     parent: HTMLElement,
     range: boolean,
     vertical: boolean,
-    handlerMin: HTMLElement,
-    handlerMax: HTMLElement,
+    handlers: HTMLElement [],
   ) {
-    this.init(parent, range, vertical, handlerMin, handlerMax);
+    this.init(parent, range, vertical, handlers);
   }
 
   public updateSelectedRange(
     range: boolean,
     vertical: boolean,
-    handlerMax: HTMLElement,
-    handlerMin: HTMLElement,
+    handlers: HTMLElement[],
   ): void {
     if (!range) {
       this.selectedRange.classList.add('slider__selected');
       this.selectedRange.classList.remove('slider__selected-range');
-      this.setPositionSingle(vertical, handlerMin);
+      this.setPositionSingle(vertical, handlers[0]);
       this.setDefaultStyles(vertical, range);
     } else {
       this.selectedRange.classList.remove('slider__selected');
       this.selectedRange.classList.add('slider__selected-range');
-      this.setPositionRange(vertical, handlerMax, handlerMin);
+      this.setPositionRange(vertical, handlers);
       this.setDefaultStyles(vertical, range);
     }
   }
@@ -40,18 +38,17 @@ export default class SelectedArea {
     parent: HTMLElement,
     range: boolean,
     vertical: boolean,
-    handlerMin: HTMLElement,
-    handlerMax: HTMLElement,
+    handlers: HTMLElement[],
   ): void {
     this.parent = parent;
     this.parent.append(this.selectedRange);
     if (!range) {
       this.selectedRange.classList.add('slider__selected');
-      this.setPositionSingle(vertical, handlerMin);
+      this.setPositionSingle(vertical, handlers[0]);
       this.setDefaultStyles(vertical, range);
     } else {
       this.selectedRange.classList.add('slider__selected-range');
-      this.setPositionRange(vertical, handlerMax, handlerMin);
+      this.setPositionRange(vertical, handlers);
       this.setDefaultStyles(vertical, range);
     }
   }
@@ -69,17 +66,16 @@ export default class SelectedArea {
 
   private setPositionRange(
     vertical: boolean,
-    handlerMax: HTMLElement,
-    handlerMin: HTMLElement,
+    handlers: HTMLElement[],
   ): void {
     const posMin = vertical ? 'bottom' : 'left';
     const length = vertical ? 'height' : 'width';
     this.selectedRange.style[posMin] = vertical
-      ? `${((this.getCoordinate(this.parent, vertical) - this.getCoordinate(handlerMin, vertical)) / this.parent.offsetHeight) * 100}%`
-      : `${((this.getCoordinate(handlerMin, vertical) - this.getCoordinate(this.parent, vertical) + (handlerMin.offsetWidth / 2)) / this.parent.offsetWidth) * 100}%`;
+      ? `${((this.getCoordinate(this.parent, vertical) - this.getCoordinate(handlers[0], vertical)) / this.parent.offsetHeight) * 100}%`
+      : `${((this.getCoordinate(handlers[0], vertical) - this.getCoordinate(this.parent, vertical) + (handlers[0].offsetWidth / 2)) / this.parent.offsetWidth) * 100}%`;
     this.selectedRange.style[length] = vertical
-      ? `${((this.getCoordinate(handlerMin, vertical) - this.getCoordinate(handlerMax, vertical)) / this.parent.offsetHeight) * 100}%`
-      : `${((this.getCoordinate(handlerMax, vertical) - this.getCoordinate(handlerMin, vertical)) / this.parent.offsetWidth) * 100}%`;
+      ? `${((this.getCoordinate(handlers[0], vertical) - this.getCoordinate(handlers[1], vertical)) / this.parent.offsetHeight) * 100}%`
+      : `${((this.getCoordinate(handlers[1], vertical) - this.getCoordinate(handlers[0], vertical)) / this.parent.offsetWidth) * 100}%`;
   }
 
   private setDefaultStyles(vertical: boolean, range: boolean): void{

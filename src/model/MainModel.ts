@@ -20,10 +20,10 @@ export default class MainModel {
 
   public update(valueData: sliderOptions): void {
     if (valueData.min !== undefined) this.setMin(valueData.min);
-    if (valueData.max) this.setMax(valueData.max);
-    if (valueData.values) this.setValues(valueData.values);
+    if (valueData.max !== undefined) this.setMax(valueData.max);
+    if (valueData.values !== undefined) this.setValues(valueData.values);
     if (valueData.isVertical !== undefined) this.setOrientation(valueData.isVertical);
-    if (valueData.step) this.setStep(valueData.step);
+    if (valueData.step !== undefined) this.setStep(valueData.step);
     if (valueData.hasRange !== undefined) this.setRange(valueData.hasRange);
     if (valueData.hasLabels !== undefined) this.setLabels(valueData.hasLabels);
   }
@@ -134,13 +134,13 @@ export default class MainModel {
   }
 
   private init(options: sliderOptions): void {
-    this.options.max = options.max ? options.max : this.options.max;
-    this.options.min = options.min ? options.min : this.options.min;
-    this.options.step = options.step ? options.step : this.options.step;
-    this.options.values = options.values ? options.values : this.options.values;
-    this.options.hasRange = options.hasRange ? options.hasRange : this.options.hasRange;
-    this.options.isVertical = options.isVertical ? options.isVertical : this.options.isVertical;
-    this.options.hasLabels = options.hasLabels ? options.hasLabels : this.options.hasLabels;
+    this.options.max = options.max !== undefined ? options.max : this.options.max;
+    this.options.min = options.min !== undefined ? options.min : this.options.min;
+    this.options.step = options.step !== undefined ? options.step : this.options.step;
+    this.options.values = options.values !== undefined ? options.values : this.options.values;
+    this.options.hasRange = options.hasRange !== undefined ? options.hasRange : this.options.hasRange;
+    this.options.isVertical = options.isVertical !== undefined ? options.isVertical : this.options.isVertical;
+    this.options.hasLabels = options.hasLabels !== undefined ? options.hasLabels : this.options.hasLabels;
   }
 
   private verifyValue(value: number): number {

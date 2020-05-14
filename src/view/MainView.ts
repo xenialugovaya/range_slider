@@ -58,13 +58,16 @@ export default class MainView {
     this.selectedArea.updateSelectedRange(
       this.hasRange,
       this.isVertical,
-      this.handlers[1].getElement(),
-      this.handlers[0].getElement(),
+      this.getHandlersElements(),
     );
   }
 
   public getHandlers(): HandlerView[] {
     return this.handlers;
+  }
+
+  public getHandlersElements(): HTMLElement[] {
+    return this.handlers.map((handler) => handler.getElement());
   }
 
   public setOrientation(vertical: boolean): void {
@@ -78,16 +81,19 @@ export default class MainView {
   }
 
   public setRange(range: boolean): void {
-    const maxHandlerElement = this.handlers[1].getElement();
-    const maxHandlerLabel = this.handlers[1].getLabelElement();
+    const maxHandlerElementIsDefined = this.handlers[1] !== undefined;
     const minHandlerElement = this.handlers[0].getElement();
-    if (!range) {
-      maxHandlerElement.remove();
-      maxHandlerLabel?.remove();
-    } else {
-      minHandlerElement.after(maxHandlerElement);
-      if (maxHandlerLabel && this.hasLabels) {
-        maxHandlerElement.before(maxHandlerLabel);
+    if (maxHandlerElementIsDefined) {
+      const maxHandlerElement = this.handlers[1].getElement();
+      const maxHandlerLabel = this.handlers[1].getLabelElement();
+      if (!range) {
+        maxHandlerElement.remove();
+        maxHandlerLabel?.remove();
+      } else {
+        minHandlerElement.after(maxHandlerElement);
+        if (maxHandlerLabel && this.hasLabels) {
+          maxHandlerElement.before(maxHandlerLabel);
+        }
       }
     }
   }
@@ -126,8 +132,7 @@ export default class MainView {
       this.sliderBody,
       this.hasRange,
       this.isVertical,
-      this.handlers[0].getElement(),
-      this.handlers[1].getElement(),
+      this.getHandlersElements(),
     );
   }
 
@@ -198,7 +203,12 @@ export default class MainView {
     if (this.min < 0) {
       value += this.min;
     }
-    if (!targetId || targetId === 'handler_min') {
+    if (!this.hasRange) {
+      this.observer.broadcast({
+        values: [value, this.values[1]],
+      });
+    }
+    if (targetId === 'handler_min') {
       const minValueMoreThanMaxValue = this.min < 0 ? value > this.values[1] : (value + this.min) > this.values[1];
       if (minValueMoreThanMaxValue && this.values[1] !== this.max && this.hasRange) {
         value = this.values[1];
@@ -211,7 +221,7 @@ export default class MainView {
       this.observer.broadcast({
         values: [value, this.values[1]],
       });
-    } else {
+    } else if (targetId === 'handler_max') {
       const maxValueLessThanMinValue = this.min < 0 ? value < this.values[0] : (value + this.min) < this.values[0];
       if (maxValueLessThanMinValue) {
         value = this.values[0];

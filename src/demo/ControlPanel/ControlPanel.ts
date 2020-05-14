@@ -72,6 +72,7 @@ export default class ControlPanel {
     this.slider = slider;
     this.parent = this.slider.getParent().parentNode;
     this.hasRange = slider.getRange();
+    console.log(this.hasRange);
     this.controlPanel.classList.add('demo-slider__control-panel');
     this.parent?.parentElement?.prepend(this.controlPanel);
     this.createMaxMinInputs();
@@ -171,7 +172,7 @@ export default class ControlPanel {
     inputSingle.type = 'number';
     this.controlPanel.append(inputSingle);
     this.values.push(inputSingle);
-    if (this.hasRange) {
+    if (this.hasRange === true) {
       const inputMin = document.querySelector('.demo-slider__handler-value');
       if (inputMin) inputMin.classList.add('demo-slider__handler-value_min');
       const inputMax = document.createElement('input');
