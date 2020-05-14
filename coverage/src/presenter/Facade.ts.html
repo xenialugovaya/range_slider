@@ -24,7 +24,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
@@ -38,14 +38,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
@@ -133,10 +133,11 @@
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -147,6 +148,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -167,6 +174,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -216,14 +224,17 @@ import { sliderOptions } from '../model/sliderOptions';
 import EventObserver from '../observer/observer';
 &nbsp;
 export default class Facade {
-  private model: MainModel;
+  private model!: MainModel;
 &nbsp;
-  private presenter: Presenter;
+  private presenter!: Presenter;
 &nbsp;
-  public observer: EventObserver;
+  public observer = new EventObserver();
 &nbsp;
   constructor(parent: HTMLElement, options: sliderOptions) {
-    this.observer = new EventObserver();
+    this.init(parent, options);
+  }
+&nbsp;
+  private init(parent: HTMLElement, options: sliderOptions): void {
     this.model = new MainModel(options);
     this.presenter = new Presenter(parent, this.model);
     this.updateValues();
@@ -235,56 +246,57 @@ export default class Facade {
     });
   }
 &nbsp;
-  get parent(): HTMLElement {
-    return this.presenter.parent;
+  getParent(): HTMLElement {
+    return this.presenter.getParent();
   }
 &nbsp;
-  get minMax(): number[] {
-    return [this.model.min, this.model.max];
+  getMinMax(): number[] {
+    return [this.model.getMin(), this.model.getMax()];
   }
 &nbsp;
-  set minMax(value: number[]) {
-    [this.model.min, this.model.max] = value;
+  setMinMax(value: number[]): void {
+    this.model.setMin(value[0]);
+    this.model.setMax(value[1]);
   }
 &nbsp;
-  get rangeValue(): number[] {
-    return this.model.rangeValue;
+  getValues(): number[] {
+    return this.model.getValues();
   }
 &nbsp;
-  set rangeValue(value: number[]) {
-    this.model.rangeValue = value;
+  setValues(values: number[]): void {
+    this.model.setValues(values);
   }
 &nbsp;
-  get step(): number {
-    return this.model.step;
+  getStep(): number {
+    return this.model.getStep();
   }
 &nbsp;
-  set step(value: number) {
-    this.model.step = value;
+  setStep(value: number): void {
+    this.model.setStep(value);
   }
 &nbsp;
-  get isVertical(): boolean {
-    return this.model.isVertical;
+  getOrientation(): boolean {
+    return this.model.getOrientation();
   }
 &nbsp;
-  set isVertical(vertical: boolean) {
-    this.model.isVertical = vertical;
+  setOrientation(vertical: boolean): void {
+    this.model.setOrientation(vertical);
   }
 &nbsp;
-  get hasRange(): boolean {
-    return this.model.hasRange;
+  getRange(): boolean {
+    return this.model.getRange();
   }
 &nbsp;
-  set hasRange(range: boolean) {
-    this.model.hasRange = range;
+  setRange(range: boolean): void {
+    this.model.setRange(range);
   }
 &nbsp;
-  get hasLabels(): boolean {
-    return this.model.hasLabels;
+  getLabels(): boolean {
+    return this.model.getLabels();
   }
 &nbsp;
-  set hasLabels(label: boolean) {
-    this.model.hasLabels = label;
+  setLabels(label: boolean): void {
+    this.model.setLabels(label);
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -294,7 +306,7 @@ export default class Facade {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Apr 22 2020 13:29:30 GMT+0300 (Москва, стандартное время)
+                at Thu May 14 2020 13:53:37 GMT+0300 (Москва, стандартное время)
             </div>
         </div>
         <script src="../../prettify.js"></script>
