@@ -8,65 +8,60 @@ describe('test model logic', () => {
 
   describe('test min/max limits', () => {
     it('functions get/set min are correct', () => {
-      model.min = 100;
-      expect(model.min).toEqual(Math.round(100 / 10) * 10);
+      model.setMin(100);
+      expect(model.getMin()).toEqual(Math.round(100 / 10) * 10);
     });
     it('functions get/set max are correct', () => {
-      model.max = 300;
-      expect(model.max).toEqual(Math.round(300 / 10) * 10);
+      model.setMax(300);
+      expect(model.getMax()).toEqual(Math.round(300 / 10) * 10);
     });
     it('if min is greater than max, max should be replaced by min value', () => {
-      model.min = 300;
-      model.max = 200;
-      expect(model.max).toEqual(Math.round(300 / 10) * 10);
-      expect(model.min).toEqual(Math.round(200 / 10) * 10);
+      model.setMin(300);
+      model.setMax(200);
+      expect(model.getMax()).toEqual(Math.round(300 / 10) * 10);
+      expect(model.getMin()).toEqual(Math.round(200 / 10) * 10);
     });
   });
 
   describe('values should be calculated correctly', () => {
     it('min value should be less than max value', () => {
-      model.rangeValue = [50, 20];
-      expect(model.rangeValue[0]).toEqual(20);
-      expect(model.rangeValue[1]).toEqual(50);
-    });
-
-    it('if values are equal, max value should be increased by step', () => {
-      model.rangeValue = [20, 20];
-      model.step = 5;
-      expect(model.rangeValue[1]).toEqual(25);
+      model.setValues([50, 20]);
+      expect(model.getValues()[0]).toEqual(20);
+      expect(model.getValues()[1]).toEqual(50);
     });
 
     it('if min value is less than min limit it should be equal to min limit', () => {
-      model.rangeValue = [0, 20];
-      model.min = 10;
-      expect(model.rangeValue[0]).toEqual(10);
+      model.setValues([0, 20]);
+      model.setMin(10);
+      expect(model.getValues()[0]).toEqual(10);
     });
 
     it('if max value is more than max limit it should be equal to max limit', () => {
-      model.rangeValue = [0, 20];
-      model.max = 30;
-      expect(model.rangeValue[1]).toEqual(20);
+      model.setValues([0, 20]);
+      model.setMax(10);
+      expect(model.getValues()[1]).toEqual(10);
     });
   });
 
   it('if function get hasLabels is correct', () => {
-    model.hasLabels = true;
-    expect(model.hasLabels).toEqual(true);
+    model.setLabels(true);
+    expect(model.getLabels()).toEqual(true);
   });
 
   it('if function get hasRange is correct', () => {
-    model.hasRange = true;
-    expect(model.hasRange).toEqual(true);
+    model.setRange(true);
+    expect(model.getRange()).toEqual(true);
   });
 
   it('if function get isVertical is correct', () => {
-    model.isVertical = true;
-    expect(model.isVertical).toEqual(true);
+    const vertical = true;
+    model.setOrientation(vertical);
+    expect(model.getOrientation()).toEqual(true);
   });
 
   it('if function get step is correct', () => {
-    model.step = 10;
-    expect(model.step).toEqual(10);
+    model.setStep(10);
+    expect(model.getStep()).toEqual(10);
   });
 
   describe('test update method', () => {
@@ -81,13 +76,13 @@ describe('test model logic', () => {
         values: [0, 1],
       };
       model.update(options);
-      expect(model.min).toEqual(0);
-      expect(model.max).toEqual(100);
-      expect(model.step).toEqual(1);
-      expect(model.hasRange).toBeFalsy();
-      expect(model.hasLabels).toBeFalsy();
-      expect(model.isVertical).toBeFalsy();
-      expect(model.rangeValue).toEqual([0, 1]);
+      expect(model.getMin()).toEqual(0);
+      expect(model.getMax()).toEqual(100);
+      expect(model.getStep()).toEqual(1);
+      expect(model.getRange()).toBeFalsy();
+      expect(model.getLabels()).toBeFalsy();
+      expect(model.getOrientation()).toBeFalsy();
+      expect(model.getValues()).toEqual([0, 1]);
     });
     it('should set options correctly if they are partly defined', () => {
       const options = {
@@ -97,13 +92,13 @@ describe('test model logic', () => {
         values: [20, 30],
       };
       model.update(options);
-      expect(model.min).toEqual(0);
-      expect(model.max).toEqual(100);
-      expect(model.step).toEqual(1);
-      expect(model.hasRange).toBeTruthy();
-      expect(model.hasLabels).toBeTruthy();
-      expect(model.isVertical).toBeTruthy();
-      expect(model.rangeValue).toEqual([20, 30]);
+      expect(model.getMin()).toEqual(0);
+      expect(model.getMax()).toEqual(100);
+      expect(model.getStep()).toEqual(1);
+      expect(model.getRange()).toBeTruthy();
+      expect(model.getLabels()).toBeTruthy();
+      expect(model.getOrientation()).toBeTruthy();
+      expect(model.getValues()).toEqual([20, 30]);
     });
   });
 });

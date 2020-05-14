@@ -17,63 +17,63 @@ describe('test facade', () => {
   const facade = new Facade(parent, options);
 
   afterEach(() => {
-    facade.minMax = [0, 100];
-    facade.rangeValue = [5, 6];
-    facade.step = 1;
-    facade.isVertical = true;
-    facade.hasRange = true;
-    facade.hasLabels = true;
+    facade.setMinMax([0, 100]);
+    facade.setValues([5, 6]);
+    facade.setStep(1);
+    facade.setOrientation(true);
+    facade.setRange(true);
+    facade.setLabels(true);
   });
 
   describe('test getters', () => {
     it('should return parent html element', () => {
-      expect(facade.parent).toHaveClass('slider');
+      expect(facade.getParent()).toHaveClass('slider');
     });
     it('should return minMax', () => {
-      expect(facade.minMax).toEqual([0, 100]);
+      expect(facade.getMinMax()).toEqual([0, 100]);
     });
 
     it('should return values', () => {
-      expect(facade.rangeValue).toEqual([5, 6]);
+      expect(facade.getValues()).toEqual([5, 6]);
     });
     it('should return step', () => {
-      expect(facade.step).toEqual(1);
+      expect(facade.getStep()).toEqual(1);
     });
     it('should return orientation', () => {
-      expect(facade.isVertical).toBeTruthy();
+      expect(facade.getOrientation()).toBeTruthy();
     });
     it('should return range', () => {
-      expect(facade.hasRange).toBeTruthy();
+      expect(facade.getRange()).toBeTruthy();
     });
     it('should return show labels', () => {
-      expect(facade.hasLabels).toBeTruthy();
+      expect(facade.getLabels()).toBeTruthy();
     });
   });
 
   describe('test setters', () => {
     it('should set new minMax', () => {
-      facade.minMax = [10, 20];
-      expect(facade.minMax).toEqual([10, 20]);
+      facade.setMinMax([10, 20]);
+      expect(facade.getMinMax()).toEqual([10, 20]);
     });
     it('should set new values', () => {
-      facade.rangeValue = [10, 20];
-      expect(facade.rangeValue).toEqual([10, 20]);
+      facade.setValues([10, 20]);
+      expect(facade.getValues()).toEqual([10, 20]);
     });
     it('should set new step', () => {
-      facade.step = 5;
-      expect(facade.step).toEqual(5);
+      facade.setStep(5);
+      expect(facade.getStep()).toEqual(5);
     });
     it('should set new orientation', () => {
-      facade.isVertical = false;
-      expect(facade.isVertical).toBeFalsy();
+      facade.setOrientation(false);
+      expect(facade.getOrientation()).toBeFalsy();
     });
     it('should set new range', () => {
-      facade.hasRange = false;
-      expect(facade.hasRange).toBeFalsy();
+      facade.setRange(false);
+      expect(facade.getRange()).toBeFalsy();
     });
     it('should set new visibility for labels', () => {
-      facade.hasLabels = false;
-      expect(facade.hasLabels).toBeFalsy();
+      facade.setLabels(false);
+      expect(facade.getLabels()).toBeFalsy();
     });
   });
 });

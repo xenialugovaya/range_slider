@@ -4,16 +4,16 @@ const label = new LabelView();
 
 describe('test label view', () => {
   beforeEach(() => {
-    setFixtures('<div class="slider"><div class="sliderBody"></div></div>');
+    setFixtures('<div class="slider"><div class="slider__body"></div></div>');
   });
 
   it('label should have class label', () => {
-    expect(label.elem).toHaveClass('label');
+    expect(label.getElement()).toHaveClass('slider__label');
   });
 
   it('value to label should be set correctly', () => {
     label.setLabelValue(10);
-    expect(label.elem.innerText).toEqual('10');
+    expect(label.getElement().innerText).toEqual('10');
   });
 
   it('should return correct position property depending on orientation', () => {
@@ -24,10 +24,10 @@ describe('test label view', () => {
   });
 
   it('should return label width in %, if orientation is horizontal', () => {
-    const parent: HTMLElement | null = document.querySelector('.sliderBody');
-    parent?.append(label.elem);
-    $('.sliderBody').css({ width: '100px' });
-    $('.label').css({ width: '10px', padding: '0' });
+    const parent: HTMLElement | null = document.querySelector('.slider__body');
+    parent?.append(label.getElement());
+    $('.slider__body').css({ width: '100px' });
+    $('.slider__label').css({ width: '10px', padding: '0' });
     const isVertical = false;
 
     if (parent) expect(label.getLabelSize(isVertical, parent)).toEqual((10 / 100) * 100);
@@ -35,9 +35,9 @@ describe('test label view', () => {
 
   it('should return label height in %, if orientation is vertical', () => {
     const parent: HTMLElement | null = document.querySelector('.sliderBody');
-    parent?.append(label.elem);
-    $('.sliderBody').css({ height: '100px' });
-    $('.label').css({ height: '10px', padding: '0' });
+    parent?.append(label.getElement());
+    $('.slider__body').css({ height: '100px' });
+    $('.slider__label').css({ height: '10px', padding: '0' });
     const isVertical = true;
 
     if (parent) expect(label.getLabelSize(isVertical, parent)).toEqual((10 / 100) * 100);

@@ -18,12 +18,12 @@ describe('test SelectedArea view', () => {
   it('if range false, class selectedRange should exist', () => {
     range = false;
     selectedArea.updateSelectedRange(range, vertical, handlerMax, handlerMin);
-    expect(selectedArea.selectedArea).toHaveClass('selectedRange');
+    expect(selectedArea.getSelectedArea()).toHaveClass('slider__selected');
   });
 
   it('if range true, class range_between should exist', () => {
     range = true;
     selectedArea.updateSelectedRange(range, vertical, handlerMax, handlerMin);
-    expect(selectedArea.selectedArea).toHaveClass('range_between');
+    expect(selectedArea.getSelectedArea()).toHaveClass('slider__selected-range');
   });
 });

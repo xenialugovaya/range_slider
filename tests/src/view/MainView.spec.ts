@@ -32,8 +32,8 @@ describe('test main view logic', () => {
 
   describe('test manipulations with handlers', () => {
     it('method getHandlers should return array of handler html elements', () => {
-      expect(view.getHandlers()[0].elem).toHaveClass('handler');
-      expect(view.getHandlers()[1].elem).toHaveClass('handler');
+      expect(view.getHandlers()[0].getElement()).toHaveClass('slider__handler');
+      expect(view.getHandlers()[1].getElement()).toHaveClass('slider__handler');
     });
     it('method setRange should add/remove handler if range true/false', () => {
       setFixtures('<div class="slider"></div>');
@@ -59,20 +59,20 @@ describe('test main view logic', () => {
     beforeEach(() => {
       const elem = document.createElement('div');
       document.body.append(elem);
-      elem.classList.add('test_coord');
+      elem.classList.add('test_coordinates');
       elem.style.height = '10px';
     });
     it('should return bottom coordiante if vertical flag is true', () => {
-      const elem: any = document.querySelector('.test_coord');
+      const elem: any = document.querySelector('.test_coordinates');
 
       const vertical = true;
       // getBoundingClientRect возвращает 8 по умолчанию
-      expect(view.getCoords(elem, vertical)).toEqual(18);
+      expect(view.getCoordinates(elem, vertical)).toEqual(18);
     });
     it('should return left coordiante if vertical flag is false', () => {
-      const elem: any = document.querySelector('.test_coord');
+      const elem: any = document.querySelector('.test_coordinates');
       const vertical = false;
-      expect(view.getCoords(elem, vertical)).toEqual(8);
+      expect(view.getCoordinates(elem, vertical)).toEqual(8);
     });
   });
 

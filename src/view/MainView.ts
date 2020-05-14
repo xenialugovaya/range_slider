@@ -67,6 +67,39 @@ export default class MainView {
     return this.handlers;
   }
 
+  public setOrientation(vertical: boolean): void {
+    if (vertical) {
+      this.parent.classList.remove('slider_horizontal');
+      this.parent.classList.add('slider_vertical');
+    } else {
+      this.parent.classList.remove('slider_vertical');
+      this.parent.classList.add('slider_horizontal');
+    }
+  }
+
+  public setRange(range: boolean): void {
+    const maxHandlerElement = this.handlers[1].getElement();
+    const maxHandlerLabel = this.handlers[1].getLabelElement();
+    const minHandlerElement = this.handlers[0].getElement();
+    if (!range) {
+      maxHandlerElement.remove();
+      maxHandlerLabel?.remove();
+    } else {
+      minHandlerElement.after(maxHandlerElement);
+      if (maxHandlerLabel && this.hasLabels) {
+        maxHandlerElement.before(maxHandlerLabel);
+      }
+    }
+  }
+
+  public getCoordinates(element: HTMLElement, vertical: boolean): number {
+    const box = element.getBoundingClientRect();
+    if (vertical) {
+      return box.bottom + pageYOffset;
+    }
+    return box.left + pageXOffset;
+  }
+
   private init(
     parent: HTMLElement,
     hasRange: boolean,
@@ -105,16 +138,6 @@ export default class MainView {
     this.sliderBody.addEventListener('mousedown', this.handleSliderBodyMouseDown.bind(this));
   }
 
-  private setOrientation(vertical: boolean): void {
-    if (vertical) {
-      this.parent.classList.remove('slider_horizontal');
-      this.parent.classList.add('slider_vertical');
-    } else {
-      this.parent.classList.remove('slider_vertical');
-      this.parent.classList.add('slider_horizontal');
-    }
-  }
-
   private setHandlers(): void {
     this.handlers.push(new HandlerView(this.sliderBody, this.hasLabels));
     if (this.hasRange) {
@@ -131,29 +154,6 @@ export default class MainView {
     } else if (this.values[0] === this.min) {
       this.handlers[0].getElement().style.zIndex = '1';
     }
-  }
-
-  private setRange(range: boolean): void {
-    const maxHandlerElement = this.handlers[1].getElement();
-    const maxHandlerLabel = this.handlers[1].getLabelElement();
-    const minHandlerElement = this.handlers[0].getElement();
-    if (!range) {
-      maxHandlerElement.remove();
-      maxHandlerLabel?.remove();
-    } else {
-      minHandlerElement.after(maxHandlerElement);
-      if (maxHandlerLabel && this.hasLabels) {
-        maxHandlerElement.before(maxHandlerLabel);
-      }
-    }
-  }
-
-  private getCoordinates(element: HTMLElement, vertical: boolean): number {
-    const box = element.getBoundingClientRect();
-    if (vertical) {
-      return box.bottom + pageYOffset;
-    }
-    return box.left + pageXOffset;
   }
 
   private handleSliderBodyMouseDown(e: MouseEvent): void {

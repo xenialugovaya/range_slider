@@ -11,7 +11,7 @@ describe('test presenter logic', () => {
   const presenter = new Presenter(parent, model);
   describe('test method get for parent html', () => {
     it('should return parent html element', () => {
-      expect(presenter.parent).toHaveClass('slider');
+      expect(presenter.getParent()).toHaveClass('slider');
     });
   });
 });

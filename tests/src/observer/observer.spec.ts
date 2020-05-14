@@ -12,11 +12,11 @@ describe('test subscription/unsubscription', () => {
   });
 
   it('test that subscription works correctly', () => {
-    expect(observer.subscribers).toContain(fn);
+    expect(observer.getSubscribers()).toContain(fn);
   });
 
   it('test that unsubscription works correctly', () => {
     observer.unsubscribe(fn);
-    expect(observer.subscribers).not.toContain(fn);
+    expect(observer.getSubscribers()).not.toContain(fn);
   });
 });

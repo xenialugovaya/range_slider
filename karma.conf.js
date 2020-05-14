@@ -1,4 +1,4 @@
-const webpackConfig = require('./webpack.dev.config');
+const webpackConfig = require('./webpack.config');
 const path = require('path');
 
 delete webpackConfig.entry
