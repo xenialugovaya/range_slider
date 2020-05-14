@@ -87,11 +87,15 @@ export default class SelectedArea {
       this.selectedRange.style.width = '100%';
       if (range) {
         this.selectedRange.style.left = '0%';
+      } else {
+        this.selectedRange.style.bottom = '0%';
       }
     } else {
       this.selectedRange.style.height = '100%';
       if (range) {
         this.selectedRange.style.bottom = '0%';
+      } else {
+        this.selectedRange.style.left = '0%';
       }
     }
   }
