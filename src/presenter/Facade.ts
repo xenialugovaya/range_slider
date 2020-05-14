@@ -14,68 +14,68 @@ export default class Facade {
     this.init(parent, options);
   }
 
-  private init(parent: HTMLElement, options: sliderOptions): void {
-    this.model = new MainModel(options);
-    this.presenter = new Presenter(parent, this.model);
-    this.updateValues();
-  }
-
-  updateValues(): void {
+  public updateValues(): void {
     this.model.observer.subscribe((valueData: sliderOptions) => {
       this.observer.broadcast(valueData);
     });
   }
 
-  getParent(): HTMLElement {
+  public getParent(): HTMLElement {
     return this.presenter.getParent();
   }
 
-  getMinMax(): number[] {
+  public getMinMax(): number[] {
     return [this.model.getMin(), this.model.getMax()];
   }
 
-  setMinMax(value: number[]): void {
+  public setMinMax(value: number[]): void {
     this.model.setMin(value[0]);
     this.model.setMax(value[1]);
   }
 
-  getValues(): number[] {
+  public getValues(): number[] {
     return this.model.getValues();
   }
 
-  setValues(values: number[]): void {
+  public setValues(values: number[]): void {
     this.model.setValues(values);
   }
 
-  getStep(): number {
+  public getStep(): number {
     return this.model.getStep();
   }
 
-  setStep(value: number): void {
+  public setStep(value: number): void {
     this.model.setStep(value);
   }
 
-  getOrientation(): boolean {
+  public getOrientation(): boolean {
     return this.model.getOrientation();
   }
 
-  setOrientation(vertical: boolean): void {
+  public setOrientation(vertical: boolean): void {
     this.model.setOrientation(vertical);
   }
 
-  getRange(): boolean {
+  public getRange(): boolean {
     return this.model.getRange();
   }
 
-  setRange(range: boolean): void {
+  public setRange(range: boolean): void {
     this.model.setRange(range);
   }
 
-  getLabels(): boolean {
+  public getLabels(): boolean {
     return this.model.getLabels();
   }
 
-  setLabels(label: boolean): void {
+  public setLabels(label: boolean): void {
     this.model.setLabels(label);
+  }
+
+  private init(parent: HTMLElement, options: sliderOptions): void {
+    this.model = new MainModel(options);
+    this.presenter = new Presenter(parent, this.model);
+    this.updateValues();
   }
 }

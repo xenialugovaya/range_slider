@@ -13,6 +13,10 @@ export default class Presenter {
     this.init(parent, model);
   }
 
+  public getParent(): HTMLElement {
+    return this.parent;
+  }
+
   private init(parent: HTMLElement, model: MainModel): void {
     this.model = model;
     this.parent = parent;
@@ -39,9 +43,5 @@ export default class Presenter {
     this.model.observer.subscribe((valueData: sliderOptions) => {
       this.view.update(valueData);
     });
-  }
-
-  getParent(): HTMLElement {
-    return this.parent;
   }
 }

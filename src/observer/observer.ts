@@ -5,19 +5,19 @@ export default class EventObserver {
     this.observers = [];
   }
 
-  subscribe(fn: Function): void {
-    this.observers.push(fn);
+  public getSubscribers(): Function[] {
+    return this.observers;
   }
 
-  unsubscribe(fn: Function): void {
-    this.observers = this.observers.filter((subscriber) => subscriber !== fn);
-  }
-
-  broadcast(data: object): void {
+  public broadcast(data: object): void {
     this.observers.forEach((subscriber) => subscriber(data));
   }
 
-  getSubscribers(): Function[] {
-    return this.observers;
+  public subscribe(fn: Function): void {
+    this.observers.push(fn);
+  }
+
+  public unsubscribe(fn: Function): void {
+    this.observers = this.observers.filter((subscriber) => subscriber !== fn);
   }
 }
