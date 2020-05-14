@@ -13,9 +13,12 @@
     margin-left: 15px;
     background: linear-gradient(#FF6A6A, #473C8B);
     color: white;
+    margin-bottom: 50px;
+
     @media (max-width: 900px) {
         width:470px;
     }
+    
     @media (min-width: 900px) and (max-width: 1130px) {
       width: 850px;
     }
