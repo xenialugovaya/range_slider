@@ -111,12 +111,12 @@ export default class ControlPanel {
   }
 
   private changeOrientation(): void {
-    const newOrientation = !!this.getOrientationCheckbox().checked;
+    const newOrientation = this.getOrientationCheckbox().checked;
     this.slider.setOrientation(newOrientation);
   }
 
   private changeRange(): void {
-    const newRange = !!this.getRangeCheckbox().checked;
+    const newRange = this.getRangeCheckbox().checked;
     if (!newRange) {
       this.values[1].remove();
     } else {
@@ -126,7 +126,7 @@ export default class ControlPanel {
   }
 
   private changeLabelVisibility(): void {
-    const showLabels = !!this.getShowLabelCheckbox().checked;
+    const showLabels = this.getShowLabelCheckbox().checked;
     this.slider.setLabels(showLabels);
   }
 
