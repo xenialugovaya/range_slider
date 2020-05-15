@@ -10,7 +10,7 @@ export default class LabelView {
   }
 
   public setLabelValue(value: number): void {
-    this.label.innerText = value.toString();
+    this.label.innerText = String(value);
   }
 
   public getLabelSize(isVertical: boolean, parent: HTMLElement): number {
