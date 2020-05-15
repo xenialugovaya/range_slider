@@ -36,8 +36,8 @@ export default class MainModel {
   }
 
   public setMin(min: number): void {
-    const minNotNan = this.verifyValueIsNotNan(min);
-    this.options.min = minNotNan;
+    const minNotNaN = this.verifyValueIsNotNaN(min);
+    this.options.min = minNotNaN;
     this.broadcastUpdates({
       min: this.getMin(),
       max: this.getMax(),
@@ -57,8 +57,8 @@ export default class MainModel {
   }
 
   public setMax(max: number): void {
-    const maxNotNan = this.verifyValueIsNotNan(max);
-    this.options.max = maxNotNan;
+    const maxNotNaN = this.verifyValueIsNotNaN(max);
+    this.options.max = maxNotNaN;
     this.broadcastUpdates({
       min: this.getMin(),
       max: this.getMax(),
@@ -73,8 +73,8 @@ export default class MainModel {
   }
 
   public setStep(step: number): void {
-    const stepNotNan = this.verifyValueIsNotNan(step);
-    this.options.step = this.verifyStep(stepNotNan);
+    const stepNotNaN = this.verifyValueIsNotNaN(step);
+    this.options.step = this.verifyStep(stepNotNaN);
     this.broadcastUpdates({
       step: this.getStep(),
       values: this.getValues(),
@@ -89,8 +89,8 @@ export default class MainModel {
   }
 
   public setValues(values: number[]): void {
-    const valuesNotNan = values.map((value) => this.verifyValueIsNotNan(value));
-    valuesNotNan.forEach((value, index) => {
+    const valuesNotNaN = values.map((value) => this.verifyValueIsNotNaN(value));
+    valuesNotNaN.forEach((value, index) => {
       if (value !== this.options.values[index]) {
         this.options.values[index] = this.verifyValue(value);
       }
@@ -147,8 +147,8 @@ export default class MainModel {
     this.options.hasLabels = options.hasLabels !== undefined ? options.hasLabels : this.options.hasLabels;
   }
 
-  private verifyValueIsNotNan(value: number) {
-    if (isNaN(value)) {
+  private verifyValueIsNotNaN(value: number) {
+    if (Number.isNaN(value)) {
       value = 0;
     }
     return value;
