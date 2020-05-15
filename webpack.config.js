@@ -38,15 +38,11 @@ module.exports = {
         loader: 'pug-loader',
         exclude: '/node_modules/',
       },
-
     ],
   },
   resolve: {
     extensions: ['.ts', '.js'],
-
   },
-
-
   output: {
     filename: 'sliderApp.js',
     path: path.resolve(__dirname, './dist'),
@@ -57,15 +53,11 @@ module.exports = {
     hot: true,
   },
   plugins: [
-
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-
     }),
     new HtmlWebpackPlugin({
-      inject: false,
-      hash: true,
       template: './src/demo/demo.pug',
       filename: 'index.html',
     }),
@@ -73,6 +65,4 @@ module.exports = {
       filename: 'assets/css/main.css',
     }),
   ],
-
-
 };

@@ -20,7 +20,7 @@ export default class SliderInit {
     this.slider.classList.add('slider');
     this.sliderWrapper.classList.add('demo-slider__slider');
     this.demoSlider.classList.add('demo-slider');
-    document.body.append(this.demoSlider);
+    document.body.prepend(this.demoSlider);
     this.demoSlider.append(this.sliderWrapper);
     this.sliderWrapper.append(this.slider);
     const facade: Facade = new Facade(this.slider, this.options);

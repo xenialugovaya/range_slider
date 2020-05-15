@@ -89,8 +89,8 @@ export default class MainModel {
   }
 
   public setValues(values: number[]): void {
-    const valesNotNan = values.map((value) => this.verifyValueIsNotNan(value));
-    valesNotNan.forEach((value, index) => {
+    const valuesNotNan = values.map((value) => this.verifyValueIsNotNan(value));
+    valuesNotNan.forEach((value, index) => {
       if (value !== this.options.values[index]) {
         this.options.values[index] = this.verifyValue(value);
       }
