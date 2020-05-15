@@ -27,12 +27,12 @@ export default class ControlPanel {
   }
 
   public getSliderOptions(): void {
-    this.minMax.forEach((input, index) => { (input.value = this.slider.getMinMax()[index].toString()); });
-    this.values[0].value = this.slider.getValues()[0].toString();
+    this.minMax.forEach((input, index) => { (input.value = String(this.slider.getMinMax()[index])); });
+    this.values[0].value = String(this.slider.getValues()[0]);
     if (this.values[1]) {
-      this.values[1].value = this.slider.getValues()[1].toString();
+      this.values[1].value = String(this.slider.getValues()[1]);
     }
-    this.step.value = this.slider.getStep().toString();
+    this.step.value = String(this.slider.getStep());
     if (this.slider.getOrientation()) {
       this.getOrientationCheckbox().checked = true;
     }
@@ -134,14 +134,14 @@ export default class ControlPanel {
     this.slider.observer.subscribe((valueData: sliderOptions) => {
       if (valueData.values) {
         const { values } = valueData;
-        this.values.forEach((input, index) => { (input.value = values[index].toString()); });
+        this.values.forEach((input, index) => { (input.value = String(values[index])); });
       }
       if (valueData.min !== undefined && valueData.max !== undefined) {
         const minMax = [valueData.min, valueData.max];
-        this.minMax.forEach((input, index) => { (input.value = minMax[index].toString()); });
+        this.minMax.forEach((input, index) => { (input.value = String(minMax[index])); });
       }
       if (valueData.step !== undefined) {
-        this.step.value = valueData.step.toString();
+        this.step.value = String(valueData.step);
       }
     });
   }
