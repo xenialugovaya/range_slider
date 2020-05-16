@@ -73,7 +73,8 @@ export default class ControlPanel {
     this.parent = this.slider.getParent().parentNode;
     this.hasRange = slider.getRange();
     this.controlPanel.classList.add('demo-slider__control-panel');
-    this.parent?.parentElement?.prepend(this.controlPanel);
+    const parentElement = this.parent?.parentElement;
+    if (parentElement) parentElement.prepend(this.controlPanel);
     this.createMaxMinInputs();
     this.createValueInputs();
     this.createStepInput();
