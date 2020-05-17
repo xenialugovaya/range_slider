@@ -28,10 +28,11 @@ export default class ControlPanel {
 
   public getSliderOptions(): void {
     this.minMax.forEach((input, index) => { (input.value = String(this.slider.getMinMax()[index])); });
-    this.values[0].value = String(this.slider.getValues()[0]);
-    if (this.values[1]) {
-      this.values[1].value = String(this.slider.getValues()[1]);
-    }
+    // this.values[0].value = String(this.slider.getValues()[0]);
+    // if (this.values[1]) {
+    //   this.values[1].value = String(this.slider.getValues()[1]);
+    // }
+    this.values.forEach((input, index) => { (input.value = String(this.slider.getValues()[index])); });
     this.step.value = String(this.slider.getStep());
     if (this.slider.getOrientation()) {
       this.getOrientationCheckbox().checked = true;
@@ -164,19 +165,18 @@ export default class ControlPanel {
     const title = document.createElement('p');
     title.classList.add('demo-slider__title');
     title.innerText = 'Values';
-    const inputSingle = document.createElement('input');
-    inputSingle.classList.add('demo-slider__input', 'demo-slider__handler-value');
-    inputSingle.type = 'number';
-    this.controlPanel.append(title, inputSingle);
-    this.values.push(inputSingle);
+    const inputMin = document.createElement('input');
+    const inputMax = document.createElement('input');
+    inputMin.classList.add('demo-slider__input', 'demo-slider__handler-value');
+    inputMax.classList.add('demo-slider__input', 'demo-slider__handler-value');
+    inputMin.type = 'number';
+    inputMax.type = 'number';
+    this.controlPanel.append(title, inputMin);
+    this.values.push(inputMin, inputMax);
     if (this.hasRange === true) {
-      const inputMin = document.querySelector('.demo-slider__handler-value');
-      if (inputMin) inputMin.classList.add('demo-slider__handler-value_min');
-      const inputMax = document.createElement('input');
-      inputMax.classList.add('demo-slider__input', 'demo-slider__handler-value', 'demo-slider__handler-value_max');
-      inputMax.type = 'number';
+      inputMin.classList.add('demo-slider__handler-value_min');
+      inputMax.classList.add('demo-slider__handler-value_max');
       this.controlPanel.append(inputMax);
-      this.values.push(inputMax);
     }
   }
 

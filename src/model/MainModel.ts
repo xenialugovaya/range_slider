@@ -146,7 +146,11 @@ export default class MainModel {
     if (options.max !== undefined) this.setMax(options.max);
     if (options.min !== undefined) this.setMin(options.min);
     if (options.step !== undefined) this.setStep(options.step);
-    if (options.values !== undefined) this.setValues(options.values);
+    if (options.values !== undefined) {
+      const { values } = options;
+      values.push(values[0] + 1);
+      this.setValues(values);
+    }
     if (options.hasRange !== undefined) this.setRange(options.hasRange);
     if (options.isVertical !== undefined) this.setOrientation(options.isVertical);
     if (options.hasLabels !== undefined) this.setLabels(options.hasLabels);

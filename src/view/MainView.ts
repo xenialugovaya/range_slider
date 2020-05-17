@@ -38,8 +38,9 @@ export default class MainView {
     this.options.hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this.options.hasRange;
     this.options.hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this.options.hasLabels;
     this.setOrientation(this.options.isVertical);
-    this.handlers.forEach((handler, index) => handler.updateLabel(this.options.hasLabels, this.options.values[index]));
+    // this.handlers.forEach((handler, index) => handler.updateLabel(this.options.hasLabels, this.options.values[index]));
     this.setRange(this.options.hasRange);
+    this.updateLabels();
     this.setHandlerPosition();
     this.selectedArea.updateSelectedRange(
       this.options.hasRange,
@@ -102,6 +103,7 @@ export default class MainView {
     this.parent.append(this.sliderBody);
     this.setOrientation(this.options.isVertical);
     this.setHandlers();
+    this.updateLabels();
     this.setHandlerPosition();
     this.bindEvents();
     this.selectedArea = new SelectedArea(
@@ -120,9 +122,14 @@ export default class MainView {
   }
 
   private setHandlers(): void {
-    this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
-    if (this.options.hasRange) {
+    this.options.values.forEach(() => {
       this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
+    });
+    this.handlers[0].appendHandler();
+    // this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
+    if (this.options.hasRange) {
+      this.handlers[1].appendHandler();
+      // this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
       this.handlers[0].getElement().id = 'handler_min';
       this.handlers[1].getElement().id = 'handler_max';
     }
@@ -135,6 +142,10 @@ export default class MainView {
     } else if (this.options.values[0] === this.options.min) {
       this.handlers[0].getElement().style.zIndex = '1';
     }
+  }
+
+  private updateLabels(): void{
+    this.handlers.forEach((handler, index) => handler.updateLabel(this.options.hasLabels, this.options.values[index]));
   }
 
   private handleSliderBodyMouseDown(e: MouseEvent): void {
