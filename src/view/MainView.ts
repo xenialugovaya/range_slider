@@ -2,6 +2,7 @@ import HandlerView from './HandlerView';
 import SelectedArea from './SelectedAreaView';
 import EventObserver from '../observer/observer';
 import { sliderOptions } from '../model/sliderOptions';
+import { definedOptions } from '../model/definedOptions';
 
 export default class MainView {
   public observer = new EventObserver();
@@ -14,17 +15,7 @@ export default class MainView {
 
   private handlers: HandlerView[] = [];
 
-  private min!: number;
-
-  private max!: number;
-
-  private values!: number[];
-
-  private isVertical!: boolean;
-
-  private hasRange!: boolean;
-
-  private hasLabels!: boolean;
+  private options!: definedOptions;
 
   private mouseMove = this.onMouseMove.bind(this);
 
@@ -34,30 +25,25 @@ export default class MainView {
 
   constructor(
     parent: HTMLElement,
-    hasRange: boolean,
-    isVertical: boolean,
-    min: number,
-    max: number,
-    values: number[],
-    hasLabels: boolean,
+    options: definedOptions,
   ) {
-    this.init(parent, hasRange, isVertical, min, max, values, hasLabels);
+    this.init(parent, options);
   }
 
   public update(valueData: sliderOptions): void {
-    this.min = valueData.min !== undefined ? valueData.min : this.min;
-    this.max = valueData.max !== undefined ? valueData.max : this.max;
-    this.values = valueData.values ? valueData.values : this.values;
-    this.isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this.isVertical;
-    this.hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this.hasRange;
-    this.hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this.hasLabels;
-    this.setOrientation(this.isVertical);
-    this.handlers.forEach((handler, index) => handler.updateLabel(this.hasLabels, this.values[index]));
-    this.setRange(this.hasRange);
+    this.options.min = valueData.min !== undefined ? valueData.min : this.options.min;
+    this.options.max = valueData.max !== undefined ? valueData.max : this.options.max;
+    this.options.values = valueData.values ? valueData.values : this.options.values;
+    this.options.isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this.options.isVertical;
+    this.options.hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this.options.hasRange;
+    this.options.hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this.options.hasLabels;
+    this.setOrientation(this.options.isVertical);
+    this.handlers.forEach((handler, index) => handler.updateLabel(this.options.hasLabels, this.options.values[index]));
+    this.setRange(this.options.hasRange);
     this.setHandlerPosition();
     this.selectedArea.updateSelectedRange(
-      this.hasRange,
-      this.isVertical,
+      this.options.hasRange,
+      this.options.isVertical,
       this.getHandlersElements(),
     );
   }
@@ -91,7 +77,7 @@ export default class MainView {
         maxHandlerLabel?.remove();
       } else {
         minHandlerElement.after(maxHandlerElement);
-        if (maxHandlerLabel && this.hasLabels) {
+        if (maxHandlerLabel && this.options.hasLabels) {
           maxHandlerElement.before(maxHandlerLabel);
         }
       }
@@ -108,30 +94,20 @@ export default class MainView {
 
   private init(
     parent: HTMLElement,
-    hasRange: boolean,
-    isVertical: boolean,
-    min: number,
-    max: number,
-    values: number[],
-    hasLabels: boolean,
+    options: definedOptions,
   ): void {
-    this.min = min;
-    this.max = max;
-    this.values = values;
-    this.isVertical = isVertical;
-    this.hasRange = hasRange;
-    this.hasLabels = hasLabels;
+    this.options = options;
     this.parent = parent;
     this.sliderBody.classList.add('slider__body');
     this.parent.appendChild(this.sliderBody);
-    this.setOrientation(this.isVertical);
+    this.setOrientation(this.options.isVertical);
     this.setHandlers();
     this.setHandlerPosition();
     this.bindEvents();
     this.selectedArea = new SelectedArea(
       this.sliderBody,
-      this.hasRange,
-      this.isVertical,
+      this.options.hasRange,
+      this.options.isVertical,
       this.getHandlersElements(),
     );
   }
@@ -144,27 +120,27 @@ export default class MainView {
   }
 
   private setHandlers(): void {
-    this.handlers.push(new HandlerView(this.sliderBody, this.hasLabels));
-    if (this.hasRange) {
-      this.handlers.push(new HandlerView(this.sliderBody, this.hasLabels));
+    this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
+    if (this.options.hasRange) {
+      this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
       this.handlers[0].getElement().id = 'handler_min';
       this.handlers[1].getElement().id = 'handler_max';
     }
   }
 
   private setHandlerPosition(): void {
-    this.handlers.forEach((handler, index) => handler.setPosition(this.values[index], this.min, this.max, this.isVertical));
-    if (this.values[0] === this.max) {
+    this.handlers.forEach((handler, index) => handler.setPosition(this.options.values[index], this.options.min, this.options.max, this.options.isVertical));
+    if (this.options.values[0] === this.options.max) {
       this.handlers[0].getElement().style.zIndex = '100';
-    } else if (this.values[0] === this.min) {
+    } else if (this.options.values[0] === this.options.min) {
       this.handlers[0].getElement().style.zIndex = '1';
     }
   }
 
   private handleSliderBodyMouseDown(e: MouseEvent): void {
     let clickCoordinate = e.pageX;
-    const handlersCoordinates = this.handlers.map((handler) => this.getCoordinates(handler.getElement(), this.isVertical));
-    if (this.isVertical) {
+    const handlersCoordinates = this.handlers.map((handler) => this.getCoordinates(handler.getElement(), this.options.isVertical));
+    if (this.options.isVertical) {
       clickCoordinate = e.pageY;
     }
     const handlerDistance = [Math.abs(clickCoordinate - handlersCoordinates[0]), Math.abs(clickCoordinate - handlersCoordinates[1])];
@@ -188,7 +164,7 @@ export default class MainView {
   }
 
   private onMouseMove(e: MouseEvent): void {
-    if (this.isVertical) {
+    if (this.options.isVertical) {
       this.moveAt(e.pageY, this.handlerTargetId);
     } else {
       this.moveAt(e.pageX, this.handlerTargetId);
@@ -196,22 +172,22 @@ export default class MainView {
   }
 
   private moveAt(coordinate: number, targetId: string): void {
-    const sliderCoordinate = this.getCoordinates(this.sliderBody, this.isVertical);
-    let value = this.isVertical
-      ? ((sliderCoordinate - coordinate) / this.sliderBody.offsetHeight) * (this.max - this.min)
-      : ((coordinate - sliderCoordinate) / this.sliderBody.offsetWidth) * (this.max - this.min);
-    if (this.min < 0) {
-      value += this.min;
+    const sliderCoordinate = this.getCoordinates(this.sliderBody, this.options.isVertical);
+    let value = this.options.isVertical
+      ? ((sliderCoordinate - coordinate) / this.sliderBody.offsetHeight) * (this.options.max - this.options.min)
+      : ((coordinate - sliderCoordinate) / this.sliderBody.offsetWidth) * (this.options.max - this.options.min);
+    if (this.options.min < 0) {
+      value += this.options.min;
     }
-    if (!this.hasRange) {
+    if (!this.options.hasRange) {
       this.observer.broadcast({
-        values: [value, this.values[1]],
+        values: [value, this.options.values[1]],
       });
     }
     if (targetId === 'handler_min') {
-      const minValueMoreThanMaxValue = this.min < 0 ? value > this.values[1] : (value + this.min) > this.values[1];
-      if (minValueMoreThanMaxValue && this.values[1] !== this.max && this.hasRange) {
-        value = this.values[1];
+      const minValueMoreThanMaxValue = this.options.min < 0 ? value > this.options.values[1] : (value + this.options.min) > this.options.values[1];
+      if (minValueMoreThanMaxValue && this.options.values[1] !== this.options.max && this.options.hasRange) {
+        value = this.options.values[1];
         this.handlers[0].getElement().style.zIndex = '10';
         this.handlers[1].getElement().style.zIndex = '100';
       } else {
@@ -219,12 +195,12 @@ export default class MainView {
         this.handlers[1].getElement().style.zIndex = '10';
       }
       this.observer.broadcast({
-        values: [value, this.values[1]],
+        values: [value, this.options.values[1]],
       });
     } else if (targetId === 'handler_max') {
-      const maxValueLessThanMinValue = this.min < 0 ? value < this.values[0] : (value + this.min) < this.values[0];
+      const maxValueLessThanMinValue = this.options.min < 0 ? value < this.options.values[0] : (value + this.options.min) < this.options.values[0];
       if (maxValueLessThanMinValue) {
-        value = this.values[0];
+        value = this.options.values[0];
         this.handlers[0].getElement().style.zIndex = '100';
         this.handlers[1].getElement().style.zIndex = '10';
       } else {
@@ -232,7 +208,7 @@ export default class MainView {
         this.handlers[1].getElement().style.zIndex = '100';
       }
       this.observer.broadcast({
-        values: [this.values[0], value],
+        values: [this.options.values[0], value],
       });
     }
   }

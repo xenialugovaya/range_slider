@@ -22,12 +22,7 @@ export default class Presenter {
     this.parent = parent;
     this.view = new MainView(
       this.parent,
-      this.model.getRange(),
-      this.model.getOrientation(),
-      this.model.getMin(),
-      this.model.getMax(),
-      this.model.getValues(),
-      this.model.getLabels(),
+      this.model.getOptions(),
     );
     this.updateModel();
     this.updateView();

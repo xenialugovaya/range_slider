@@ -1,10 +1,11 @@
 import EventObserver from '../observer/observer';
 import { sliderOptions } from './sliderOptions';
+import { definedOptions } from './definedOptions';
 
 export default class MainModel {
   public observer = new EventObserver();
 
-  private options = {
+  private options: definedOptions = {
     min: 0,
     max: 100,
     step: 1,
@@ -26,6 +27,10 @@ export default class MainModel {
     if (valueData.step !== undefined) this.setStep(valueData.step);
     if (valueData.hasRange !== undefined) this.setRange(valueData.hasRange);
     if (valueData.hasLabels !== undefined) this.setLabels(valueData.hasLabels);
+  }
+
+  public getOptions(): definedOptions {
+    return this.options;
   }
 
   public getMin(): number {
