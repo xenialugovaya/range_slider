@@ -28,10 +28,6 @@ export default class ControlPanel {
 
   public getSliderOptions(): void {
     this.minMax.forEach((input, index) => { (input.value = String(this.slider.getMinMax()[index])); });
-    // this.values[0].value = String(this.slider.getValues()[0]);
-    // if (this.values[1]) {
-    //   this.values[1].value = String(this.slider.getValues()[1]);
-    // }
     this.values.forEach((input, index) => { (input.value = String(this.slider.getValues()[index])); });
     this.step.value = String(this.slider.getStep());
     if (this.slider.getOrientation()) {

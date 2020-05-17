@@ -38,7 +38,6 @@ export default class MainView {
     this.options.hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this.options.hasRange;
     this.options.hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this.options.hasLabels;
     this.setOrientation(this.options.isVertical);
-    // this.handlers.forEach((handler, index) => handler.updateLabel(this.options.hasLabels, this.options.values[index]));
     this.setRange(this.options.hasRange);
     this.updateLabels();
     this.setHandlerPosition();
@@ -126,10 +125,8 @@ export default class MainView {
       this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
     });
     this.handlers[0].appendHandler();
-    // this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
     if (this.options.hasRange) {
       this.handlers[1].appendHandler();
-      // this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
       this.handlers[0].getElement().id = 'handler_min';
       this.handlers[1].getElement().id = 'handler_max';
     }

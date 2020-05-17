@@ -46,7 +46,6 @@ export default class HandlerView {
 
   private init(parent: HTMLElement, showLabel: boolean): void {
     this.parent = parent;
-    // this.parent.append(this.handler);
     this.handler.classList.add('slider__handler');
     this.label = showLabel ? new LabelView() : null;
     if (this.label) this.handler.before(this.label.getElement());
