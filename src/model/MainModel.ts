@@ -143,13 +143,41 @@ export default class MainModel {
   }
 
   private init(options: sliderOptions): void {
-    this.options.max = options.max !== undefined ? options.max : this.options.max;
-    this.options.min = options.min !== undefined ? options.min : this.options.min;
-    this.options.step = options.step !== undefined ? options.step : this.options.step;
-    this.options.values = options.values !== undefined ? options.values : this.options.values;
-    this.options.hasRange = options.hasRange !== undefined ? options.hasRange : this.options.hasRange;
-    this.options.isVertical = options.isVertical !== undefined ? options.isVertical : this.options.isVertical;
-    this.options.hasLabels = options.hasLabels !== undefined ? options.hasLabels : this.options.hasLabels;
+    if (options.max !== undefined) {
+      this.setMax(options.max);
+    } else {
+      this.setMax(this.options.max);
+    }
+    if (options.min !== undefined) {
+      this.setMin(options.min);
+    } else {
+      this.setMin(this.options.min);
+    }
+    if (options.step !== undefined) {
+      this.setStep(options.step);
+    } else {
+      this.setStep(this.options.step);
+    }
+    if (options.values !== undefined) {
+      this.setValues(options.values);
+    } else {
+      this.setValues(this.options.values);
+    }
+    if (options.hasRange !== undefined) {
+      this.setRange(options.hasRange);
+    } else {
+      this.setRange(this.options.hasRange);
+    }
+    if (options.isVertical !== undefined) {
+      this.setOrientation(options.isVertical);
+    } else {
+      this.setOrientation(this.options.isVertical);
+    }
+    if (options.hasLabels !== undefined) {
+      this.setLabels(options.hasLabels);
+    } else {
+      this.setLabels(this.options.hasLabels);
+    }
   }
 
   private verifyValueIsNotNaN(value: number) {

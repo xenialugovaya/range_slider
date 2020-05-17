@@ -99,7 +99,7 @@ export default class MainView {
     this.options = options;
     this.parent = parent;
     this.sliderBody.classList.add('slider__body');
-    this.parent.appendChild(this.sliderBody);
+    this.parent.append(this.sliderBody);
     this.setOrientation(this.options.isVertical);
     this.setHandlers();
     this.setHandlerPosition();
