@@ -124,11 +124,11 @@ export default class MainView {
     this.options.values.forEach(() => {
       this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
     });
+    this.handlers[0].getElement().id = 'handler_min';
+    this.handlers[1].getElement().id = 'handler_max';
     this.handlers[0].appendHandler();
     if (this.options.hasRange) {
       this.handlers[1].appendHandler();
-      this.handlers[0].getElement().id = 'handler_min';
-      this.handlers[1].getElement().id = 'handler_max';
     }
   }
 
@@ -164,6 +164,7 @@ export default class MainView {
   }
 
   private handleHandlerMouseDown(e: MouseEvent): void {
+    console.log('down');
     e.stopPropagation();
     const target = e.target as HTMLDivElement;
     this.handlerTargetId = target.id;
@@ -172,6 +173,7 @@ export default class MainView {
   }
 
   private onMouseMove(e: MouseEvent): void {
+    console.log('move');
     if (this.options.isVertical) {
       this.moveAt(e.pageY, this.handlerTargetId);
     } else {
@@ -187,6 +189,7 @@ export default class MainView {
     if (this.options.min < 0) {
       value += this.options.min;
     }
+    console.log('move at', value);
     if (!this.options.hasRange) {
       this.observer.broadcast({
         values: [value, this.options.values[1]],
@@ -206,6 +209,7 @@ export default class MainView {
         values: [value, this.options.values[1]],
       });
     } else if (targetId === 'handler_max') {
+      console.log('handler_max', value);
       const maxValueLessThanMinValue = this.options.min < 0 ? value < this.options.values[0] : (value + this.options.min) < this.options.values[0];
       if (maxValueLessThanMinValue) {
         value = this.options.values[0];
