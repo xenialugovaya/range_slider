@@ -13,9 +13,11 @@ export default class HandlerView {
 
   public setPosition(value: number, min: number, max: number, isVertical: boolean): number {
     const valuesCount = max - min;
+    console.log('value ', value);
     const positionProperty = isVertical ? 'bottom' : 'left';
     const handlerSize = this.getHandlerSize(isVertical);
     const position = ((value - min) / valuesCount) * 100 - handlerSize / 2;
+    console.log('position ', position);
     this.handler.style[positionProperty] = `${position}%`;
     this.setLabelPosition(value, valuesCount, min, isVertical);
     this.setDefaultStyles(isVertical);

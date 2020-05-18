@@ -3,12 +3,12 @@ $labelColor:#FF6A6A;
 
 .slider{
   height: 4px;
-  width:100%;
+  width: 100%;
   user-select: none;
 
     &_vertical{
       height: 500px;
-      width:4px;
+      width: 4px;
 
 	  @media (max-width: 1130px) {
       margin-top: 100px;
@@ -45,7 +45,7 @@ $labelColor:#FF6A6A;
 	&__handler{
 		border-radius: 50%;
 		background: $labelColor;
-		width:16px;
+		width: 16px;
 		height: 16px;
 		position: absolute;
 		cursor:pointer;

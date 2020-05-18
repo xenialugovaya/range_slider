@@ -55,7 +55,7 @@ export default class SelectedArea {
 
   private setPositionSingle(vertical: boolean, handler: HTMLElement): void {
     if (vertical) {
-      (this.selectedRange.style.height = `${this.getCoordinate(this.parent, vertical)
+      (this.selectedRange.style.height = `${(this.getCoordinate(this.parent, vertical) - (handler.offsetWidth / 2))
         - this.getCoordinate(handler, vertical)
         + handler.offsetHeight}px`);
     } else {
@@ -71,7 +71,7 @@ export default class SelectedArea {
     const posMin = vertical ? 'bottom' : 'left';
     const length = vertical ? 'height' : 'width';
     this.selectedRange.style[posMin] = vertical
-      ? `${((this.getCoordinate(this.parent, vertical) - this.getCoordinate(handlers[0], vertical)) / this.parent.offsetHeight) * 100}%`
+      ? `${((this.getCoordinate(this.parent, vertical) - this.getCoordinate(handlers[0], vertical) + (handlers[0].offsetWidth / 2)) / this.parent.offsetHeight) * 100}%`
       : `${((this.getCoordinate(handlers[0], vertical) - this.getCoordinate(this.parent, vertical) + (handlers[0].offsetWidth / 2)) / this.parent.offsetWidth) * 100}%`;
     this.selectedRange.style[length] = vertical
       ? `${((this.getCoordinate(handlers[0], vertical) - this.getCoordinate(handlers[1], vertical)) / this.parent.offsetHeight) * 100}%`
