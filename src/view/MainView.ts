@@ -100,12 +100,12 @@ export default class MainView {
     this.updateLabels();
     this.setHandlerPosition();
     this.bindEvents();
-    this.selectedArea = new SelectedArea(
-      this.sliderBody,
-      this.options.hasRange,
-      this.options.isVertical,
-      this.getHandlersElements(),
-    );
+    this.selectedArea = new SelectedArea({
+      sliderBody: this.sliderBody,
+      hasRange: this.options.hasRange,
+      isVertical: this.options.isVertical,
+      handlers: this.getHandlersElements(),
+    });
   }
 
   private bindEvents(): void {

@@ -3,13 +3,13 @@ export default class SelectedArea {
 
   private parent!: HTMLElement;
 
-  constructor(
-    parent: HTMLElement,
-    range: boolean,
-    vertical: boolean,
-    handlers: HTMLElement [],
-  ) {
-    this.init(parent, range, vertical, handlers);
+  constructor(options: {
+    sliderBody: HTMLDivElement;
+    hasRange: boolean;
+    isVertical: boolean;
+    handlers: HTMLElement[];
+  }) {
+    this.init(options);
   }
 
   public updateSelectedRange(
@@ -34,22 +34,25 @@ export default class SelectedArea {
     return this.selectedRange;
   }
 
-  private init(
-    parent: HTMLElement,
-    range: boolean,
-    vertical: boolean,
-    handlers: HTMLElement[],
-  ): void {
-    this.parent = parent;
+  private init(options: {
+    sliderBody: HTMLDivElement;
+    hasRange: boolean;
+    isVertical: boolean;
+    handlers: HTMLElement[];
+  }): void {
+    const {
+      sliderBody, hasRange, isVertical, handlers,
+    } = options;
+    this.parent = sliderBody;
     this.parent.append(this.selectedRange);
-    if (!range) {
+    if (!hasRange) {
       this.selectedRange.classList.add('slider__selected');
-      this.setPositionSingle(vertical, handlers[0]);
-      this.setDefaultStyles(vertical, range);
+      this.setPositionSingle(isVertical, handlers[0]);
+      this.setDefaultStyles(isVertical, hasRange);
     } else {
       this.selectedRange.classList.add('slider__selected-range');
-      this.setPositionRange(vertical, handlers);
-      this.setDefaultStyles(vertical, range);
+      this.setPositionRange(isVertical, handlers);
+      this.setDefaultStyles(isVertical, hasRange);
     }
   }
 
