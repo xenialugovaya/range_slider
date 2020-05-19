@@ -20,13 +20,16 @@ export default class MainModel {
   }
 
   public update(valueData: sliderOptions): void {
-    if (valueData.min !== undefined) this.setMin(valueData.min);
-    if (valueData.max !== undefined) this.setMax(valueData.max);
-    if (valueData.values !== undefined) this.setValues(valueData.values);
-    if (valueData.isVertical !== undefined) this.setOrientation(valueData.isVertical);
-    if (valueData.step !== undefined) this.setStep(valueData.step);
-    if (valueData.hasRange !== undefined) this.setRange(valueData.hasRange);
-    if (valueData.hasLabels !== undefined) this.setLabels(valueData.hasLabels);
+    const {
+      min, max, values, isVertical, step, hasRange, hasLabels,
+    } = valueData;
+    if (min !== undefined) this.setMin(min);
+    if (max !== undefined) this.setMax(max);
+    if (values !== undefined) this.setValues(values);
+    if (isVertical !== undefined) this.setOrientation(isVertical);
+    if (step !== undefined) this.setStep(step);
+    if (hasRange !== undefined) this.setRange(hasRange);
+    if (hasLabels !== undefined) this.setLabels(hasLabels);
   }
 
   public getOptions(): definedOptions {
@@ -143,17 +146,19 @@ export default class MainModel {
   }
 
   private init(options: sliderOptions): void {
-    if (options.max !== undefined) this.setMax(options.max);
-    if (options.min !== undefined) this.setMin(options.min);
-    if (options.step !== undefined) this.setStep(options.step);
-    if (options.values !== undefined) {
-      const { values } = options;
+    const {
+      min, max, values, isVertical, step, hasRange, hasLabels,
+    } = options;
+    if (max !== undefined) this.setMax(max);
+    if (min !== undefined) this.setMin(min);
+    if (step !== undefined) this.setStep(step);
+    if (values !== undefined) {
       values.push(values[0] + 1);
       this.setValues(values);
     }
-    if (options.hasRange !== undefined) this.setRange(options.hasRange);
-    if (options.isVertical !== undefined) this.setOrientation(options.isVertical);
-    if (options.hasLabels !== undefined) this.setLabels(options.hasLabels);
+    if (hasRange !== undefined) this.setRange(hasRange);
+    if (isVertical !== undefined) this.setOrientation(isVertical);
+    if (hasLabels !== undefined) this.setLabels(hasLabels);
   }
 
   private verifyValueIsNotNaN(value: number): number {

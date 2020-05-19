@@ -31,12 +31,7 @@ export default class MainView {
   }
 
   public update(valueData: sliderOptions): void {
-    this.options.min = valueData.min !== undefined ? valueData.min : this.options.min;
-    this.options.max = valueData.max !== undefined ? valueData.max : this.options.max;
-    this.options.values = valueData.values ? valueData.values : this.options.values;
-    this.options.isVertical = valueData.isVertical !== undefined ? valueData.isVertical : this.options.isVertical;
-    this.options.hasRange = valueData.hasRange !== undefined ? valueData.hasRange : this.options.hasRange;
-    this.options.hasLabels = valueData.hasLabels !== undefined ? valueData.hasLabels : this.options.hasLabels;
+    this.updateOptions(valueData);
     this.setOrientation(this.options.isVertical);
     this.setRange(this.options.hasRange);
     this.updateLabels();
@@ -120,6 +115,19 @@ export default class MainView {
     this.sliderBody.addEventListener('mousedown', this.handleSliderBodyMouseDown.bind(this));
   }
 
+  private updateOptions(valueData: sliderOptions): void {
+    const {
+      min, max, values, isVertical, step, hasRange, hasLabels,
+    } = valueData;
+    if (min !== undefined) this.options.min = min;
+    if (max !== undefined) this.options.max = max;
+    if (values !== undefined) this.options.values = values;
+    if (isVertical !== undefined) this.options.isVertical = isVertical;
+    if (step !== undefined) this.options.step = step;
+    if (hasRange !== undefined) this.options.hasRange = hasRange;
+    if (hasLabels !== undefined) this.options.hasLabels = hasLabels;
+  }
+
   private setHandlers(): void {
     this.options.values.forEach(() => {
       this.handlers.push(new HandlerView(this.sliderBody, this.options.hasLabels));
@@ -164,7 +172,6 @@ export default class MainView {
   }
 
   private handleHandlerMouseDown(e: MouseEvent): void {
-    console.log('down');
     e.stopPropagation();
     const target = e.target as HTMLDivElement;
     this.handlerTargetId = target.id;
@@ -173,7 +180,6 @@ export default class MainView {
   }
 
   private onMouseMove(e: MouseEvent): void {
-    console.log('move');
     if (this.options.isVertical) {
       this.moveAt(e.pageY, this.handlerTargetId);
     } else {
@@ -189,7 +195,6 @@ export default class MainView {
     if (this.options.min < 0) {
       value += this.options.min;
     }
-    console.log('move at', value);
     if (!this.options.hasRange) {
       this.observer.broadcast({
         values: [value, this.options.values[1]],
@@ -209,7 +214,6 @@ export default class MainView {
         values: [value, this.options.values[1]],
       });
     } else if (targetId === 'handler_max') {
-      console.log('handler_max', value);
       const maxValueLessThanMinValue = this.options.min < 0 ? value < this.options.values[0] : (value + this.options.min) < this.options.values[0];
       if (maxValueLessThanMinValue) {
         value = this.options.values[0];
