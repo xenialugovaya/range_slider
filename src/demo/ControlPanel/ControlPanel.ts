@@ -4,7 +4,7 @@ import { sliderOptions } from '../../model/sliderOptions';
 export default class ControlPanel {
   private slider!: Facade;
 
-  private parent!: (Node & ParentNode) | null;
+  private parent!: Node | null;
 
   private controlPanel = document.createElement('div');
 
