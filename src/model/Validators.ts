@@ -1,6 +1,3 @@
-import { sliderOptions } from './sliderOptions';
-import { definedOptions } from './definedOptions';
-
 export default class Validators {
   public static isValidNumber(value: number): boolean {
     return Number.isFinite(value);

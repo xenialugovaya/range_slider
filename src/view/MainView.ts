@@ -1,3 +1,4 @@
+import bind from 'bind-decorator';
 import HandlerView from './HandlerView';
 import SelectedArea from './SelectedAreaView';
 import EventObserver from '../observer/observer';
@@ -16,10 +17,6 @@ export default class MainView {
   private handlers: HandlerView[] = [];
 
   private options!: definedOptions;
-
-  private mouseMove = this.onMouseMove.bind(this);
-
-  private mouseUp = this.onMouseUp.bind(this);
 
   private handlerTargetId = '';
 
@@ -110,9 +107,9 @@ export default class MainView {
 
   private bindEvents(): void {
     this.handlers.forEach((handler) => {
-      handler.getElement().addEventListener('mousedown', this.handleHandlerMouseDown.bind(this));
+      handler.getElement().addEventListener('mousedown', this.handleHandlerMouseDown);
     });
-    this.sliderBody.addEventListener('mousedown', this.handleSliderBodyMouseDown.bind(this));
+    this.sliderBody.addEventListener('mousedown', this.handleSliderBodyMouseDown);
   }
 
   private updateOptions(valueData: sliderOptions): void {
@@ -153,6 +150,7 @@ export default class MainView {
     this.handlers.forEach((handler, index) => handler.updateLabel(this.options.hasLabels, this.options.values[index]));
   }
 
+  @bind
   private handleSliderBodyMouseDown(e: MouseEvent): void {
     let clickCoordinate = e.pageX;
     const handlersCoordinates = this.handlers.map((handler) => this.getCoordinates(handler.getElement(), this.options.isVertical));
@@ -171,15 +169,17 @@ export default class MainView {
     this.moveAt(clickCoordinate, this.handlerTargetId);
   }
 
+  @bind
   private handleHandlerMouseDown(e: MouseEvent): void {
     e.stopPropagation();
     const target = e.target as HTMLDivElement;
     this.handlerTargetId = target.id;
-    document.addEventListener('mousemove', this.mouseMove);
-    document.addEventListener('mouseup', this.mouseUp);
+    document.addEventListener('mousemove', this.handleDocumentMouseMove);
+    document.addEventListener('mouseup', this.handleDocumentMouseUp);
   }
 
-  private onMouseMove(e: MouseEvent): void {
+  @bind
+  private handleDocumentMouseMove(e: MouseEvent): void {
     if (this.options.isVertical) {
       this.moveAt(e.pageY, this.handlerTargetId);
     } else {
@@ -229,8 +229,9 @@ export default class MainView {
     }
   }
 
-  private onMouseUp(): void {
-    document.removeEventListener('mousemove', this.mouseMove);
-    document.removeEventListener('mouseup', this.mouseUp);
+  @bind
+  private handleDocumentMouseUp(): void {
+    document.removeEventListener('mousemove', this.handleDocumentMouseMove);
+    document.removeEventListener('mouseup', this.handleDocumentMouseUp);
   }
 }
