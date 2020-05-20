@@ -151,11 +151,11 @@ export default class MainView {
   }
 
   @bind
-  private handleSliderBodyMouseDown(e: MouseEvent): void {
-    let clickCoordinate = e.pageX;
+  private handleSliderBodyMouseDown(event: MouseEvent): void {
+    let clickCoordinate = event.pageX;
     const handlersCoordinates = this.handlers.map((handler) => this.getCoordinates(handler.getElement(), this.options.isVertical));
     if (this.options.isVertical) {
-      clickCoordinate = e.pageY;
+      clickCoordinate = event.pageY;
     }
     const handlerDistance = [Math.abs(clickCoordinate - handlersCoordinates[0]), Math.abs(clickCoordinate - handlersCoordinates[1])];
     if (handlerDistance[0] < handlerDistance[1]) {
@@ -170,9 +170,9 @@ export default class MainView {
   }
 
   @bind
-  private handleHandlerMouseDown(e: MouseEvent): void {
-    e.stopPropagation();
-    const target = e.target as HTMLDivElement;
+  private handleHandlerMouseDown(event: MouseEvent): void {
+    event.stopPropagation();
+    const target = event.target as HTMLDivElement;
     this.handlerTargetId = target.id;
     document.addEventListener('mousemove', this.handleDocumentMouseMove);
     document.addEventListener('mouseup', this.handleDocumentMouseUp);
