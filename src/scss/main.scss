@@ -1,38 +1,38 @@
 $themeColor: #473C8B;
 $labelColor:#FF6A6A;
 
-.slider{
-  height: 4px;
-  width: 100%;
-  user-select: none;
+.slider {
+	height: 4px;
+	width: 100%;
+	user-select: none;
 
-    &_vertical{
-      height: 500px;
-      width: 4px;
+	&_vertical {
+		height: 500px;
+		width: 4px;
 
-	  @media (max-width: 1130px) {
-      margin-top: 100px;
-    }
-  }
-  
-	&_horizontal{
+		@media (max-width: 1130px) {
+			margin-top: 100px;
+		}
+	}
+
+	&_horizontal {
 		@media (max-width: 1130px) {
 			margin-left: 15px;
 			margin-top: 100px;
 		}
-  }
-  
-	&__body{
-    height: 100%;
-    width: 100%;
-    background: #cfcfcf;;
-    border-radius: 4px;
-    position: relative;
-    box-sizing: border-box;
-    cursor: pointer;
 	}
 
-	&__label{
+	&__body {
+		height: 100%;
+		width: 100%;
+		background: #cfcfcf;
+		border-radius: 4px;
+		position: relative;
+		box-sizing: border-box;
+		cursor: pointer;
+	}
+
+	&__label {
 		padding: 2px;
 		border-radius: 3px;
 		background: $themeColor;
@@ -41,20 +41,20 @@ $labelColor:#FF6A6A;
 		text-align: center;
 		position: absolute;
 	}
-	
-	&__handler{
+
+	&__handler {
 		border-radius: 50%;
 		background: $labelColor;
 		width: 16px;
 		height: 16px;
 		position: absolute;
-		cursor:pointer;
+		cursor: pointer;
 		z-index: 10;
 	}
 
-	&__selected, &__selected-range{
+	&__selected,
+	&__selected-range {
 		position: absolute;
 		background: $themeColor;
 	}
 }
-
