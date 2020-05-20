@@ -231,6 +231,6 @@ export default class MainView {
 
   private onMouseUp(): void {
     document.removeEventListener('mousemove', this.mouseMove);
-    document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('mouseup', this.mouseUp);
   }
 }
