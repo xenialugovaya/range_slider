@@ -28,12 +28,12 @@ describe('test handler view logic', () => {
       const max = 20;
       let isVertical = true;
 
-      expect(handler.setPosition(value, min, max, isVertical)).toEqual(45);
+      expect(handler.setPosition(value, min, max, isVertical)).toEqual(50);
 
       $('.slider__handler').css({ width: '10px' });
       $('.slider__body').css({ width: '100px' });
       isVertical = false;
-      expect(handler.setPosition(value, min, max, isVertical)).toEqual(45);
+      expect(handler.setPosition(value, min, max, isVertical)).toEqual(50);
     });
   });
 
@@ -48,7 +48,6 @@ describe('test handler view logic', () => {
 
       handler.updateLabel(showLabel, value);
       expect(handler.getLabelElement()).toExist();
-      expect($('.slider__label')).toExist();
       expect(handler.getLabelElement()).toHaveClass('slider__label');
     });
 

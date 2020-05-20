@@ -1,18 +1,29 @@
 import MainView from '../../../src/view/MainView';
+import { definedOptions } from '../../../src/model/definedOptions';
+
 
 describe('test main view logic', () => {
   setFixtures('<div class="slider"></div>');
   const parent: any = document.querySelector('.slider');
-  const hasRange = true;
-  const isVertical = true;
-  const min = 0;
-  const max = 100;
-  const values = [10, 20];
-  const hasLabels = true;
+  const options: definedOptions = {
+    hasRange: true,
+    isVertical: true,
+    min: 0,
+    step: 1,
+    max: 100,
+    values: [10, 20],
+    hasLabels: true,
+  };
+  // const hasRange = true;
+  // const isVertical = true;
+  // const min = 0;
+  // const max = 100;
+  // const values = [10, 20];
+  // const hasLabels = true;
 
   let view: MainView;
 
-  view = new MainView(parent, hasRange, isVertical, min, max, values, hasLabels);
+  view = new MainView(parent, options);
 
   describe('method setOrientation should change parent class depending on orientation', () => {
     it('if flag vertical is true, slider class should be slider_vertical', () => {
@@ -38,9 +49,9 @@ describe('test main view logic', () => {
     it('method setRange should add/remove handler if range true/false', () => {
       setFixtures('<div class="slider"></div>');
       const parent: any = document.querySelector('.slider');
-      const hasRange = true;
+      options.hasRange = true;
       if (parent) {
-        view = new MainView(parent, hasRange, isVertical, min, max, values, hasLabels);
+        view = new MainView(parent, options);
       }
 
       expect($('#handler_max')).toExist();
@@ -80,13 +91,22 @@ describe('test main view logic', () => {
     it('mousedown event should be triggered on handlers', () => {
       setFixtures('<div class="slider"></div>');
       const parent: any = document.querySelector('.slider');
-      const hasRange = true;
-      const isVertical = true;
-      const min = 0;
-      const max = 100;
-      const values = [10, 20];
-      const hasLabels = true;
-      const view = new MainView(parent, hasRange, isVertical, min, max, values, hasLabels);
+      const options: definedOptions = {
+        hasRange: true,
+        isVertical: true,
+        min: 0,
+        max: 100,
+        step: 1,
+        values: [10, 20],
+        hasLabels: true,
+      };
+      // const hasRange = true;
+      // const isVertical = true;
+      // const min = 0;
+      // const max = 100;
+      // const values = [10, 20];
+      // const hasLabels = true;
+      const view = new MainView(parent, options);
       const handlerMin = document.querySelector('#handler_min') as HTMLElement;
       const handlerMax = document.querySelector('#handler_max') as HTMLElement;
       spyOn(view.observer, 'broadcast').and.callThrough();
