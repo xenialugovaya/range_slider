@@ -2,47 +2,6 @@ import { sliderOptions } from './sliderOptions';
 import { definedOptions } from './definedOptions';
 
 export default class Validators {
-//   public static verifyOptions(options: definedOptions, currentValues: number[]) {
-//     const verifiedOptions: definedOptions = options;
-//     const {
-//       min, max, values, isVertical, step, hasRange, hasLabels,
-//     } = options;
-//     if (!this.isValidNumber(min)) {
-//       verifiedOptions.min = 0;
-//     }
-//     if (!this.isValidNumber(max)) {
-//       verifiedOptions.max = 0;
-//     }
-//     if (!this.isValidNumber(step)) {
-//       verifiedOptions.step = 1;
-//     } else {
-//       verifiedOptions.step = this.verifyStep(step, min, max);
-//     }
-//     if (!this.isValidNumber(values[0])) {
-//       values[0] = 0;
-//     } else {
-//       values[0] = this.verifyValue(values[0], currentValues, min, max, step);
-//       values[0] = this.verifyLimits(values[0], min, max);
-//     }
-//     if (!this.isValidNumber(values[1])) {
-//       values[1] = this.verifyValue(values[1], currentValues, min, max, step);
-//       values[1] = 0;
-//     } else {
-//       values[1] = this.verifyLimits(values[1], min, max);
-//     }
-//     verifiedOptions.values = this.verifyMinMaxValues(values);
-//     if (!this.isBoolean(isVertical)) {
-//       verifiedOptions.isVertical = Boolean(isVertical);
-//     }
-//     if (!this.isBoolean(hasRange)) {
-//       verifiedOptions.hasRange = Boolean(hasRange);
-//     }
-//     if (!this.isBoolean(hasLabels)) {
-//       verifiedOptions.hasLabels = Boolean(hasLabels);
-//     }
-//     return verifiedOptions;
-//   }
-
   public static isValidNumber(value: number): boolean {
     return Number.isFinite(value);
   }

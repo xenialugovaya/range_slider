@@ -113,11 +113,6 @@ export default class MainModel {
       }
       return 0;
     });
-    // valuesNotNaN.forEach((value, index) => {
-    //   if (value !== this.options.values[index]) {
-    //     this.options.values[index] = this.verifyValue(value);
-    //   }
-    // });
     checkedValues = checkedValues.map((value) => Validators.verifyValue(value, this.options.values, this.getMin(), this.getMax(), this.getStep()));
     checkedValues = checkedValues.map((value) => Validators.verifyLimits(value, this.getMin(), this.getMax()));
     this.options.values = Validators.verifyMinMaxValues(checkedValues);
@@ -131,7 +126,11 @@ export default class MainModel {
   }
 
   public setOrientation(vertical: boolean): void {
-    this.options.isVertical = vertical;
+    if (Validators.isBoolean(vertical)) {
+      this.options.isVertical = vertical;
+    } else {
+      this.options.isVertical = Boolean(vertical);
+    }
     this.broadcastUpdates({
       values: this.getValues(),
       isVertical: this.getOrientation(),
@@ -143,7 +142,11 @@ export default class MainModel {
   }
 
   public setRange(range: boolean): void {
-    this.options.hasRange = range;
+    if (Validators.isBoolean(range)) {
+      this.options.hasRange = range;
+    } else {
+      this.options.hasRange = Boolean(range);
+    }
     this.broadcastUpdates({
       values: this.getValues(),
       hasRange: this.getRange(),
@@ -155,7 +158,11 @@ export default class MainModel {
   }
 
   public setLabels(label: boolean): void {
-    this.options.hasLabels = label;
+    if (Validators.isBoolean(label)) {
+      this.options.hasLabels = label;
+    } else {
+      this.options.hasLabels = Boolean(label);
+    }
     this.broadcastUpdates({
       hasLabels: this.getLabels(),
     });
@@ -176,56 +183,6 @@ export default class MainModel {
     if (isVertical !== undefined) this.setOrientation(isVertical);
     if (hasLabels !== undefined) this.setLabels(hasLabels);
   }
-
-  // private verifyValueIsNotNaN(value: number): number {
-  //   if (Number.isNaN(value)) {
-  //     value = 0;
-  //   }
-  //   return value;
-  // }
-
-  // private verifyValue(value: number): number {
-  //   let checkedValue;
-  //   const modulus = (this.getMax() - this.getMin()) % this.options.step;
-  //   if (modulus > 0 && (value + this.getMin()) > this.getMax() - modulus) {
-  //     checkedValue = this.getMax() - modulus;
-  //     return checkedValue;
-  //   }
-  //   if (this.getMin() < 0) {
-  //     if (modulus > 0 && value > this.getMax() - modulus) {
-  //       checkedValue = this.getMax() - modulus;
-  //       return checkedValue;
-  //     }
-  //     const shift = Math.abs(this.getMin()) - Math.round(Math.abs(this.getMin()) / this.options.step) * this.options.step;
-  //     checkedValue = Math.round(value / this.options.step) * this.options.step - shift;
-  //     return checkedValue;
-  //   }
-  //   if (value === this.options.values[0] || value === this.options.values[1]) {
-  //     return value;
-  //   }
-  //   checkedValue = Math.round(value / this.options.step) * this.options.step + this.getMin();
-  //   return checkedValue;
-  // }
-
-  // private verifyMinMaxValues(): void {
-  //   if (this.options.values[0] > this.options.values[1]) {
-  //     [this.options.values[0], this.options.values[1]] = [this.options.values[1], this.options.values[0]];
-  //   }
-  // }
-
-  // private verifyLimits(): void {
-  //   this.options.values = this.options.values.map((value) => (value < this.getMin() ? this.getMin() : value > this.getMax() ? this.getMax() : value));
-  // }
-
-  // private verifyStep(step: number): number {
-  //   const maxStep = this.getMax() - this.getMin();
-  //   if (step > maxStep) {
-  //     return maxStep;
-  //   } if (step <= 0) {
-  //     return 1;
-  //   }
-  //   return step;
-  // }
 
   private broadcastUpdates(valueData: sliderOptions): void {
     this.observer.broadcast(valueData);
