@@ -7,7 +7,7 @@ export default class Validators {
     return typeof value === 'boolean';
   }
 
-  public static verifyValue(newValue: number, currentValues: number[], min: number, max: number, step: number): number {
+  public static verifyValue(newValue: number, index: number, currentValues: number[], min: number, max: number, step: number): number {
     let checkedValue;
     const modulus = (max - min) % step;
     if (modulus > 0 && (newValue + min) > max - modulus) {
@@ -20,14 +20,22 @@ export default class Validators {
         return checkedValue;
       }
       const shift = Math.abs(min) - Math.round(Math.abs(min) / step) * step;
-      checkedValue = Math.round(newValue / step) * step - shift;
+      if (newValue < currentValues[index]) {
+        checkedValue = Math.ceil(newValue / step) * step - shift;
+      } else {
+        checkedValue = Math.floor(newValue / step) * step - shift;
+      }
       return checkedValue;
     }
     if (newValue === currentValues[0] || newValue === currentValues[1]) {
       checkedValue = newValue;
       return checkedValue;
     }
-    checkedValue = Math.round(newValue / step) * step + min;
+    if (newValue < currentValues[index]) {
+      checkedValue = Math.ceil(newValue / step) * step + min;
+    } else {
+      checkedValue = Math.floor(newValue / step) * step + min;
+    }
     return checkedValue;
   }
 

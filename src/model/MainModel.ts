@@ -100,7 +100,7 @@ export default class MainModel {
   }
 
   public getValues(): number[] {
-    this.options.values = this.options.values.map((value) => Validators.verifyValue(value, this.options.values, this.getMin(), this.getMax(), this.getStep()));
+    this.options.values = this.options.values.map((value, index) => Validators.verifyValue(value, index, this.options.values, this.getMin(), this.getMax(), this.getStep()));
     this.options.values = this.options.values.map((value) => Validators.verifyLimits(value, this.getMin(), this.getMax()));
     this.options.values = Validators.verifyMinMaxValues(this.options.values);
     return this.options.values;
@@ -113,7 +113,12 @@ export default class MainModel {
       }
       return 0;
     });
-    checkedValues = checkedValues.map((value) => Validators.verifyValue(value, this.options.values, this.getMin(), this.getMax(), this.getStep()));
+    checkedValues = values.map((value, index) => {
+      if (value !== this.options.values[index]) {
+        return Validators.verifyValue(value, index, this.options.values, this.getMin(), this.getMax(), this.getStep());
+      }
+      return value;
+    });
     checkedValues = checkedValues.map((value) => Validators.verifyLimits(value, this.getMin(), this.getMax()));
     this.options.values = Validators.verifyMinMaxValues(checkedValues);
     this.broadcastUpdates({
