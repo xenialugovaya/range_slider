@@ -25,6 +25,5 @@ export default class SliderInit {
     this.sliderWrapper.append(this.slider);
     const facade: Facade = new Facade(this.slider, this.options);
     const panel: ControlPanel = new ControlPanel(facade);
-    return { facade, panel };
   }
 }
