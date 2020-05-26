@@ -23,12 +23,6 @@ describe('test SelectedArea view', () => {
     isVertical: true,
     handlers: [handlerMin, handlerMax],
   };
-  // options.sliderBody = document.querySelector('.sliderBody');
-  // options.hasRange = false;
-  // options.isVertical = true;
-  // options.handlers[0] = document.querySelector('#handler_min');
-  // options.handlers[1] = document.querySelector('#handler_max');
-
   const selectedArea = new SelectedArea(options);
 
   afterEach(() => {

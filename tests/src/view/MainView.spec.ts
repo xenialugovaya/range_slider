@@ -14,13 +14,6 @@ describe('test main view logic', () => {
     values: [10, 20],
     hasLabels: true,
   };
-  // const hasRange = true;
-  // const isVertical = true;
-  // const min = 0;
-  // const max = 100;
-  // const values = [10, 20];
-  // const hasLabels = true;
-
   let view: MainView;
 
   view = new MainView(parent, options);
@@ -32,13 +25,6 @@ describe('test main view logic', () => {
       expect(parent).toHaveClass('slider_vertical');
       expect(parent).not.toHaveClass('slider_horizontal');
     });
-    /*  it('if flag vertical is false, slider class should be slider_horizontal', function() {
-      const vertical = false;
-      view.setOrientation(vertical);
-      expect(parent).toHaveClass('slider_horizontal');
-      expect(parent).not.toHaveClass('slider_vertical');
-    });
-    */
   });
 
   describe('test manipulations with handlers', () => {
@@ -100,12 +86,6 @@ describe('test main view logic', () => {
         values: [10, 20],
         hasLabels: true,
       };
-      // const hasRange = true;
-      // const isVertical = true;
-      // const min = 0;
-      // const max = 100;
-      // const values = [10, 20];
-      // const hasLabels = true;
       const view = new MainView(parent, options);
       const handlerMin = document.querySelector('#handler_min') as HTMLElement;
       const handlerMax = document.querySelector('#handler_max') as HTMLElement;
