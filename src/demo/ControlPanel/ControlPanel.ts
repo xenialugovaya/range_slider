@@ -1,5 +1,7 @@
+import bind from 'bind-decorator';
 import Facade from '../../presenter/Facade';
 import { sliderOptions } from '../../model/sliderOptions';
+
 
 export default class ControlPanel {
   private slider!: Facade;
@@ -78,41 +80,46 @@ export default class ControlPanel {
     this.createOrientationCheckbox();
     this.createRangeCheckbox();
     this.createShowLabelCheckbox();
-    this.setEventListeners();
+    this.bindEvents();
     this.getSliderOptions();
     this.updateValues();
   }
 
-  private setEventListeners(): void {
-    this.minMax.forEach((input) => input.addEventListener('change', this.changeMinMax.bind(this)));
-    this.values.forEach((input) => input.addEventListener('change', this.changeValues.bind(this)));
-    this.step.addEventListener('change', this.changeStep.bind(this));
-    this.getOrientationCheckbox().addEventListener('change', this.changeOrientation.bind(this));
-    this.getRangeCheckbox().addEventListener('change', this.changeRange.bind(this));
-    this.getShowLabelCheckbox().addEventListener('change', this.changeLabelVisibility.bind(this));
+  private bindEvents(): void {
+    this.minMax.forEach((input) => input.addEventListener('change', this.handleMinMaxChange));
+    this.values.forEach((input) => input.addEventListener('change', this.handleValuesChange));
+    this.step.addEventListener('change', this.handleStepChange);
+    this.getOrientationCheckbox().addEventListener('change', this.handleOrientationChange);
+    this.getRangeCheckbox().addEventListener('change', this.handleRangeChange);
+    this.getShowLabelCheckbox().addEventListener('change', this.handleLabelVisibilityChange);
   }
 
-  private changeMinMax(): void {
+  @bind
+  private handleMinMaxChange(): void {
     const newMinMax = this.minMax.map((input) => parseInt(input.value, 10));
     this.slider.setMinMax(newMinMax);
   }
 
-  private changeValues(): void {
+  @bind
+  private handleValuesChange(): void {
     const newValues = this.values.map((input) => parseInt(input.value, 10));
     this.slider.setValues(newValues);
   }
 
-  private changeStep(): void {
+  @bind
+  private handleStepChange(): void {
     const newStep = parseInt(this.step.value, 10);
     this.slider.setStep(newStep);
   }
 
-  private changeOrientation(): void {
+  @bind
+  private handleOrientationChange(): void {
     const newOrientation = this.getOrientationCheckbox().checked;
     this.slider.setOrientation(newOrientation);
   }
 
-  private changeRange(): void {
+  @bind
+  private handleRangeChange(): void {
     const newRange = this.getRangeCheckbox().checked;
     if (!newRange) {
       this.values[1].remove();
@@ -122,7 +129,8 @@ export default class ControlPanel {
     this.slider.setRange(newRange);
   }
 
-  private changeLabelVisibility(): void {
+  @bind
+  private handleLabelVisibilityChange(): void {
     const showLabels = this.getShowLabelCheckbox().checked;
     this.slider.setLabels(showLabels);
   }
