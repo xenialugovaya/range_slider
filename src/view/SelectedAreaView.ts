@@ -21,13 +21,12 @@ export default class SelectedArea {
       this.selectedRange.classList.add('slider__selected');
       this.selectedRange.classList.remove('slider__selected-range');
       this.setPositionSingle(vertical, handlers[0]);
-      this.setDefaultStyles(vertical, range);
     } else {
       this.selectedRange.classList.remove('slider__selected');
       this.selectedRange.classList.add('slider__selected-range');
       this.setPositionRange(vertical, handlers);
-      this.setDefaultStyles(vertical, range);
     }
+    this.setDefaultStyles(vertical, range);
   }
 
   public getSelectedArea(): HTMLDivElement {
@@ -48,12 +47,11 @@ export default class SelectedArea {
     if (!hasRange) {
       this.selectedRange.classList.add('slider__selected');
       this.setPositionSingle(isVertical, handlers[0]);
-      this.setDefaultStyles(isVertical, hasRange);
     } else {
       this.selectedRange.classList.add('slider__selected-range');
       this.setPositionRange(isVertical, handlers);
-      this.setDefaultStyles(isVertical, hasRange);
     }
+    this.setDefaultStyles(isVertical, hasRange);
   }
 
   private setPositionSingle(vertical: boolean, handler: HTMLElement): void {
@@ -84,16 +82,14 @@ export default class SelectedArea {
   private setDefaultStyles(vertical: boolean, range: boolean): void{
     if (vertical) {
       this.selectedRange.style.width = '100%';
-      if (range) {
-        this.selectedRange.style.left = '0%';
-      } else {
+      this.selectedRange.style.left = '0%';
+      if (!range) {
         this.selectedRange.style.bottom = '0%';
       }
     } else {
       this.selectedRange.style.height = '100%';
-      if (range) {
-        this.selectedRange.style.bottom = '0%';
-      } else {
+      this.selectedRange.style.bottom = '0%';
+      if (!range) {
         this.selectedRange.style.left = '0%';
       }
     }

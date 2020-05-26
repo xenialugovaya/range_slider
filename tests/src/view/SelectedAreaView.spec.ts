@@ -4,7 +4,6 @@ describe('test SelectedArea view', () => {
   setFixtures(
     '<div class="slider"><div class="sliderBody"><div class="handler" id="handler_min"></div><div class="handler" id="handler_max"></div></div></div>',
   );
-  // if (document.querySelector('#handler_min') !== null && document.querySelector('#handler_max') !== null)
 
   const handlerMin: any = document.querySelector('#handler_min');
 
@@ -19,7 +18,7 @@ describe('test SelectedArea view', () => {
     handlers: any[];
   } = {
     sliderBody,
-    hasRange: false,
+    hasRange: true,
     isVertical: true,
     handlers: [handlerMin, handlerMax],
   };
@@ -42,8 +41,30 @@ describe('test SelectedArea view', () => {
 
   it('check default styles for horizontal orientation', () => {
     options.isVertical = false;
+    const {
+      hasRange, isVertical, handlers,
+    } = options;
+    selectedArea.updateSelectedRange(hasRange, isVertical, handlers);
     expect(selectedArea.getSelectedArea().style.bottom).toEqual('0%');
+    expect(selectedArea.getSelectedArea().offsetHeight).toEqual(sliderBody.offsetHeight);
+  });
+
+  it('check default styles for vertical orientation', () => {
+    options.isVertical = true;
+    const {
+      hasRange, isVertical, handlers,
+    } = options;
+    selectedArea.updateSelectedRange(hasRange, isVertical, handlers);
+    expect(selectedArea.getSelectedArea().style.left).toEqual('0%');
+    expect(selectedArea.getSelectedArea().offsetWidth).toEqual(sliderBody.offsetWidth);
+  });
+
+  it('check default styles for single handler', () => {
     options.hasRange = false;
+    const {
+      hasRange, isVertical, handlers,
+    } = options;
+    selectedArea.updateSelectedRange(hasRange, isVertical, handlers);
     expect(selectedArea.getSelectedArea().style.left).toEqual('0%');
   });
 });
