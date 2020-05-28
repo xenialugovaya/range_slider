@@ -1,12 +1,12 @@
 import './demo.scss';
 import SliderInit from './SliderInit';
 
-const config = [
+const sliderConfigurations = [
   {
     max: 100,
     min: 10,
     step: 10,
-    values: [19],
+    values: [30],
     hasLabels: true,
     hasRange: false,
     isVertical: false,
@@ -24,4 +24,4 @@ const config = [
   },
 ];
 
-config.forEach((slider) => new SliderInit(slider));
+sliderConfigurations.forEach((sliderConfiguration) => new SliderInit(sliderConfiguration));
