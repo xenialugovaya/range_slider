@@ -190,11 +190,8 @@ export default class MainView {
   private moveAt(coordinate: number, targetId: string): void {
     const sliderCoordinate = this.getCoordinates(this.sliderBody, this.options.isVertical);
     let value = this.options.isVertical
-      ? ((sliderCoordinate - coordinate) / this.sliderBody.offsetHeight) * (this.options.max - this.options.min)
-      : ((coordinate - sliderCoordinate) / this.sliderBody.offsetWidth) * (this.options.max - this.options.min);
-    if (this.options.min < 0) {
-      value += this.options.min;
-    }
+      ? ((sliderCoordinate - coordinate) / this.sliderBody.offsetHeight) * (this.options.max - this.options.min) + this.options.min
+      : ((coordinate - sliderCoordinate) / this.sliderBody.offsetWidth) * (this.options.max - this.options.min) + this.options.min;
     if (!this.options.hasRange) {
       this.observer.broadcast({
         values: [value, this.options.values[1]],

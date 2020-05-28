@@ -20,9 +20,12 @@ export default class Validators {
         return checkedValue;
       }
       const shift = Math.abs(min) - Math.round(Math.abs(min) / step) * step;
-      if (newValue < currentValues[index]) {
-        checkedValue = Math.ceil(newValue / step) * step - shift;
-      } else {
+      checkedValue = Math.round(newValue / step) * step - shift;
+      if (shift >= 0) {
+        if (newValue < currentValues[index]) {
+          checkedValue = Math.ceil(newValue / step) * step - shift;
+        }
+      } else if (newValue > currentValues[index]) {
         checkedValue = Math.floor(newValue / step) * step - shift;
       }
       return checkedValue;
@@ -31,10 +34,10 @@ export default class Validators {
       checkedValue = newValue;
       return checkedValue;
     }
-    if (newValue < currentValues[index]) {
-      checkedValue = Math.ceil(newValue / step) * step + min;
-    } else {
-      checkedValue = Math.floor(newValue / step) * step + min;
+
+    checkedValue = Math.round(newValue / step) * step;
+    if ((checkedValue - min) % step !== 0) {
+      checkedValue += min;
     }
     return checkedValue;
   }
