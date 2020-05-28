@@ -39,9 +39,9 @@ export default class Validators {
     return checkedValue;
   }
 
-  public static verifyMinMaxValues(values: number []): number [] {
+  public static verifyMinMaxValues(values: number [], range: boolean): number [] {
     const checkedValues = values;
-    if (checkedValues[0] > checkedValues[1]) {
+    if (checkedValues[0] > checkedValues[1] && range) {
       [checkedValues[0], checkedValues[1]] = [checkedValues[1], checkedValues[0]];
     }
     return checkedValues;

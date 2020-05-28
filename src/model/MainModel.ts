@@ -102,7 +102,7 @@ export default class MainModel {
   public getValues(): number[] {
     this.options.values = this.options.values.map((value, index) => Validators.verifyValue(value, index, this.options.values, this.getMin(), this.getMax(), this.getStep()));
     this.options.values = this.options.values.map((value) => Validators.verifyLimits(value, this.getMin(), this.getMax()));
-    this.options.values = Validators.verifyMinMaxValues(this.options.values);
+    this.options.values = Validators.verifyMinMaxValues(this.options.values, this.options.hasRange);
     return this.options.values;
   }
 
@@ -120,7 +120,7 @@ export default class MainModel {
       return value;
     });
     checkedValues = checkedValues.map((value) => Validators.verifyLimits(value, this.getMin(), this.getMax()));
-    this.options.values = Validators.verifyMinMaxValues(checkedValues);
+    this.options.values = Validators.verifyMinMaxValues(checkedValues, this.options.hasRange);
     this.broadcastUpdates({
       values: this.options.values,
     });
