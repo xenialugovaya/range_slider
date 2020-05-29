@@ -19,7 +19,9 @@ const sliderConfigurations = [
     max: 200,
   },
   {
-    max: 100,
+    max: -50,
+    step: 15,
+    values: [63, 64],
     hasRange: true,
   },
 ];

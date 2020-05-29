@@ -39,7 +39,7 @@ export default class MainModel {
 
   public getMin(): number {
     if (this.options.min > this.options.max) {
-      return this.options.max;
+      [this.options.max, this.options.min] = [this.options.min, this.options.max];
     }
     return this.options.min;
   }
@@ -60,7 +60,7 @@ export default class MainModel {
 
   public getMax(): number {
     if (this.options.max < this.options.min) {
-      return this.options.min;
+      [this.options.max, this.options.min] = [this.options.min, this.options.max];
     }
     if (this.options.max === this.options.min) {
       return this.options.max + this.options.step;
