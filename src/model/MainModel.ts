@@ -181,7 +181,7 @@ export default class MainModel {
     if (min !== undefined) this.setMin(min);
     if (step !== undefined) this.setStep(step);
     if (values !== undefined) {
-      values.push(values[0] + 1);
+      if (values.length === 1) values.push(values[0] + 1);
       this.setValues(values);
     }
     if (hasRange !== undefined) this.setRange(hasRange);

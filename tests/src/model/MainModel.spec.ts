@@ -9,17 +9,24 @@ describe('test model logic', () => {
   describe('test min/max limits', () => {
     it('functions get/set min are correct', () => {
       model.setMin(100);
-      expect(model.getMin()).toEqual(Math.round(100 / 10) * 10);
+      expect(model.getMin()).toEqual(100);
     });
     it('functions get/set max are correct', () => {
       model.setMax(300);
-      expect(model.getMax()).toEqual(Math.round(300 / 10) * 10);
+      expect(model.getMax()).toEqual(300);
     });
     it('if min is greater than max, max should be replaced by min value', () => {
-      model.setMin(300);
       model.setMax(200);
-      expect(model.getMax()).toEqual(Math.round(300 / 10) * 10);
-      expect(model.getMin()).toEqual(Math.round(200 / 10) * 10);
+      model.setMin(300);
+      expect(model.getMax()).toEqual(300);
+      expect(model.getMin()).toEqual(200);
+    });
+    it('if min is equal to max, max should be equal to max+step', () => {
+      model.setStep(10);
+      model.setMax(200);
+      model.setMin(200);
+      expect(model.getMax()).toEqual(210);
+      expect(model.getMin()).toEqual(200);
     });
   });
 

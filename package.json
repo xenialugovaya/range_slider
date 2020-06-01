@@ -1,8 +1,5 @@
 {
-  "name": "sliderplugin",
-  "version": "1.0.0",
-  "description": "Slider plugin test project",
-  "main": "sliderPlugin.js",
+  "private": true,
   "scripts": {
     "lint": "tsc -w && eslint 'src/*.{js,ts,tsx}'  --fix",
     "prettier": "prettier --write 'src/*.{js,ts,tsx}'",
@@ -12,8 +9,6 @@
     "test": "karma start karma.conf.js",
     "deploy": "gh-pages -d dist"
   },
-  "author": "Xenia Lugovaya",
-  "license": "ISC",
   "devDependencies": {
     "@types/jasmine": "^3.5.3",
     "@types/jasmine-jquery": "^1.5.33",
