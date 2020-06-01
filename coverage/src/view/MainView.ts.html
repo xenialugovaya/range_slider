@@ -22,16 +22,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.46% </span>
+                <span class="strong">84% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>106/127</span>
+                <span class='fraction'>105/125</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.66% </span>
+                <span class="strong">69.23% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>46/67</span>
+                <span class='fraction'>45/65</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.76% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>96/116</span>
+                <span class='fraction'>95/114</span>
             </div>
         
             
@@ -290,10 +290,7 @@
 <a name='L232'></a><a href='#L232'>232</a>
 <a name='L233'></a><a href='#L233'>233</a>
 <a name='L234'></a><a href='#L234'>234</a>
-<a name='L235'></a><a href='#L235'>235</a>
-<a name='L236'></a><a href='#L236'>236</a>
-<a name='L237'></a><a href='#L237'>237</a>
-<a name='L238'></a><a href='#L238'>238</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L235'></a><a href='#L235'>235</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -340,7 +337,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">305x</span>
+<span class="cline-any cline-yes">206x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -402,7 +399,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -422,7 +419,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -433,7 +430,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">305x</span>
+<span class="cline-any cline-yes">206x</span>
 <span class="cline-any cline-yes">103x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">103x</span>
@@ -442,7 +439,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">305x</span>
+<span class="cline-any cline-yes">206x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -486,9 +483,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -722,11 +716,8 @@ export default class MainView {
   private moveAt(coordinate: number, targetId: string): void {
     const sliderCoordinate = this.getCoordinates(this.sliderBody, this.options.isVertical);
     let value = this.options.isVertical
-      ? ((sliderCoordinate - coordinate) / this.sliderBody.offsetHeight) * (this.options.max - this.options.min)
-      : <span class="branch-1 cbranch-no" title="branch not covered" >((coordinate - sliderCoordinate) / this.sliderBody.offsetWidth) * (this.options.max - this.options.min);</span>
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.options.min &lt; 0) {
-<span class="cstat-no" title="statement not covered" >      value += this.options.min;</span>
-    }
+      ? ((sliderCoordinate - coordinate) / this.sliderBody.offsetHeight) * (this.options.max - this.options.min) + this.options.min
+      : <span class="branch-1 cbranch-no" title="branch not covered" >((coordinate - sliderCoordinate) / this.sliderBody.offsetWidth) * (this.options.max - this.options.min) + this.options.min;</span>
     <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.options.hasRange) {
 <span class="cstat-no" title="statement not covered" >      this.observer.broadcast({</span>
         values: [value, this.options.values[1]],
@@ -774,7 +765,7 @@ export default class MainView {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue May 26 2020 13:15:17 GMT+0300 (Москва, стандартное время)
+                at Mon Jun 01 2020 11:24:58 GMT+0300 (Москва, стандартное время)
             </div>
         </div>
         <script src="../../prettify.js"></script>
