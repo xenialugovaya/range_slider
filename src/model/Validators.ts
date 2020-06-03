@@ -7,7 +7,17 @@ export default class Validators {
     return typeof value === 'boolean';
   }
 
-  public static verifyValue(newValue: number, index: number, currentValues: number[], min: number, max: number, step: number): number {
+  public static verifyValue(options: {
+    newValue: number;
+    index: number;
+    currentValues: number[];
+    min: number;
+    max: number;
+    step: number;
+  }): number {
+    const {
+      newValue, index, currentValues, min, max, step,
+    } = options;
     let checkedValue;
     const modulus = (max - min) % step;
     if (modulus > 0 && (newValue + min) > max - modulus) {

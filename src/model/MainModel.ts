@@ -100,7 +100,17 @@ export default class MainModel {
   }
 
   public getValues(): number[] {
-    this.options.values = this.options.values.map((value, index) => Validators.verifyValue(value, index, this.options.values, this.getMin(), this.getMax(), this.getStep()));
+    this.options.values = this.options.values.map((value, index) => {
+      const options = {
+        newValue: value,
+        index,
+        currentValues: this.options.values,
+        min: this.getMin(),
+        max: this.getMax(),
+        step: this.getStep(),
+      };
+      return Validators.verifyValue(options);
+    });
     this.options.values = this.options.values.map((value) => Validators.verifyLimits(value, this.getMin(), this.getMax()));
     this.options.values = Validators.verifyMinMaxValues(this.options.values, this.options.hasRange);
     return this.options.values;
@@ -115,7 +125,15 @@ export default class MainModel {
     });
     checkedValues = values.map((value, index) => {
       if (value !== this.options.values[index]) {
-        return Validators.verifyValue(value, index, this.options.values, this.getMin(), this.getMax(), this.getStep());
+        const options = {
+          newValue: value,
+          index,
+          currentValues: this.options.values,
+          min: this.getMin(),
+          max: this.getMax(),
+          step: this.getStep(),
+        };
+        return Validators.verifyValue(options);
       }
       return value;
     });
