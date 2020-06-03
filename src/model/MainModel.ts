@@ -123,7 +123,7 @@ export default class MainModel {
       }
       return 0;
     });
-    checkedValues = values.map((value, index) => {
+    checkedValues = checkedValues.map((value, index) => {
       if (value !== this.options.values[index]) {
         const options = {
           newValue: value,
