@@ -14,8 +14,13 @@ $labelColor:#FF6A6A;
 	}
 
 	&_horizontal {
+<<<<<<< HEAD
 		height: 4px;
 		width: 100%;
+=======
+    width: 100%;
+    height: 4px;
+>>>>>>> 3a7d61ab65e6e11f034f0b2ae61521a048e71d57
 
 		@media (max-width: 1130px) {
 			margin-left: 15px;
