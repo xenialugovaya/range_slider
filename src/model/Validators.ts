@@ -15,17 +15,17 @@ export default class Validators {
     max: number;
     step: number;
   }): number {
-    const {
-      newValue, index, currentValues, min, max, step,
-    } = options;
+    const { newValue, index, currentValues, min, max, step } = options;
     let checkedValue;
     const modulus = (max - min) % step;
-    if (modulus > 0 && (newValue + min) > max - modulus) {
-      checkedValue = max - modulus;
+    const handlerNotMoved = newValue === currentValues[0] || newValue === currentValues[1];
+    if (handlerNotMoved) {
+      checkedValue = newValue;
       return checkedValue;
     }
     if (min < 0) {
-      if (modulus > 0 && newValue > max - modulus) {
+      const lastSectionIsSmallerThanStep = modulus > 0 && newValue > max - modulus;
+      if (lastSectionIsSmallerThanStep) {
         checkedValue = max - modulus;
         return checkedValue;
       }
@@ -40,11 +40,11 @@ export default class Validators {
       }
       return checkedValue;
     }
-    if (newValue === currentValues[0] || newValue === currentValues[1]) {
-      checkedValue = newValue;
+    const lastSectionIsSmallerThanStep = modulus > 0 && newValue + min > max - modulus;
+    if (lastSectionIsSmallerThanStep) {
+      checkedValue = max - modulus;
       return checkedValue;
     }
-
     checkedValue = Math.round(newValue / step) * step;
     if ((checkedValue - min) % step !== 0) {
       checkedValue += min;
@@ -52,9 +52,10 @@ export default class Validators {
     return checkedValue;
   }
 
-  public static verifyMinMaxValues(values: number [], range: boolean): number [] {
+  public static verifyMinMaxValues(values: number[], range: boolean): number[] {
     const checkedValues = values;
-    if (checkedValues[0] > checkedValues[1] && range) {
+    const minValueIsGreaterThanMaxValue = checkedValues[0] > checkedValues[1] && range;
+    if (minValueIsGreaterThanMaxValue) {
       [checkedValues[0], checkedValues[1]] = [checkedValues[1], checkedValues[0]];
     }
     return checkedValues;
@@ -64,7 +65,8 @@ export default class Validators {
     let checkedValue = value;
     if (checkedValue < min) {
       checkedValue = min;
-    } if (checkedValue > max) {
+    }
+    if (checkedValue > max) {
       checkedValue = max;
     }
     return checkedValue;
@@ -74,7 +76,8 @@ export default class Validators {
     const maxStep = max - min;
     if (step > maxStep) {
       return maxStep;
-    } if (step <= 0) {
+    }
+    if (step <= 0) {
       return 1;
     }
     return step;

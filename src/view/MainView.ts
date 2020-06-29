@@ -20,10 +20,7 @@ export default class MainView {
 
   private handlerTargetId = '';
 
-  constructor(
-    parent: HTMLElement,
-    options: definedOptions,
-  ) {
+  constructor(parent: HTMLElement, options: definedOptions) {
     this.init(parent, options);
   }
 
@@ -45,7 +42,7 @@ export default class MainView {
   }
 
   public getHandlersElements(): HTMLElement[] {
-    return this.handlers.map((handler) => handler.getElement());
+    return this.handlers.map(handler => handler.getElement());
   }
 
   public setOrientation(vertical: boolean): void {
@@ -84,10 +81,7 @@ export default class MainView {
     return box.left + pageXOffset;
   }
 
-  private init(
-    parent: HTMLElement,
-    options: definedOptions,
-  ): void {
+  private init(parent: HTMLElement, options: definedOptions): void {
     this.options = options;
     this.parent = parent;
     this.sliderBody.classList.add('slider__body');
@@ -106,16 +100,14 @@ export default class MainView {
   }
 
   private bindEvents(): void {
-    this.handlers.forEach((handler) => {
+    this.handlers.forEach(handler => {
       handler.getElement().addEventListener('mousedown', this.handleHandlerMouseDown);
     });
     this.sliderBody.addEventListener('mousedown', this.handleSliderBodyMouseDown);
   }
 
   private updateOptions(valueData: sliderOptions): void {
-    const {
-      min, max, values, isVertical, step, hasRange, hasLabels,
-    } = valueData;
+    const { min, max, values, isVertical, step, hasRange, hasLabels } = valueData;
     if (min !== undefined) this.options.min = min;
     if (max !== undefined) this.options.max = max;
     if (values !== undefined) this.options.values = values;
@@ -138,7 +130,14 @@ export default class MainView {
   }
 
   private setHandlerPosition(): void {
-    this.handlers.forEach((handler, index) => handler.setPosition(this.options.values[index], this.options.min, this.options.max, this.options.isVertical));
+    this.handlers.forEach((handler, index) =>
+      handler.setPosition(
+        this.options.values[index],
+        this.options.min,
+        this.options.max,
+        this.options.isVertical,
+      ),
+    );
     if (this.options.values[0] === this.options.max) {
       this.handlers[0].getElement().style.zIndex = '100';
     } else if (this.options.values[0] === this.options.min) {
@@ -146,21 +145,29 @@ export default class MainView {
     }
   }
 
-  private updateLabels(): void{
-    this.handlers.forEach((handler, index) => handler.updateLabel(this.options.hasLabels, this.options.values[index]));
+  private updateLabels(): void {
+    this.handlers.forEach((handler, index) =>
+      handler.updateLabel(this.options.hasLabels, this.options.values[index]),
+    );
   }
 
   @bind
   private handleSliderBodyMouseDown(event: MouseEvent): void {
     let clickCoordinate = event.pageX;
-    const handlersCoordinates = this.handlers.map((handler) => this.getCoordinates(handler.getElement(), this.options.isVertical));
+    const handlersCoordinates = this.handlers.map(handler =>
+      this.getCoordinates(handler.getElement(), this.options.isVertical),
+    );
     if (this.options.isVertical) {
       clickCoordinate = event.pageY;
     }
-    const handlerDistance = [Math.abs(clickCoordinate - handlersCoordinates[0]), Math.abs(clickCoordinate - handlersCoordinates[1])];
+    const handlerDistance = [
+      Math.abs(clickCoordinate - handlersCoordinates[0]),
+      Math.abs(clickCoordinate - handlersCoordinates[1]),
+    ];
+    const handlersAreOnSamePosition = handlerDistance[0] === handlerDistance[1];
     if (handlerDistance[0] < handlerDistance[1]) {
       this.handlerTargetId = 'handler_min';
-    } else if (handlerDistance[0] === handlerDistance[1] && clickCoordinate < handlersCoordinates[0]) {
+    } else if (handlersAreOnSamePosition && clickCoordinate < handlersCoordinates[0]) {
       this.handlerTargetId = 'handler_min';
     } else {
       this.handlerTargetId = 'handler_max';
@@ -190,16 +197,25 @@ export default class MainView {
   private moveAt(coordinate: number, targetId: string): void {
     const sliderCoordinate = this.getCoordinates(this.sliderBody, this.options.isVertical);
     let value = this.options.isVertical
-      ? ((sliderCoordinate - coordinate) / this.sliderBody.offsetHeight) * (this.options.max - this.options.min) + this.options.min
-      : ((coordinate - sliderCoordinate) / this.sliderBody.offsetWidth) * (this.options.max - this.options.min) + this.options.min;
+      ? ((sliderCoordinate - coordinate) / this.sliderBody.offsetHeight) *
+          (this.options.max - this.options.min) +
+        this.options.min
+      : ((coordinate - sliderCoordinate) / this.sliderBody.offsetWidth) *
+          (this.options.max - this.options.min) +
+        this.options.min;
     if (!this.options.hasRange) {
       this.observer.broadcast({
         values: [value, this.options.values[1]],
       });
     }
     if (targetId === 'handler_min') {
-      const minValueMoreThanMaxValue = this.options.min < 0 ? value > this.options.values[1] : (value + this.options.min) > this.options.values[1];
-      if (minValueMoreThanMaxValue && this.options.values[1] !== this.options.max && this.options.hasRange) {
+      const minValueGreaterThanMaxValue =
+        this.options.min < 0
+          ? value > this.options.values[1]
+          : value + this.options.min > this.options.values[1];
+      const MaxRangeValueNotEqualToMaxLimit =
+        this.options.values[1] !== this.options.max && this.options.hasRange;
+      if (minValueGreaterThanMaxValue && MaxRangeValueNotEqualToMaxLimit) {
         value = this.options.values[1];
         this.handlers[0].getElement().style.zIndex = '10';
         this.handlers[1].getElement().style.zIndex = '100';
@@ -211,7 +227,10 @@ export default class MainView {
         values: [value, this.options.values[1]],
       });
     } else if (targetId === 'handler_max') {
-      const maxValueLessThanMinValue = this.options.min < 0 ? value < this.options.values[0] : (value + this.options.min) < this.options.values[0];
+      const maxValueLessThanMinValue =
+        this.options.min < 0
+          ? value < this.options.values[0]
+          : value + this.options.min < this.options.values[0];
       if (maxValueLessThanMinValue) {
         value = this.options.values[0];
         this.handlers[0].getElement().style.zIndex = '100';
