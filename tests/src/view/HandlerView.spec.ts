@@ -23,17 +23,14 @@ describe('test handler view logic', () => {
     it('should set position for handler correctly', () => {
       $('.slider__handler').css({ height: '10px' });
       $('.slider__body').css({ height: '100px' });
-      const value = 10;
-      const min = 0;
-      const max = 20;
-      let isVertical = true;
+      const handlerPositionOptions = { value: 10, min: 0, max: 20, isVertical: true };
 
-      expect(handler.setPosition(value, min, max, isVertical)).toEqual(50);
+      expect(handler.setPosition(handlerPositionOptions)).toEqual(50);
 
       $('.slider__handler').css({ width: '10px' });
       $('.slider__body').css({ width: '100px' });
-      isVertical = false;
-      expect(handler.setPosition(value, min, max, isVertical)).toEqual(50);
+      handlerPositionOptions.isVertical = false;
+      expect(handler.setPosition(handlerPositionOptions)).toEqual(50);
     });
   });
 
