@@ -130,14 +130,11 @@ export default class MainView {
   }
 
   private setHandlerPosition(): void {
-    this.handlers.forEach((handler, index) =>
-      handler.setPosition(
-        this.options.values[index],
-        this.options.min,
-        this.options.max,
-        this.options.isVertical,
-      ),
-    );
+    const { values, min, max, isVertical } = this.options;
+    this.handlers.forEach((handler, index) => {
+      const handlerPositionOptions = { value: values[index], min, max, isVertical };
+      handler.setPosition(handlerPositionOptions);
+    });
     if (this.options.values[0] === this.options.max) {
       this.handlers[0].getElement().style.zIndex = '100';
     } else if (this.options.values[0] === this.options.min) {
