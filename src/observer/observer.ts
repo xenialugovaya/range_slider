@@ -1,23 +1,26 @@
+import { sliderOptions } from '../model/sliderOptions';
+
+type observersCallback = (data: sliderOptions) => void;
 export default class EventObserver {
-  private observers: Function[];
+  private observers: observersCallback[];
 
   constructor() {
     this.observers = [];
   }
 
-  public getSubscribers(): Function[] {
+  public getSubscribers(): observersCallback[] {
     return this.observers;
   }
 
-  public broadcast(data: object): void {
-    this.observers.forEach((subscriber) => subscriber(data));
+  public broadcast(data: sliderOptions): void {
+    this.observers.forEach(subscriber => subscriber(data));
   }
 
-  public subscribe(fn: Function): void {
+  public subscribe(fn: observersCallback): void {
     this.observers.push(fn);
   }
 
-  public unsubscribe(fn: Function): void {
-    this.observers = this.observers.filter((subscriber) => subscriber !== fn);
+  public unsubscribe(fn: observersCallback): void {
+    this.observers = this.observers.filter(subscriber => subscriber !== fn);
   }
 }
