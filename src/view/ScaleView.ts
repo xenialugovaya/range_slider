@@ -39,7 +39,7 @@ export default class ScaleView {
     }
   }
 
-  public removeScale() {
+  private removeScale() {
     this.clearScale();
     this.scaleDivisions.remove();
     this.scaleLabels.remove();
@@ -61,7 +61,11 @@ export default class ScaleView {
     }
     const valuesCount = max - min;
     this.scaleValues.forEach((value, index) => {
-      const ratio = (value - this.scaleValues[index - 1]) / valuesCount;
+      const ratio = isVertical
+        ? (this.scaleValues[index - 1] - value) / valuesCount
+        : (value - this.scaleValues[index - 1]) / valuesCount;
+      // const isMaxLimit = this.scaleValues.length === index + 1;
+      // const isMinLimit = index === 0;
       this.scaleDivisions.append(this.addDivisionElement(ratio, isVertical));
       this.scaleLabels.append(this.addLabelElement(value, ratio, isVertical));
     });
@@ -73,7 +77,7 @@ export default class ScaleView {
     let value = min;
     let prev = min;
     for (value; value < max; value += step) {
-      if ((value - prev) / valuesCount < 0.1) {
+      if ((value - prev) / valuesCount < 0.2) {
         continue;
       }
       scaleValues.push(value);
@@ -88,8 +92,7 @@ export default class ScaleView {
     this.scaleLabels.style.position = 'relative';
     if (vertical) {
       this.scale.style.right = '100%';
-      const length = this.parent.offsetHeight;
-      this.scale.style.height = `${length}px`;
+      this.scale.style.height = '100%';
       this.scale.style.display = 'flex';
       this.scaleDivisions.style.width = '15px';
     } else {
