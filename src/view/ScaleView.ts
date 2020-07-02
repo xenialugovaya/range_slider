@@ -18,7 +18,7 @@ export default class ScaleView {
   public setScale(options: definedOptions): void {
     const { isVertical, hasScale } = options;
     if (hasScale) {
-      this.setScaleStyle(isVertical);
+      this.setStyles(isVertical);
       this.drawScale(options);
       if (isVertical) {
         this.parent.prepend(this.scale);
@@ -62,8 +62,6 @@ export default class ScaleView {
       const ratio = isVertical
         ? (this.scaleValues[index - 1] - value) / valuesCount
         : (value - this.scaleValues[index - 1]) / valuesCount;
-      // const isMaxLimit = this.scaleValues.length === index + 1;
-      // const isMinLimit = index === 0;
       this.scaleDivisions.append(this.addDivisionElement(ratio, isVertical));
       this.scaleLabels.append(this.addLabelElement(value, ratio, isVertical));
     });
@@ -85,7 +83,7 @@ export default class ScaleView {
     return scaleValues;
   }
 
-  private setScaleStyle(vertical: boolean) {
+  private setStyles(vertical: boolean) {
     if (vertical) {
       this.scaleDivisions.style.flexDirection = 'column';
       this.scaleLabels.style.flexDirection = 'column';
