@@ -22,16 +22,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.72% </span>
+                <span class="strong">83.7% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>108/129</span>
+                <span class='fraction'>113/135</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.7% </span>
+                <span class="strong">69.12% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>46/66</span>
+                <span class='fraction'>47/68</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.64% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>100/121</span>
+                <span class='fraction'>105/126</span>
             </div>
         
             
@@ -306,7 +306,22 @@
 <a name='L248'></a><a href='#L248'>248</a>
 <a name='L249'></a><a href='#L249'>249</a>
 <a name='L250'></a><a href='#L250'>250</a>
-<a name='L251'></a><a href='#L251'>251</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -316,14 +331,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
@@ -339,10 +346,8 @@
 <span class="cline-any cline-yes">98x</span>
 <span class="cline-any cline-yes">98x</span>
 <span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -405,6 +410,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -415,6 +422,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">98x</span>
 <span class="cline-any cline-yes">98x</span>
 <span class="cline-any cline-yes">98x</span>
 <span class="cline-any cline-yes">98x</span>
@@ -559,6 +567,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import bind from 'bind-decorator';
 import HandlerView from './HandlerView';
 import SelectedArea from './SelectedAreaView';
+import ScaleView from './ScaleView';
 import EventObserver from '../observer/observer';
 import { sliderOptions } from '../model/sliderOptions';
 import { definedOptions } from '../model/definedOptions';
@@ -572,6 +581,8 @@ export default class MainView {
 &nbsp;
   private selectedArea!: SelectedArea;
 &nbsp;
+  private scale!: ScaleView;
+&nbsp;
   private handlers: HandlerView[] = [];
 &nbsp;
   private options!: definedOptions;
@@ -583,16 +594,14 @@ export default class MainView {
   }
 &nbsp;
   public update(valueData: sliderOptions): void {
+    const { isVertical, hasRange } = this.options;
     this.updateOptions(valueData);
-    this.setOrientation(this.options.isVertical);
-    this.setRange(this.options.hasRange);
+    this.setOrientation(isVertical);
+    this.setRange(hasRange);
     this.updateLabels();
     this.setHandlerPosition();
-    this.selectedArea.updateSelectedRange(
-      this.options.hasRange,
-      this.options.isVertical,
-      this.getHandlersElements(),
-    );
+    this.selectedArea.updateSelectedRange(hasRange, isVertical, this.getHandlersElements());
+    this.scale.updateScale(this.options);
   }
 &nbsp;
   public getHandlers(): HandlerView[] {
@@ -655,6 +664,8 @@ export default class MainView {
       isVertical: this.options.isVertical,
       handlers: this.getHandlersElements(),
     });
+    this.scale = new ScaleView(this.parent);
+    this.scale.setScale(this.options);
   }
 &nbsp;
   private bindEvents(): void {
@@ -665,7 +676,7 @@ export default class MainView {
   }
 &nbsp;
   private updateOptions(valueData: sliderOptions): void {
-    const { min, max, values, isVertical, step, hasRange, hasLabels } = valueData;
+    const { min, max, values, isVertical, step, hasRange, hasLabels, hasScale } = valueData;
     if (min !== undefined) this.options.min = min;
     if (max !== undefined) this.options.max = max;
     if (values !== undefined) this.options.values = values;
@@ -673,6 +684,7 @@ export default class MainView {
     if (step !== undefined) this.options.step = step;
     if (hasRange !== undefined) this.options.hasRange = hasRange;
     if (hasLabels !== undefined) this.options.hasLabels = hasLabels;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (hasScale !== undefined) <span class="cstat-no" title="statement not covered" >this.options.hasScale = hasScale;</span>
   }
 &nbsp;
   private setHandlers(): void {
@@ -813,7 +825,7 @@ export default class MainView {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Jun 29 2020 14:15:14 GMT+0300 (Москва, стандартное время)
+                at Fri Jul 03 2020 01:02:00 GMT+0300 (Москва, стандартное время)
             </div>
         </div>
         <script src="../../prettify.js"></script>
