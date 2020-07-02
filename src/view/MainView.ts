@@ -1,6 +1,7 @@
 import bind from 'bind-decorator';
 import HandlerView from './HandlerView';
 import SelectedArea from './SelectedAreaView';
+import ScaleView from './ScaleView';
 import EventObserver from '../observer/observer';
 import { sliderOptions } from '../model/sliderOptions';
 import { definedOptions } from '../model/definedOptions';
@@ -13,6 +14,8 @@ export default class MainView {
   private parent!: HTMLElement;
 
   private selectedArea!: SelectedArea;
+
+  private scale!: ScaleView;
 
   private handlers: HandlerView[] = [];
 
@@ -97,6 +100,8 @@ export default class MainView {
       isVertical: this.options.isVertical,
       handlers: this.getHandlersElements(),
     });
+    this.scale = new ScaleView(this.parent, this.options);
+    this.scale.setScale();
   }
 
   private bindEvents(): void {
