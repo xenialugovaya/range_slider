@@ -23,7 +23,8 @@ const sliderConfigurations = [
     step: 15,
     values: [63, 64],
     hasRange: true,
+    hasScale: true,
   },
 ];
 
-sliderConfigurations.forEach((sliderConfiguration) => new SliderInit(sliderConfiguration));
+sliderConfigurations.forEach(sliderConfiguration => new SliderInit(sliderConfiguration));

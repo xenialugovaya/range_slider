@@ -110,7 +110,7 @@ export default class MainView {
   }
 
   private updateOptions(valueData: sliderOptions): void {
-    const { min, max, values, isVertical, step, hasRange, hasLabels } = valueData;
+    const { min, max, values, isVertical, step, hasRange, hasLabels, hasScale } = valueData;
     if (min !== undefined) this.options.min = min;
     if (max !== undefined) this.options.max = max;
     if (values !== undefined) this.options.values = values;
@@ -118,6 +118,7 @@ export default class MainView {
     if (step !== undefined) this.options.step = step;
     if (hasRange !== undefined) this.options.hasRange = hasRange;
     if (hasLabels !== undefined) this.options.hasLabels = hasLabels;
+    if (hasScale !== undefined) this.options.hasScale = hasScale;
   }
 
   private setHandlers(): void {

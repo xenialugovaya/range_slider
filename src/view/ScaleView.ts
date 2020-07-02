@@ -16,23 +16,27 @@ export default class ScaleView {
   }
 
   public setScale(options: definedOptions) {
-    const { isVertical } = options;
-    this.setScaleStyle(isVertical);
-    this.setStyles(this.scaleDivisions, isVertical);
-    this.setStyles(this.scaleLabels, isVertical);
-    this.drawScale(options);
-    if (isVertical) {
-      this.parent.prepend(this.scale);
-      this.scale.append(this.scaleLabels, this.scaleDivisions);
-    } else {
-      this.parent.append(this.scale);
-      this.scale.append(this.scaleDivisions, this.scaleLabels);
+    const { isVertical, hasScale } = options;
+    if (hasScale) {
+      this.setScaleStyle(isVertical);
+      this.setStyles(this.scaleDivisions, isVertical);
+      this.setStyles(this.scaleLabels, isVertical);
+      this.drawScale(options);
+      if (isVertical) {
+        this.parent.prepend(this.scale);
+        this.scale.append(this.scaleLabels, this.scaleDivisions);
+      } else {
+        this.parent.append(this.scale);
+        this.scale.append(this.scaleDivisions, this.scaleLabels);
+      }
     }
   }
 
   public updateScale(options: definedOptions) {
     this.removeScale();
-    this.setScale(options);
+    if (options.hasScale) {
+      this.setScale(options);
+    }
   }
 
   public removeScale() {

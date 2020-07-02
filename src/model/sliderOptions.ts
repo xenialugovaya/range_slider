@@ -6,4 +6,5 @@ export type sliderOptions = {
   isVertical?: boolean;
   hasRange?: boolean;
   hasLabels?: boolean;
+  hasScale?: boolean;
 };

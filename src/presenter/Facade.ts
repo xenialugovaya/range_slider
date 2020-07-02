@@ -73,6 +73,14 @@ export default class Facade {
     this.model.setLabels(label);
   }
 
+  public getScale(): boolean {
+    return this.model.getScale();
+  }
+
+  public setScale(scale: boolean): void {
+    this.model.setScale(scale);
+  }
+
   private init(parent: HTMLElement, options: sliderOptions): void {
     this.model = new MainModel(options);
     this.presenter = new Presenter(parent, this.model);

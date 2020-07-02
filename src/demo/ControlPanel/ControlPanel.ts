@@ -2,7 +2,6 @@ import bind from 'bind-decorator';
 import Facade from '../../presenter/Facade';
 import { sliderOptions } from '../../model/sliderOptions';
 
-
 export default class ControlPanel {
   private slider!: Facade;
 
@@ -22,6 +21,8 @@ export default class ControlPanel {
 
   private showLabelCheck = document.createElement('input');
 
+  private showScaleCheck = document.createElement('input');
+
   private hasRange!: boolean;
 
   constructor(slider: Facade) {
@@ -29,8 +30,12 @@ export default class ControlPanel {
   }
 
   public getSliderOptions(): void {
-    this.minMax.forEach((input, index) => { (input.value = String(this.slider.getMinMax()[index])); });
-    this.values.forEach((input, index) => { (input.value = String(this.slider.getValues()[index])); });
+    this.minMax.forEach((input, index) => {
+      input.value = String(this.slider.getMinMax()[index]);
+    });
+    this.values.forEach((input, index) => {
+      input.value = String(this.slider.getValues()[index]);
+    });
     this.step.value = String(this.slider.getStep());
     if (this.slider.getOrientation()) {
       this.getOrientationCheckbox().checked = true;
@@ -40,6 +45,9 @@ export default class ControlPanel {
     }
     if (this.slider.getLabels()) {
       this.getShowLabelCheckbox().checked = true;
+    }
+    if (this.slider.getScale()) {
+      this.getShowScaleCheckbox().checked = true;
     }
   }
 
@@ -67,6 +75,10 @@ export default class ControlPanel {
     return this.showLabelCheck;
   }
 
+  public getShowScaleCheckbox(): HTMLInputElement {
+    return this.showScaleCheck;
+  }
+
   private init(slider: Facade): void {
     this.slider = slider;
     this.parent = this.slider.getParent().parentNode;
@@ -80,29 +92,31 @@ export default class ControlPanel {
     this.createOrientationCheckbox();
     this.createRangeCheckbox();
     this.createShowLabelCheckbox();
+    this.createShowScaleCheckbox();
     this.bindEvents();
     this.getSliderOptions();
     this.updateValues();
   }
 
   private bindEvents(): void {
-    this.minMax.forEach((input) => input.addEventListener('change', this.handleMinMaxChange));
-    this.values.forEach((input) => input.addEventListener('change', this.handleValuesChange));
+    this.minMax.forEach(input => input.addEventListener('change', this.handleMinMaxChange));
+    this.values.forEach(input => input.addEventListener('change', this.handleValuesChange));
     this.step.addEventListener('change', this.handleStepChange);
     this.getOrientationCheckbox().addEventListener('change', this.handleOrientationChange);
     this.getRangeCheckbox().addEventListener('change', this.handleRangeChange);
     this.getShowLabelCheckbox().addEventListener('change', this.handleLabelVisibilityChange);
+    this.getShowScaleCheckbox().addEventListener('change', this.handleScaleVisibilityChange);
   }
 
   @bind
   private handleMinMaxChange(): void {
-    const newMinMax = this.minMax.map((input) => parseInt(input.value, 10));
+    const newMinMax = this.minMax.map(input => parseInt(input.value, 10));
     this.slider.setMinMax(newMinMax);
   }
 
   @bind
   private handleValuesChange(): void {
-    const newValues = this.values.map((input) => parseInt(input.value, 10));
+    const newValues = this.values.map(input => parseInt(input.value, 10));
     this.slider.setValues(newValues);
   }
 
@@ -135,15 +149,25 @@ export default class ControlPanel {
     this.slider.setLabels(showLabels);
   }
 
+  @bind
+  private handleScaleVisibilityChange(): void {
+    const showScale = this.getShowScaleCheckbox().checked;
+    this.slider.setScale(showScale);
+  }
+
   private updateValues(): void {
     this.slider.observer.subscribe((valueData: sliderOptions) => {
       if (valueData.values) {
         const { values } = valueData;
-        this.values.forEach((input, index) => { (input.value = String(values[index])); });
+        this.values.forEach((input, index) => {
+          input.value = String(values[index]);
+        });
       }
       if (valueData.min !== undefined && valueData.max !== undefined) {
         const minMax = [valueData.min, valueData.max];
-        this.minMax.forEach((input, index) => { (input.value = String(minMax[index])); });
+        this.minMax.forEach((input, index) => {
+          input.value = String(minMax[index]);
+        });
       }
       if (valueData.step !== undefined) {
         this.step.value = String(valueData.step);
@@ -218,5 +242,14 @@ export default class ControlPanel {
     this.showLabelCheck.classList.add('demo-slider__input');
     this.showLabelCheck.type = 'checkbox';
     this.controlPanel.append(title, this.showLabelCheck);
+  }
+
+  private createShowScaleCheckbox(): void {
+    const title = document.createElement('p');
+    title.classList.add('demo-slider__title');
+    title.innerText = 'Show scale';
+    this.showScaleCheck.classList.add('demo-slider__input');
+    this.showScaleCheck.type = 'checkbox';
+    this.controlPanel.append(title, this.showScaleCheck);
   }
 }

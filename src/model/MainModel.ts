@@ -14,16 +14,15 @@ export default class MainModel {
     isVertical: false,
     hasRange: true,
     hasLabels: true,
-  }
+    hasScale: false,
+  };
 
   constructor(options: sliderOptions) {
     this.init(options);
   }
 
   public update(valueData: sliderOptions): void {
-    const {
-      min, max, values, isVertical, step, hasRange, hasLabels,
-    } = valueData;
+    const { min, max, values, isVertical, step, hasRange, hasLabels, hasScale } = valueData;
     if (min !== undefined) this.setMin(min);
     if (max !== undefined) this.setMax(max);
     if (values !== undefined) this.setValues(values);
@@ -31,6 +30,7 @@ export default class MainModel {
     if (step !== undefined) this.setStep(step);
     if (hasRange !== undefined) this.setRange(hasRange);
     if (hasLabels !== undefined) this.setLabels(hasLabels);
+    if (hasScale !== undefined) this.setScale(hasScale);
   }
 
   public getOptions(): definedOptions {
@@ -111,13 +111,15 @@ export default class MainModel {
       };
       return Validators.verifyValue(options);
     });
-    this.options.values = this.options.values.map((value) => Validators.verifyLimits(value, this.getMin(), this.getMax()));
+    this.options.values = this.options.values.map(value =>
+      Validators.verifyLimits(value, this.getMin(), this.getMax()),
+    );
     this.options.values = Validators.verifyMinMaxValues(this.options.values, this.options.hasRange);
     return this.options.values;
   }
 
   public setValues(values: number[]): void {
-    let checkedValues = values.map((value) => {
+    let checkedValues = values.map(value => {
       if (Validators.isValidNumber(value)) {
         return value;
       }
@@ -137,7 +139,9 @@ export default class MainModel {
       }
       return value;
     });
-    checkedValues = checkedValues.map((value) => Validators.verifyLimits(value, this.getMin(), this.getMax()));
+    checkedValues = checkedValues.map(value =>
+      Validators.verifyLimits(value, this.getMin(), this.getMax()),
+    );
     this.options.values = Validators.verifyMinMaxValues(checkedValues, this.options.hasRange);
     this.broadcastUpdates({
       values: this.options.values,
@@ -191,10 +195,23 @@ export default class MainModel {
     });
   }
 
+  public getScale(): boolean {
+    return this.options.hasScale;
+  }
+
+  public setScale(scale: boolean): void {
+    if (Validators.isBoolean(scale)) {
+      this.options.hasScale = scale;
+    } else {
+      this.options.hasScale = Boolean(scale);
+    }
+    this.broadcastUpdates({
+      hasScale: this.getScale(),
+    });
+  }
+
   private init(options: sliderOptions): void {
-    const {
-      min, max, values, isVertical, step, hasRange, hasLabels,
-    } = options;
+    const { min, max, values, isVertical, step, hasRange, hasLabels, hasScale } = options;
     if (max !== undefined) this.setMax(max);
     if (min !== undefined) this.setMin(min);
     if (step !== undefined) this.setStep(step);
@@ -205,6 +222,7 @@ export default class MainModel {
     if (hasRange !== undefined) this.setRange(hasRange);
     if (isVertical !== undefined) this.setOrientation(isVertical);
     if (hasLabels !== undefined) this.setLabels(hasLabels);
+    if (hasScale !== undefined) this.setScale(hasScale);
   }
 
   private broadcastUpdates(valueData: sliderOptions): void {
