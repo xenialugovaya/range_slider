@@ -59,4 +59,26 @@ $labelColor:#FF6A6A;
     position: absolute;
     background: $themeColor;
   }
+
+  &__scale {
+    position: absolute;
+  }
+
+  &__scale-labels {
+    position: relative;
+    display: flex;
+  }
+
+  &__scale-divisions {
+    display: flex;
+  }
+
+  &__scale-label-container {
+    position: relative;
+  }
+
+  &__scale-label {
+    position: absolute;
+    font-size: 12px;
+  }
 }

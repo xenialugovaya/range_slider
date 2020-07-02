@@ -1,7 +1,6 @@
 import MainView from '../../../src/view/MainView';
 import { definedOptions } from '../../../src/model/definedOptions';
 
-
 describe('test main view logic', () => {
   setFixtures('<div class="slider"></div>');
   const parent: any = document.querySelector('.slider');
@@ -13,6 +12,7 @@ describe('test main view logic', () => {
     max: 100,
     values: [10, 20],
     hasLabels: true,
+    hasScale: true,
   };
   let view: MainView;
 
@@ -85,6 +85,7 @@ describe('test main view logic', () => {
         step: 1,
         values: [10, 20],
         hasLabels: true,
+        hasScale: true,
       };
       const view = new MainView(parent, options);
       const handlerMin = document.querySelector('#handler_min') as HTMLElement;

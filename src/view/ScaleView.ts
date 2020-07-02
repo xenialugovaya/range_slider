@@ -15,12 +15,10 @@ export default class ScaleView {
     this.init(parent);
   }
 
-  public setScale(options: definedOptions) {
+  public setScale(options: definedOptions): void {
     const { isVertical, hasScale } = options;
     if (hasScale) {
       this.setScaleStyle(isVertical);
-      this.setStyles(this.scaleDivisions, isVertical);
-      this.setStyles(this.scaleLabels, isVertical);
       this.drawScale(options);
       if (isVertical) {
         this.parent.prepend(this.scale);
@@ -88,9 +86,9 @@ export default class ScaleView {
   }
 
   private setScaleStyle(vertical: boolean) {
-    this.scale.style.position = 'absolute';
-    this.scaleLabels.style.position = 'relative';
     if (vertical) {
+      this.scaleDivisions.style.flexDirection = 'column';
+      this.scaleLabels.style.flexDirection = 'column';
       this.scale.style.right = '100%';
       this.scale.style.height = '100%';
       this.scale.style.display = 'flex';
@@ -103,16 +101,7 @@ export default class ScaleView {
     }
   }
 
-  private setStyles(element: HTMLElement, vertical: boolean) {
-    const styledElement = element;
-    styledElement.style.display = 'flex';
-    styledElement.style.justifyContent = 'space-between';
-    if (vertical) {
-      styledElement.style.flexDirection = 'column';
-    }
-  }
-
-  private clearStyles() {
+  private clearStyles(): void {
     this.scale.style.top = 'auto';
     this.scale.style.width = 'auto';
     this.scale.style.height = 'auto';
@@ -125,24 +114,24 @@ export default class ScaleView {
 
   private addDivisionElement(ratio: number, vertical: boolean): HTMLElement {
     const division = document.createElement('div');
+    division.classList.add('slider__scale-division');
     division.style.flexGrow = String(ratio);
     if (vertical) {
-      division.style.borderBottom = '1px solid grey';
+      division.style.borderBottom = '1px solid #cfcfcf';
     } else {
-      division.style.borderRight = '1px solid grey';
+      division.style.borderRight = '1px solid #cfcfcf';
     }
     return division;
   }
 
   private addLabelElement(value: number, ratio: number, vertical: boolean): HTMLElement {
     const scaleLabel = document.createElement('div');
+    scaleLabel.classList.add('slider__scale-label');
     const scaleLabelContainer = document.createElement('div');
-    scaleLabelContainer.style.position = 'relative';
-    scaleLabel.style.position = 'absolute';
+    scaleLabelContainer.classList.add('slider__scale-label-container');
     scaleLabel.innerText = String(value);
     if (ratio) {
       scaleLabelContainer.style.flexGrow = String(ratio);
-      scaleLabelContainer.append(scaleLabel);
       scaleLabel.style.bottom = vertical ? '0px' : 'none';
       scaleLabel.style.right = '0px';
       scaleLabel.style.transform = vertical ? 'translateY(50%)' : 'translateX(50%)';
