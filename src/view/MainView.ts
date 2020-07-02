@@ -28,16 +28,14 @@ export default class MainView {
   }
 
   public update(valueData: sliderOptions): void {
+    const { min, max, step, isVertical, hasRange } = this.options;
     this.updateOptions(valueData);
-    this.setOrientation(this.options.isVertical);
-    this.setRange(this.options.hasRange);
+    this.setOrientation(isVertical);
+    this.setRange(hasRange);
     this.updateLabels();
     this.setHandlerPosition();
-    this.selectedArea.updateSelectedRange(
-      this.options.hasRange,
-      this.options.isVertical,
-      this.getHandlersElements(),
-    );
+    this.selectedArea.updateSelectedRange(hasRange, isVertical, this.getHandlersElements());
+    this.scale.updateScale(min, max, step);
   }
 
   public getHandlers(): HandlerView[] {
@@ -101,7 +99,7 @@ export default class MainView {
       handlers: this.getHandlersElements(),
     });
     this.scale = new ScaleView(this.parent, this.options);
-    this.scale.setScale();
+    this.scale.setScale(this.options.min, this.options.max, this.options.step);
   }
 
   private bindEvents(): void {
